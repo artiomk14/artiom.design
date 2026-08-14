@@ -29,7 +29,7 @@ export function Footer({ className }: FooterProps) {
               artiom.design
             </Link>
             <p className="text-sm text-foreground-muted">
-              Design &amp; Development
+              Design & Development
             </p>
           </div>
 

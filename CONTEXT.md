@@ -33,6 +33,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Layout components (Header, Footer, Navigation, PageWrapper, Section)
 - [x] UI components (Button, Typography, Card, SmoothSurface)
 - [x] Lisse squircles for surface radii (`@lisse/react` + radius tokens)
+- [x] Adopted bendc frontend guidelines (documented in AGENTS.md; light CSS/layout alignment)
 - [x] All route pages created with placeholders
 - [x] 404 page
 - [x] AGENTS.md / PROJECT_STATUS.md documentation
@@ -54,7 +55,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Lisse (corne.rs) squircles integrated for UI radii — 2026-08-14. Use SmoothSurface / Button / Card going forward.*
+*Lisse squircles + bendc frontend guidelines adopted in AGENTS.md — 2026-08-14.*
 
 ---
 
@@ -65,6 +66,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Tailwind CSS v4 | Ships with modern Next.js, CSS-first configuration | 2026-03-31 |
 | CSS custom properties for tokens | Single source of truth, dark mode support | 2026-03-31 |
 | Lisse squircles for radii | Figma/iOS continuous corners instead of CSS border-radius on UI surfaces | 2026-08-14 |
+| bendc frontend guidelines | Adopt HTML/CSS/JS practices from bendc/frontend-guidelines (adapted in AGENTS.md) | 2026-08-14 |
 | Server Components by default | Better performance, reduced JS bundle | 2026-03-31 |
 | Motion components with reduced-motion | Accessibility compliance | 2026-03-31 |
 | pnpm package manager | Fastest, disk efficient | 2026-03-31 |
@@ -150,4 +152,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-14 (Lisse radii)*
+*Last updated: 2026-08-14 (Lisse radii + bendc guidelines)*

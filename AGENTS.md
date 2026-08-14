@@ -120,6 +120,8 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
 - Animations must be **subtle and purposeful**
 - Never block content visibility with animations
 - Respect user preferences with `prefers-reduced-motion`
+- Prefer **transitions** over keyframe animations for UI state changes
+- Prefer animating **`opacity` and `transform` only** (avoid width/height/margin/top layout thrash)
 
 ### Timing Guidelines
 | Use Case          | Duration    |
@@ -139,6 +141,43 @@ Use the provided motion components in `/components/motion/`:
 - `SlideIn` - Full slide animations
 - `StaggerContainer` + `StaggerItem` - List animations
 - `PageTransition` - Route transitions
+
+---
+
+## Frontend Guidelines ([bendc](https://github.com/bendc/frontend-guidelines))
+
+Follow [bendc/frontend-guidelines](https://github.com/bendc/frontend-guidelines), adapted for this Next.js + Tailwind + React stack. When these conflict with project-specific rules above (Lisse, tokens, a11y), prefer the project-specific rule.
+
+### HTML
+- Use real semantics (`main`, `article`, `header`, `nav`, `section`, `time`, …). Wrong semantics are worse than a neutral `div`.
+- Keep markup terse — no obsolete XHTML habits (`type="text/javascript"`, etc.).
+- Always `lang` on `<html>` and UTF-8 (Next handles charset; keep `lang="en"`).
+- Accessibility is not optional: meaningful `alt`, real buttons/links, label form controls, don’t rely on color alone.
+- Don’t block first paint with non-critical scripts (no early third-party JS without permission).
+
+### CSS / Tailwind
+- Global `box-sizing: border-box` only — don’t override per element.
+- Prefer Flexbox/Grid; keep elements in normal flow. Avoid `position: absolute/fixed` unless needed (fixed header, skip link, portals).
+- Prefer classes over deep/structural selectors; avoid `id` selectors and `!important` (exception: `prefers-reduced-motion` kill-switch).
+- Don’t fight inheritance — set shared text styles on a parent once.
+- Prefer hex colors; use `rgba`/`transparent` only when you need alpha (tokens already follow this).
+- Prefer unitless where valid (`line-height: 1.5`); prefer `rem` for custom CSS sizes. Tailwind utilities may use their own conventions.
+- In custom CSS, prefer seconds (`.15s`) over `ms` when writing durations by hand.
+- No CSS hacks (`translateZ(0)` “GPU” tricks, etc.). Use `will-change` sparingly and only when measured.
+
+### JavaScript / TypeScript
+- **Readability over micro-optimization** — images, network, and layout cost more than clever loops.
+- Prefer pure helpers: no unexpected mutation; return new data when transforming.
+- Prefer native APIs (`Array` methods, `Map`/`Set` when they fit) over utility libraries for one-liners.
+- Prefer `const` > `let`; never `var`.
+- Prefer rest/spread over `arguments` / `apply`.
+- Prefer small composable functions over large multi-purpose ones.
+- Minimize dependencies — don’t add a package for a few lines we can own (aligns with “ask before new deps”).
+- Don’t obfuscate intent (`~~n`, `foo || sideEffect()`); write the clear form.
+- React/TS pragmatism: don’t force Maps for props, don’t force recursion in render, don’t IIFE every conditional — keep components clear.
+
+### Source
+Full original: https://github.com/bendc/frontend-guidelines
 
 ---
 
