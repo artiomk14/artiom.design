@@ -6,46 +6,54 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Current Phase
 
-**Foundation Complete** - The project structure, design system, and core components are in place. Ready for design implementation and content integration.
+**Foundation live; design & content next** — The site shell is deployed. Placeholder pages are live. Next work is page design and in-repo content (no CMS).
+
+---
+
+## Product Decisions (owner: Artiom)
+
+| Decision | Status | Notes |
+| -------- | ------ | ----- |
+| **No Sanity / no headless CMS** | Confirmed 2026-08-14 | Overkill for a personal portfolio. Content should live in the codebase (pages, local data modules, or similar). Do not set up or extend Sanity. |
+| **Hosting on Vercel** | Live | Connected; production deploys from GitHub. |
+| **Domain** | Live | `https://artiom.design` (also `https://www.artiom.design`, `https://artiomdesign.vercel.app`) |
 
 ---
 
 ## Completed
 
-- [x] Project initialization (Next.js 15, TypeScript, Tailwind CSS 4)
-- [x] Dependencies installed (Framer Motion, Sanity, utilities)
+- [x] Project initialization (Next.js, TypeScript, Tailwind CSS 4)
+- [x] Dependencies installed (Framer Motion, utilities; Sanity packages still present but **deprecated — remove**)
 - [x] Folder structure created
 - [x] Design tokens defined (colors, spacing, typography, breakpoints, animation)
 - [x] Tailwind configured with CSS custom properties
-- [x] Sanity schemas created (work, blog, author, siteSettings)
-- [x] Utility functions (cn, Sanity client, image helpers)
+- [x] Utility functions (`cn`)
 - [x] Custom hooks (useMediaQuery, useScrollProgress, usePrefersReducedMotion)
-- [x] Motion variants defined
-- [x] Motion wrapper components (FadeIn, SlideIn, PageTransition, Stagger)
+- [x] Motion variants and wrapper components
 - [x] Layout components (Header, Footer, Navigation, PageWrapper, Section)
 - [x] UI components (Button, Typography, Card)
 - [x] All route pages created with placeholders
 - [x] 404 page
-- [x] AGENTS.md documentation
+- [x] AGENTS.md / PROJECT_STATUS.md documentation
+- [x] Deployed to Vercel with custom domain `artiom.design`
 
 ---
 
 ## Pending
 
-- [ ] Sanity Studio integration (embedded or separate)
-- [ ] Connect Sanity to a project (requires Sanity account setup)
-- [ ] Page designs and layouts
+- [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types, Work/Blog fetch wiring) and use in-repo content instead
+- [ ] Page designs and layouts (Home + Work first)
+- [ ] Real portfolio / blog / lab content in code
 - [ ] Mobile menu implementation
 - [ ] Contact form functionality
-- [ ] SEO optimization (sitemap, robots.txt)
-- [ ] Analytics integration
-- [ ] Deployment to Vercel
+- [ ] SEO (sitemap, robots.txt)
+- [ ] Analytics (only if requested)
 
 ---
 
 ## Active Work
 
-*No active tasks. Foundation is complete.*
+*Docs refreshed 2026-08-14 to match owner decisions. No design implementation in progress yet.*
 
 ---
 
@@ -53,11 +61,12 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 | Decision | Rationale | Date |
 | -------- | --------- | ---- |
-| Tailwind CSS v4 | Ships with Next.js 15, CSS-first configuration | 2026-03-31 |
+| Tailwind CSS v4 | Ships with modern Next.js, CSS-first configuration | 2026-03-31 |
 | CSS custom properties for tokens | Single source of truth, dark mode support | 2026-03-31 |
 | Server Components by default | Better performance, reduced JS bundle | 2026-03-31 |
 | Motion components with reduced-motion | Accessibility compliance | 2026-03-31 |
 | pnpm package manager | Fastest, disk efficient | 2026-03-31 |
+| No headless CMS | Portfolio updates are infrequent; keep content in-repo | 2026-08-14 |
 
 ---
 
@@ -67,54 +76,50 @@ This file tracks the current state of the portfolio project. **Update this file 
 | ---- | ----- |
 | Design tokens | `/src/styles/tokens/` |
 | CSS variables | `/src/app/globals.css` |
-| Sanity schemas | `/sanity/schemas/` |
-| Sanity client | `/src/lib/sanity/` |
 | Motion variants | `/src/lib/motion/variants.ts` |
 | Motion components | `/src/components/motion/` |
 | Layout components | `/src/components/layout/` |
 | UI components | `/src/components/ui/` |
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
+| Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
 
 ---
 
-## Environment Variables Required
+## Environment Variables
+
+Site URL for metadata:
 
 ```env
-NEXT_PUBLIC_SANITY_PROJECT_ID=c25v0trn
-NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_TOKEN=skmIeY3s5tcB8EwRn0IqL1DooQZHTgkphdnrNvPAScODSuJtEnqhElDEo1C31ypEQWqgwkgvLmPVz5lO8Zvu5cyeXR5tWEQ9L3LhG9YbAYECixdgovXoBOhMGFw4mYE0O2YtFaGGgwItSsaf8QFbLfNyk5cQFXiNhcynXpQGAqroOnMkea3S
 NEXT_PUBLIC_SITE_URL=https://artiom.design
 ```
 
-See `.env.local.example` for reference.
+**Do not add or document Sanity credentials.** Any former `NEXT_PUBLIC_SANITY_*` / `SANITY_API_TOKEN` values are obsolete and must not be committed.
+
+Local secrets belong only in `.env.local` (gitignored). Prefer configuring env vars in the Vercel project dashboard for production.
 
 ---
 
-## Known Issues
+## Known Issues / Legacy Debt
 
-*None currently.*
+- Sanity scaffolding remains in the repo from the initial foundation. Owner decided against using it. Treat as tech debt to remove; do not build new features on it.
+- Live site still shows placeholder copy — design and content have not been implemented yet.
+- `PROJECT_STATUS.md` and this file were previously out of date on Vercel (said “not deployed”); corrected 2026-08-14.
 
 ---
 
-## Dependencies
+## Dependencies (high level)
 
-### Production
-- next: ^15.x
-- react: ^19.x
-- framer-motion: ^12.x
-- sanity: ^5.x
-- next-sanity: ^12.x
-- @sanity/image-url: ^2.x
-- @sanity/code-input: ^7.x
-- clsx: ^2.x
-- tailwind-merge: ^3.x
+### Keep
+- next, react, react-dom
+- framer-motion
+- clsx, tailwind-merge
+- typescript, tailwindcss, eslint (dev)
 
-### Development
-- typescript: ^5.x
-- tailwindcss: ^4.x
-- eslint: ^9.x
-- eslint-config-next: ^15.x
+### Planned removal
+- `sanity`, `next-sanity`, `@sanity/image-url`, `@sanity/code-input`, `@sanity/vision`
+
+Check `package.json` for exact versions (Next may be 15.x or 16.x depending on lockfile).
 
 ---
 
@@ -129,4 +134,15 @@ See `.env.local.example` for reference.
 
 ---
 
-*Last updated: 2026-03-31*
+## Repo & deploy
+
+| Item | Value |
+| ---- | ----- |
+| GitHub | `artiomk14/artiom.design` |
+| Production | `https://artiom.design` |
+| Vercel alias | `https://artiomdesign.vercel.app` |
+| Deploy trigger | Push to `main` (Vercel) |
+
+---
+
+*Last updated: 2026-08-14*

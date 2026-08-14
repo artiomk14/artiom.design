@@ -1,12 +1,14 @@
 # Project Status
 
-> Last updated: March 31, 2026
+> Last updated: August 14, 2026
 
 ---
 
 ## Overview
 
-Portfolio website foundation for **artiom.design** — a high-performance, accessible site built with modern technologies.
+Portfolio website for **artiom.design** — high-performance, accessible, clean modern design.
+
+**Current reality:** Foundation is **live on Vercel**. Pages are placeholders. Owner decided **not to use Sanity**; content will live in the codebase.
 
 ---
 
@@ -14,46 +16,37 @@ Portfolio website foundation for **artiom.design** — a high-performance, acces
 
 | Layer | Technology | Version | Status |
 |-------|------------|---------|--------|
-| Framework | Next.js (App Router) | 15.x | ✓ Installed |
+| Framework | Next.js (App Router) | see `package.json` | ✓ Live |
 | Language | TypeScript | 5.x | ✓ Configured |
 | Styling | Tailwind CSS | 4.x | ✓ Configured |
 | Animations | Framer Motion | 12.x | ✓ Installed |
-| CMS | Sanity | 5.x | ⚠ Needs credentials |
-| Hosting | Vercel | — | ○ Not deployed |
+| Content | In-repo (no CMS) | — | ○ Design + content pending |
+| Hosting | Vercel | — | ✓ Deployed |
 | Package Manager | pnpm | 10.x | ✓ Active |
 
-**Legend:** ✓ Ready | ⚠ Needs setup | ○ Pending
+**Legend:** ✓ Ready | ⚠ Needs attention | ○ Pending
 
 ---
 
 ## Connections & Integrations
 
-### Sanity CMS
+### Content (no CMS)
 
-| Component | Status | Notes |
-|-----------|--------|-------|
-| Schemas defined | ✓ | work, blog, author, siteSettings |
-| Client configured | ✓ | `/src/lib/sanity/client.ts` |
-| GROQ queries | ✓ | `/src/lib/sanity/queries.ts` |
-| Image helper | ✓ | `/src/lib/sanity/image.ts` |
-| Project connected | ✗ | Missing `.env.local` credentials |
-| Studio embedded | ✗ | Not yet set up |
-
-**Required environment variables:**
-```
-NEXT_PUBLIC_SANITY_PROJECT_ID=
-NEXT_PUBLIC_SANITY_DATASET=
-SANITY_API_TOKEN=
-```
+| Approach | Status | Notes |
+|----------|--------|-------|
+| Headless CMS (Sanity) | ✗ Rejected | Owner: overkill for this portfolio. Do not reconnect. |
+| In-repo content | ○ Planned | Hardcoded pages, local data modules, and/or MDX later if needed |
+| Legacy Sanity code in repo | ⚠ Debt | Schemas, client, queries still present — remove when touching Work/Blog |
 
 ### Vercel Deployment
 
-| Component | Status |
-|-----------|--------|
-| Git repository | ✗ Not pushed |
-| Vercel project | ✗ Not created |
-| Environment variables | ✗ Not configured |
-| Domain | ✗ Not connected |
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Git repository | ✓ | `github.com/artiomk14/artiom.design` |
+| Vercel project | ✓ | Connected; production deploys via Vercel |
+| Custom domain | ✓ | `artiom.design` / `www.artiom.design` |
+| Vercel URL | ✓ | `artiomdesign.vercel.app` |
+| Env vars | ✓ / light | Prefer `NEXT_PUBLIC_SITE_URL`; no Sanity vars |
 
 ---
 
@@ -77,17 +70,17 @@ artiom.design/
 │   │   ├── motion/             # FadeIn, SlideIn, PageTransition, etc.
 │   │   └── ui/                 # Button, Card, Typography
 │   ├── lib/
-│   │   ├── sanity/             # CMS client & queries
-│   │   ├── hooks/              # useMediaQuery, useScrollProgress, etc.
-│   │   ├── motion/             # Animation variants
-│   │   └── utils/              # cn() utility
-│   ├── styles/tokens/          # Design system tokens
-│   └── types/                  # TypeScript definitions
-├── sanity/schemas/             # CMS content schemas
-├── public/                     # Static assets
-├── AGENTS.md                   # AI agent guidelines
-├── CONTEXT.md                  # Project context (living doc)
-└── .env.local.example          # Environment template
+│   │   ├── sanity/             # LEGACY — remove (do not extend)
+│   │   ├── hooks/
+│   │   ├── motion/
+│   │   └── utils/
+│   ├── styles/tokens/
+│   └── types/
+├── sanity/schemas/             # LEGACY — remove
+├── public/
+├── AGENTS.md
+├── CONTEXT.md                  # Living project context (read first)
+└── PROJECT_STATUS.md           # This file
 ```
 
 ---
@@ -98,10 +91,10 @@ artiom.design/
 |-------|------|----------------|
 | `/` | Static | Hardcoded (placeholder) |
 | `/about` | Static | Hardcoded (placeholder) |
-| `/work` | Static | Will fetch from Sanity |
-| `/work/[slug]` | Dynamic | Will fetch from Sanity |
-| `/blog` | Static | Will fetch from Sanity |
-| `/blog/[slug]` | Dynamic | Will fetch from Sanity |
+| `/work` | Static | Placeholder; still has leftover Sanity fetch — migrate to in-repo content |
+| `/work/[slug]` | Dynamic | Same as Work |
+| `/blog` | Static | Placeholder; leftover Sanity fetch — migrate to in-repo content |
+| `/blog/[slug]` | Dynamic | Same as Blog |
 | `/lab` | Static | Hardcoded (placeholder) |
 | `/contact` | Static | Hardcoded (placeholder) |
 
@@ -113,11 +106,11 @@ artiom.design/
 
 | Category | Location | Integration |
 |----------|----------|-------------|
-| Colors | `/styles/tokens/colors.ts` | CSS variables in `globals.css` |
-| Spacing | `/styles/tokens/spacing.ts` | Tailwind defaults |
-| Typography | `/styles/tokens/typography.ts` | Tailwind + next/font |
-| Breakpoints | `/styles/tokens/breakpoints.ts` | Tailwind defaults |
-| Animation | `/styles/tokens/animation.ts` | Framer Motion variants |
+| Colors | `/src/styles/tokens/colors.ts` | CSS variables in `globals.css` |
+| Spacing | `/src/styles/tokens/spacing.ts` | Tailwind defaults |
+| Typography | `/src/styles/tokens/typography.ts` | Tailwind + next/font |
+| Breakpoints | `/src/styles/tokens/breakpoints.ts` | Tailwind defaults |
+| Animation | `/src/styles/tokens/animation.ts` | Framer Motion variants |
 
 ### CSS Custom Properties
 
@@ -147,53 +140,35 @@ Dark mode supported via `prefers-color-scheme`.
 - `Heading` / `Text` — Typography components
 
 ### Motion
-- `FadeIn` — Fade with directional movement
-- `SlideIn` — Full slide animations
-- `PageTransition` — Route transition wrapper
-- `StaggerContainer` / `StaggerItem` — List animations
+- `FadeIn`, `SlideIn`, `PageTransition`, `StaggerContainer` / `StaggerItem`
 
 ---
 
 ## What Works Now
 
-- ✓ `pnpm dev` — Development server runs
-- ✓ `pnpm build` — Production build passes
-- ✓ `pnpm lint` — No errors or warnings
-- ✓ All routes render with placeholder content
-- ✓ Responsive layout (mobile-first)
-- ✓ Dark mode (system preference)
-- ✓ Reduced motion support
+- ✓ Live at `https://artiom.design` (Vercel)
+- ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
+- ✓ All routes render (placeholder content)
+- ✓ Responsive layout, system dark mode, reduced-motion support
 
 ---
 
-## What Needs Setup
+## What To Do Next (priority)
 
-1. **Sanity Connection**
-   - Create project at sanity.io/manage
-   - Add credentials to `.env.local`
-   - Test content fetching
-
-2. **Vercel Deployment**
-   - Push to GitHub/GitLab
-   - Connect to Vercel
-   - Add environment variables
-   - Connect domain
-
-3. **Content & Design**
-   - Design page layouts
-   - Create actual content in Sanity
-   - Implement mobile menu
-   - Add contact form functionality
+1. **Design & content** — Real layouts for Home + Work first; put case studies/copy in the repo
+2. **Remove Sanity** — Delete legacy CMS packages and code paths; stop fetching from Sanity
+3. **Polish** — Mobile menu, contact form, SEO (sitemap / robots)
+4. **Analytics** — Only if the owner asks
 
 ---
 
 ## Commands
 
 ```bash
-pnpm dev        # Start development server (localhost:3000)
-pnpm build      # Create production build
-pnpm start      # Run production build locally
-pnpm lint       # Check for linting errors
+pnpm dev        # localhost:3000
+pnpm build      # production build
+pnpm start      # run production build locally
+pnpm lint       # ESLint
 ```
 
 ---
@@ -203,6 +178,5 @@ pnpm lint       # Check for linting errors
 | Purpose | File |
 |---------|------|
 | AI agent guidelines | `AGENTS.md` |
-| Project context (update as you go) | `CONTEXT.md` |
-| Environment template | `.env.local.example` |
+| Living project context (read first) | `CONTEXT.md` |
 | This status document | `PROJECT_STATUS.md` |
