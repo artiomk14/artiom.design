@@ -1,5 +1,9 @@
+'use client';
+
 import { forwardRef } from 'react';
+import { SmoothCorners } from '@lisse/react';
 import { cn } from '@/lib/utils';
+import { cornersFor } from '@/styles/tokens';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'link';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -7,7 +11,6 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
-  asChild?: boolean;
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -24,15 +27,41 @@ const sizeClasses: Record<ButtonSize, string> = {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', size = 'md', disabled, ...props }, ref) => {
+  ({ className, variant = 'primary', size = 'md', disabled, type = 'button', ...props }, ref) => {
+    // Link variant stays rectangular — no squircle chrome.
+    if (variant === 'link') {
+      return (
+        <button
+          ref={ref}
+          type={type}
+          className={cn(
+            'inline-flex items-center justify-center gap-2',
+            'font-medium',
+            'transition-colors duration-150',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+            'disabled:pointer-events-none disabled:opacity-50',
+            variantClasses.link,
+            sizeClasses[size],
+            className
+          )}
+          disabled={disabled}
+          {...props}
+        />
+      );
+    }
+
     return (
-      <button
+      <SmoothCorners
         ref={ref}
+        as="button"
+        type={type}
+        corners={cornersFor('md')}
         className={cn(
           'inline-flex items-center justify-center gap-2',
-          'rounded-md font-medium',
+          'font-medium',
           'transition-colors duration-150',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
+          // outline-offset keeps focus visible outside clip-path (Lisse gotcha)
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
           'disabled:pointer-events-none disabled:opacity-50',
           variantClasses[variant],
           sizeClasses[size],

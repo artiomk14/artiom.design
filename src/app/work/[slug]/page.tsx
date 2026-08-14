@@ -33,7 +33,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
           {slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ')}
         </Heading>
         <Text size="lg" muted className="mt-6 max-w-2xl">
-          Project details will be fetched from Sanity CMS.
+          Project details will live in the repo.
         </Text>
       </FadeIn>
     </Section>

@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@lisse/react": "^0.6.4",
     "@sanity/code-input": "^7.0.12",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.18.0",

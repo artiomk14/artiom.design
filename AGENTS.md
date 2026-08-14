@@ -32,6 +32,7 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
 | TypeScript    | Type safety                  | 5.x          |
 | Tailwind CSS  | Styling                      | 4.x          |
 | Framer Motion | Animations                   | 12.x         |
+| Lisse         | Squircle corners (radii)     | `@lisse/react` — Figma/iOS continuous corners |
 | Vercel        | Hosting & production deploys | Live         |
 
 **Not in use:** Sanity (or any headless CMS).
@@ -91,6 +92,16 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
 - Colors: `bg-background`, `text-foreground`, `text-foreground-muted`, etc.
 - Spacing: Use Tailwind spacing scale (e.g., `p-4`, `mt-6`, `gap-8`)
 - Responsive: Mobile-first approach (`md:`, `lg:` prefixes)
+
+### Corners / radii (Lisse squircles)
+- **Default:** use Lisse via `SmoothSurface`, `Button`, `Card`, or `cornersFor()` — not Tailwind `rounded-*` — for buttons, cards, panels, chips, media frames, and other surfaces.
+- Tokens: `/src/styles/tokens/radius.ts` (`radius.md` / `lg` / … + `cornerSmoothing` = `0.6`).
+- Wrapper: `SmoothSurface` in `/src/components/ui/SmoothSurface.tsx` (client component).
+- Prefer existing UI primitives when they already wrap Lisse (`Button`, `Card`).
+- **Exceptions (plain CSS OK):** true circles (`rounded-full`), 1–2px hairline radii, and non-UI chrome where clip-path cost isn’t worth it.
+- **Focus:** `clip-path` clips rings — use `outline` + `outline-offset` (already in `globals.css`), not box-shadow rings on clipped elements.
+- **Overflow:** tooltips/dropdowns must portal or sit outside the clipped surface.
+- Do not add other squircle libraries; stick to `@lisse/react`.
 
 ### File Naming
 | Type       | Convention    | Example             |

@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { SmoothCorners } from '@lisse/react';
 import { Navigation } from './Navigation';
 import { cn } from '@/lib/utils';
+import { cornersFor } from '@/styles/tokens';
 
 interface HeaderProps {
   className?: string;
@@ -39,12 +41,15 @@ export function Header({ className }: HeaderProps) {
 
 function MobileMenuButton({ className }: { className?: string }) {
   return (
-    <button
+    <SmoothCorners
+      as="button"
       type="button"
+      corners={cornersFor('md')}
       className={cn(
         'flex h-10 w-10 items-center justify-center',
-        'rounded-md transition-colors',
+        'transition-colors',
         'hover:bg-background-muted focus-visible:bg-background-muted',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
         className
       )}
       aria-label="Open menu"
@@ -64,6 +69,6 @@ function MobileMenuButton({ className }: { className?: string }) {
           d="M4 6h16M4 12h16M4 18h16"
         />
       </svg>
-    </button>
+    </SmoothCorners>
   );
 }
