@@ -6,20 +6,35 @@ This file provides guidance for AI agents working on this portfolio project.
 
 ## Project Purpose
 
-Portfolio website for Artiom - showcasing work, blog posts, experiments, and contact information. The site prioritizes performance, accessibility, and a clean, modern design.
+Portfolio website for Artiom (product designer) — work, blog, lab/experiments, about, and contact. Priorities: performance, accessibility, clean modern design.
+
+**Owner context:** Not a full-time developer. Prefer clear, low-ceremony solutions. Keep explanations and change scope practical.
+
+---
+
+## Current Reality (read before coding)
+
+1. Read **`CONTEXT.md`** first — living source of truth for phase, decisions, and env notes.
+2. Site is **already live** on Vercel at **https://artiom.design** (also `artiomdesign.vercel.app`). Pushing to `main` deploys.
+3. **No Sanity / no headless CMS.** Owner rejected CMS as overkill. Content belongs **in the repo**. Do not add Sanity credentials, Studio, or new CMS integrations.
+4. Sanity-related folders and packages may still exist as **legacy debt** — remove when working on content/Work/Blog; do not extend them.
+5. Pages are mostly **placeholders**; next meaningful work is **design + content**.
+
+Also see `PROJECT_STATUS.md` for a structured checklist.
 
 ---
 
 ## Tech Stack
 
-| Technology    | Purpose                          | Version  |
-| ------------- | -------------------------------- | -------- |
-| Next.js       | React framework (App Router)     | 15.x     |
-| TypeScript    | Type safety                      | 5.x      |
-| Tailwind CSS  | Utility-first styling            | 4.x      |
-| Framer Motion | Animations                       | 12.x     |
-| Sanity        | Headless CMS                     | 5.x      |
-| Vercel        | Hosting & deployment             | -        |
+| Technology    | Purpose                      | Notes        |
+| ------------- | ---------------------------- | ------------ |
+| Next.js       | App Router site              | see `package.json` |
+| TypeScript    | Type safety                  | 5.x          |
+| Tailwind CSS  | Styling                      | 4.x          |
+| Framer Motion | Animations                   | 12.x         |
+| Vercel        | Hosting & production deploys | Live         |
+
+**Not in use:** Sanity (or any headless CMS).
 
 ---
 
@@ -29,27 +44,31 @@ Portfolio website for Artiom - showcasing work, blog posts, experiments, and con
 /src
   /app                 # Next.js App Router pages
   /components
-    /layout            # Layout components (Header, Footer, Navigation)
+    /layout            # Header, Footer, Navigation
     /sections          # Reusable page sections
-    /ui                # Atomic UI components (Button, Card, Typography)
-    /motion            # Animation wrapper components
+    /ui                # Button, Card, Typography
+    /motion            # Animation wrappers
   /lib
-    /sanity            # Sanity client, queries, image helpers
-    /utils             # Utility functions (cn)
-    /hooks             # Custom React hooks
+    /utils             # cn()
+    /hooks             # Custom hooks
     /motion            # Framer Motion variants
+    /sanity            # LEGACY — do not extend; remove when touching content
   /styles
     /tokens            # Design system tokens
-  /types               # TypeScript type definitions
+  /types
 
-/sanity
-  /schemas             # Sanity CMS schemas
-
+/sanity                # LEGACY schemas — remove with CMS cleanup
 /public
-  /images
-  /videos
-  /icons
 ```
+
+---
+
+## Content Guidelines (no CMS)
+
+- Keep portfolio/blog/lab content **in the codebase** (page components, typed local data modules under e.g. `src/content/` or similar, assets in `/public`).
+- Prefer simple structures a designer can edit with help from an agent.
+- Do **not** introduce a CMS without explicit owner permission.
+- When implementing Work/Blog: replace leftover Sanity fetches with local data; then delete Sanity deps and configs.
 
 ---
 
@@ -79,7 +98,7 @@ Portfolio website for Artiom - showcasing work, blog posts, experiments, and con
 | Components | PascalCase    | `Button.tsx`        |
 | Utilities  | camelCase     | `cn.ts`             |
 | Hooks      | camelCase     | `useMediaQuery.ts`  |
-| Types      | camelCase     | `sanity.ts`         |
+| Types      | camelCase     | `content.ts`        |
 | Pages      | lowercase     | `page.tsx`          |
 
 ---
@@ -170,48 +189,39 @@ export function Component({
 
 ---
 
-## Sanity CMS
-
-### Content Types
-- `work` - Portfolio projects
-- `blog` - Blog posts
-- `author` - Author information
-- `siteSettings` - Global site settings
-
-### Fetching Data
-Use the queries in `/lib/sanity/queries.ts`:
-```tsx
-import { client, allWorkQuery } from '@/lib/sanity';
-
-const work = await client.fetch(allWorkQuery);
-```
-
-### Images
-Use the `urlFor` helper for optimized images:
-```tsx
-import { urlFor } from '@/lib/sanity';
-
-<Image src={urlFor(image).width(800).url()} />
-```
-
----
-
 ## Performance Guidelines
 
 ### Images
 - Always use Next.js `<Image>` component
 - Provide `width` and `height` or use `fill`
-- Use appropriate image formats (WebP via Sanity)
+- Prefer modern formats (WebP/AVIF) via Next.js image optimization
 
 ### Components
 - Use Server Components by default
 - Add `'use client'` only when necessary (hooks, interactivity)
 - Use dynamic imports for heavy components
 
-### Data Fetching
-- Leverage Sanity CDN in production
-- Use appropriate caching strategies
-- Implement ISR where suitable
+### Data
+- Prefer static / build-time content for portfolio pages
+- Avoid unnecessary client-side data fetching
+
+---
+
+## Hosting & Environment
+
+| Item | Value |
+| ---- | ----- |
+| Production URL | `https://artiom.design` |
+| Vercel project URL | `https://artiomdesign.vercel.app` |
+| GitHub | `artiomk14/artiom.design` |
+
+Typical env (no secrets required for a static portfolio):
+
+```env
+NEXT_PUBLIC_SITE_URL=https://artiom.design
+```
+
+Never commit API tokens or put secrets in markdown. Do not revive Sanity env vars.
 
 ---
 
@@ -219,20 +229,20 @@ import { urlFor } from '@/lib/sanity';
 
 1. **Add new dependencies** - Discuss first to evaluate necessity and bundle impact
 2. **Change design tokens** - Colors, spacing, typography are intentional
-3. **Modify Sanity schemas** - Schema changes affect existing content
+3. **Add or reconnect a CMS** (including Sanity) - Owner chose in-repo content
 4. **Alter routing structure** - URL structure impacts SEO and bookmarks
 5. **Add external scripts** - Third-party scripts affect performance
 6. **Remove accessibility features** - Skip links, ARIA labels, focus states
 7. **Use inline styles** - Use Tailwind classes instead
-8. **Hardcode values** - Use design tokens and variables
+8. **Hardcode design values** - Use design tokens and variables (content copy is fine in-repo)
 
 ---
 
 ## Before Making Changes
 
-1. Read `CONTEXT.md` for current project state
+1. Read `CONTEXT.md` for current project state and product decisions
 2. Check if a similar component/pattern already exists
 3. Ensure changes align with these guidelines
-4. Update `CONTEXT.md` after significant changes
+4. Update `CONTEXT.md` (and `PROJECT_STATUS.md` when status changes) after significant work
 5. Run `pnpm build` to verify no errors
 6. Run `pnpm lint` to check code quality
