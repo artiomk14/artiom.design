@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Section } from '@/components/layout';
-import { Card, Heading, Text } from '@/components/ui';
+import { Beam, Card, Heading, Text } from '@/components/ui';
 import { FadeIn } from '@/components/motion';
 
 export const metadata: Metadata = {
@@ -19,11 +19,13 @@ export default function WorkPage() {
           Selected projects and case studies will be displayed here.
         </Text>
 
-        <Card className="mt-8 border-dashed p-8 text-center">
-          <Text muted>
-            Case studies coming soon — content will live in the repo.
-          </Text>
-        </Card>
+        <Beam className="mt-8" radius="lg" size="md">
+          <Card className="border-dashed p-8 text-center">
+            <Text muted>
+              Case studies coming soon — content will live in the repo.
+            </Text>
+          </Card>
+        </Beam>
       </FadeIn>
     </Section>
   );

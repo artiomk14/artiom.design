@@ -33,6 +33,7 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
 | Tailwind CSS  | Styling                      | 4.x          |
 | Framer Motion | Animations                   | 12.x         |
 | Lisse         | Squircle corners (radii)     | `@lisse/react` — Figma/iOS continuous corners |
+| Border Beam   | Accent border glow (opt-in)  | `border-beam` — wrap via `Beam`, not by default |
 | Vercel        | Hosting & production deploys | Live         |
 
 **Not in use:** Sanity (or any headless CMS).
@@ -102,6 +103,14 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
 - **Focus:** `clip-path` clips rings — use `outline` + `outline-offset` (already in `globals.css`), not box-shadow rings on clipped elements.
 - **Overflow:** tooltips/dropdowns must portal or sit outside the clipped surface.
 - Do not add other squircle libraries; stick to `@lisse/react`.
+
+### Border beam (accent glow)
+- Library: [`border-beam`](https://beam.jakubantalik.com/) via project wrapper `Beam` (`/src/components/ui/Beam.tsx`).
+- **Opt-in only.** Do not put a beam on every card/button — reserved for featured / active / “working” accents (hero CTA, featured case study, focused search, loading state).
+- Project defaults on `Beam`: `colorVariant="mono"`, `theme="auto"`, `strength={0.55}`, `staticColors` when mono, pauses when `prefers-reduced-motion`.
+- Always pass `radius` token (or px) when wrapping Lisse surfaces — beam can’t read squircle clip-path as CSS `border-radius`.
+- Prefer `mono` over `colorful` / `ocean` / `sunset` unless the owner asks for color. Avoid rainbow glow as a default look.
+- Keep bendc motion discipline: decorative only; never block interaction (`pointer-events: none` on effect layers).
 
 ### File Naming
 | Type       | Convention    | Example             |

@@ -31,8 +31,9 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Custom hooks (useMediaQuery, useScrollProgress, usePrefersReducedMotion)
 - [x] Motion variants and wrapper components
 - [x] Layout components (Header, Footer, Navigation, PageWrapper, Section)
-- [x] UI components (Button, Typography, Card, SmoothSurface)
+- [x] UI components (Button, Typography, Card, SmoothSurface, Beam)
 - [x] Lisse squircles for surface radii (`@lisse/react` + radius tokens)
+- [x] Border Beam accent wrapper (`border-beam` via `Beam`, opt-in)
 - [x] Adopted bendc frontend guidelines (documented in AGENTS.md; light CSS/layout alignment)
 - [x] All route pages created with placeholders
 - [x] 404 page
@@ -55,7 +56,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Lisse squircles + bendc frontend guidelines adopted in AGENTS.md — 2026-08-14.*
+*Border Beam (`border-beam`) integrated as opt-in accent via `Beam` — 2026-08-14.*
 
 ---
 
@@ -66,6 +67,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Tailwind CSS v4 | Ships with modern Next.js, CSS-first configuration | 2026-03-31 |
 | CSS custom properties for tokens | Single source of truth, dark mode support | 2026-03-31 |
 | Lisse squircles for radii | Figma/iOS continuous corners instead of CSS border-radius on UI surfaces | 2026-08-14 |
+| Border Beam (opt-in) | Animated border accent via `border-beam` / `Beam`; mono + modest strength by default | 2026-08-14 |
 | bendc frontend guidelines | Adopt HTML/CSS/JS practices from bendc/frontend-guidelines (adapted in AGENTS.md) | 2026-08-14 |
 | Server Components by default | Better performance, reduced JS bundle | 2026-03-31 |
 | Motion components with reduced-motion | Accessibility compliance | 2026-03-31 |
@@ -85,6 +87,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Layout components | `/src/components/layout/` |
 | UI components | `/src/components/ui/` |
 | SmoothSurface (Lisse) | `/src/components/ui/SmoothSurface.tsx` |
+| Beam (border-beam) | `/src/components/ui/Beam.tsx` |
 | Radius / corner tokens | `/src/styles/tokens/radius.ts` |
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
@@ -120,6 +123,7 @@ Local secrets belong only in `.env.local` (gitignored). Prefer configuring env v
 - next, react, react-dom
 - framer-motion
 - @lisse/react
+- border-beam
 - clsx, tailwind-merge
 - typescript, tailwindcss, eslint (dev)
 
@@ -152,4 +156,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-14 (Lisse radii + bendc guidelines)*
+*Last updated: 2026-08-14 (Border Beam)*
