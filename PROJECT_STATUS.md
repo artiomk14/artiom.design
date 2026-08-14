@@ -181,5 +181,6 @@ pnpm lint       # ESLint
 | Purpose | File |
 |---------|------|
 | AI agent guidelines | `AGENTS.md` |
+| bendc frontend practices (adapted) | `AGENTS.md` → Frontend Guidelines |
 | Living project context (read first) | `CONTEXT.md` |
 | This status document | `PROJECT_STATUS.md` |
