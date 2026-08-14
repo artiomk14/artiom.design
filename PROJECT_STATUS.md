@@ -21,6 +21,7 @@ Portfolio website for **artiom.design** — high-performance, accessible, clean 
 | Styling | Tailwind CSS | 4.x | ✓ Configured |
 | Animations | Framer Motion | 12.x | ✓ Installed |
 | Corners | Lisse (`@lisse/react`) | 0.6.x | ✓ Squircles on UI surfaces |
+| Accent beam | Border Beam (`border-beam`) | 1.3.x | ✓ Opt-in via `Beam` |
 | Content | In-repo (no CMS) | — | ○ Design + content pending |
 | Hosting | Vercel | — | ✓ Deployed |
 | Package Manager | pnpm | 10.x | ✓ Active |
@@ -140,6 +141,7 @@ Dark mode supported via `prefers-color-scheme`.
 - `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
 - `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`
+- `Beam` — Opt-in border-beam accent (mono / auto theme by default)
 - `Heading` / `Text` — Typography components
 
 ### Motion
