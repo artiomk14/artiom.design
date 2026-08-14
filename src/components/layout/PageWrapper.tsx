@@ -6,14 +6,15 @@ interface PageWrapperProps {
 }
 
 export function PageWrapper({ children, className }: PageWrapperProps) {
+  // Layout already provides the document <main>; keep this a plain wrapper.
   return (
-    <main
+    <div
       className={cn(
         'min-h-screen pt-16 md:pt-20',
         className
       )}
     >
       {children}
-    </main>
+    </div>
   );
 }

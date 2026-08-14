@@ -21,10 +21,10 @@
   --border: #e5e5e5;
   --border-muted: #f5f5f5;
   
-  /* Animation Durations */
-  --duration-fast: 150ms;
-  --duration-normal: 300ms;
-  --duration-slow: 500ms;
+  /* Animation Durations (seconds — prefer s over ms in custom CSS) */
+  --duration-fast: .15s;
+  --duration-normal: .3s;
+  --duration-slow: .5s;
   
   /* Easing */
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
@@ -125,7 +125,8 @@ body {
    Accessibility
    ========================================================================== */
 
-/* Respect reduced motion preferences */
+/* Respect reduced motion preferences.
+   !important is intentional here so authored transitions/animations cannot override a11y. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -143,20 +144,21 @@ body {
   outline-offset: 2px;
 }
 
-/* Skip link for keyboard navigation */
+/* Skip link for keyboard navigation — transform, not top, for cheaper motion */
 .skip-link {
   position: absolute;
-  top: -40px;
+  top: 0;
   left: 0;
+  transform: translateY(-100%);
   padding: 8px;
   background: var(--accent);
   color: var(--background);
   z-index: 100;
-  transition: top var(--duration-fast) var(--ease-out);
+  transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .skip-link:focus {
-  top: 0;
+  transform: translateY(0);
 }
 
 /* ==========================================================================
