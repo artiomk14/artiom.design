@@ -20,6 +20,7 @@ Portfolio website for **artiom.design** — high-performance, accessible, clean 
 | Language | TypeScript | 5.x | ✓ Configured |
 | Styling | Tailwind CSS | 4.x | ✓ Configured |
 | Animations | Framer Motion | 12.x | ✓ Installed |
+| Corners | Lisse (`@lisse/react`) | 0.6.x | ✓ Squircles on UI surfaces |
 | Content | In-repo (no CMS) | — | ○ Design + content pending |
 | Hosting | Vercel | — | ✓ Deployed |
 | Package Manager | pnpm | 10.x | ✓ Active |
@@ -68,7 +69,7 @@ artiom.design/
 │   ├── components/
 │   │   ├── layout/             # Header, Footer, Navigation, etc.
 │   │   ├── motion/             # FadeIn, SlideIn, PageTransition, etc.
-│   │   └── ui/                 # Button, Card, Typography
+│   │   └── ui/                 # Button, Card, Typography, SmoothSurface
 │   ├── lib/
 │   │   ├── sanity/             # LEGACY — remove (do not extend)
 │   │   ├── hooks/
@@ -111,6 +112,7 @@ artiom.design/
 | Typography | `/src/styles/tokens/typography.ts` | Tailwind + next/font |
 | Breakpoints | `/src/styles/tokens/breakpoints.ts` | Tailwind defaults |
 | Animation | `/src/styles/tokens/animation.ts` | Framer Motion variants |
+| Radius / corners | `/src/styles/tokens/radius.ts` | Lisse `SmoothCorners` via `cornersFor()` |
 
 ### CSS Custom Properties
 
@@ -135,8 +137,9 @@ Dark mode supported via `prefers-color-scheme`.
 - `Section` — Reusable section container
 
 ### UI
-- `Button` — Primary, secondary, ghost, link variants
-- `Card` / `CardContent` — Content cards
+- `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
+- `Card` / `CardContent` — Content cards (Lisse squircle)
+- `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`
 - `Heading` / `Text` — Typography components
 
 ### Motion

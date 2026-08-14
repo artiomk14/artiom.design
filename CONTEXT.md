@@ -31,7 +31,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Custom hooks (useMediaQuery, useScrollProgress, usePrefersReducedMotion)
 - [x] Motion variants and wrapper components
 - [x] Layout components (Header, Footer, Navigation, PageWrapper, Section)
-- [x] UI components (Button, Typography, Card)
+- [x] UI components (Button, Typography, Card, SmoothSurface)
+- [x] Lisse squircles for surface radii (`@lisse/react` + radius tokens)
 - [x] All route pages created with placeholders
 - [x] 404 page
 - [x] AGENTS.md / PROJECT_STATUS.md documentation
@@ -53,7 +54,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Docs refreshed 2026-08-14 to match owner decisions. No design implementation in progress yet.*
+*Lisse (corne.rs) squircles integrated for UI radii — 2026-08-14. Use SmoothSurface / Button / Card going forward.*
 
 ---
 
@@ -63,6 +64,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | -------- | --------- | ---- |
 | Tailwind CSS v4 | Ships with modern Next.js, CSS-first configuration | 2026-03-31 |
 | CSS custom properties for tokens | Single source of truth, dark mode support | 2026-03-31 |
+| Lisse squircles for radii | Figma/iOS continuous corners instead of CSS border-radius on UI surfaces | 2026-08-14 |
 | Server Components by default | Better performance, reduced JS bundle | 2026-03-31 |
 | Motion components with reduced-motion | Accessibility compliance | 2026-03-31 |
 | pnpm package manager | Fastest, disk efficient | 2026-03-31 |
@@ -80,6 +82,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Motion components | `/src/components/motion/` |
 | Layout components | `/src/components/layout/` |
 | UI components | `/src/components/ui/` |
+| SmoothSurface (Lisse) | `/src/components/ui/SmoothSurface.tsx` |
+| Radius / corner tokens | `/src/styles/tokens/radius.ts` |
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
 | Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
@@ -113,6 +117,7 @@ Local secrets belong only in `.env.local` (gitignored). Prefer configuring env v
 ### Keep
 - next, react, react-dom
 - framer-motion
+- @lisse/react
 - clsx, tailwind-merge
 - typescript, tailwindcss, eslint (dev)
 
@@ -145,4 +150,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-14*
+*Last updated: 2026-08-14 (Lisse radii)*
