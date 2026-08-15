@@ -51,16 +51,18 @@ export function NavItem<E extends ElementType = 'button'>({
         aria-current={selected ? 'page' : undefined}
         aria-disabled={disabled || undefined}
         className={cn(
-          'flex items-center justify-center p-3.5 outline-none',
-          'transition-[background-color,box-shadow,color] duration-150 ease-out',
+          // Border on every state (transparent when idle) keeps both items the
+          // exact same box size so the row never shifts between states.
+          'flex items-center justify-center border p-3.5 outline-none',
+          'transition-[background-color,box-shadow,color,border-color] duration-150 ease-out',
           selected
             ? [
-                'border border-border bg-background-subtle text-foreground shadow-sm',
+                'border-border bg-background-subtle text-foreground shadow-sm',
                 'hover:bg-background',
                 'active:bg-background-muted active:shadow-none',
               ]
             : [
-                'text-foreground-muted',
+                'border-transparent text-foreground-muted',
                 'hover:bg-foreground/5 hover:text-foreground',
                 'active:bg-foreground/10',
               ],
