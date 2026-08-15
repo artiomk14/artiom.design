@@ -41,6 +41,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Deployed to Vercel with custom domain `artiom.design`
 - [x] Light mode locked (no `prefers-color-scheme` dark override)
 - [x] Page content wiped to blank canvas (shell preserved)
+- [x] Header logo/nav and Footer removed from layout (stubs remain for redesign)
 
 ---
 
@@ -58,7 +59,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Blank page canvas + light mode — 2026-08-15. Design tokens, layout shell, typography, motion, and UI components kept.*
+*Blank canvas + light mode — 2026-08-15. Page bodies empty; Header/Footer/nav unwired from layout (stubs kept). Tokens, typography, motion, and UI components preserved.*
 
 ---
 

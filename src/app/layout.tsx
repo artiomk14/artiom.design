@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
 import './globals.css';
 
 const geistSans = Geist({
@@ -55,15 +53,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-screen flex-col bg-background text-foreground">
+      <body className="min-h-screen bg-background text-foreground">
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <Header />
-        <main id="main-content" className="flex-1 pt-16 md:pt-20">
-          {children}
-        </main>
-        <Footer />
+        <main id="main-content">{children}</main>
       </body>
     </html>
   );

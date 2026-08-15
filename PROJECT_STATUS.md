@@ -153,7 +153,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override.
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ All routes render (blank bodies; header/footer shell)
+- ✓ All routes render (blank bodies; no header/footer chrome)
 - ✓ Responsive layout, light mode, reduced-motion support
 
 ---
