@@ -59,7 +59,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Aligned breakpoint + container tokens with artiom.design Library (Figma) — 2026-08-15. Default content max-width is `container/3xl` (768px).*
+*Tab nav (Figma 109:562) — pill with selected/unselected icon items. Content width `container/3xl` (md).*
 
 ---
 

@@ -134,9 +134,10 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 ## Components Built
 
 ### Layout
-- `Header` — Fixed navigation with logo and links
-- `Footer` — Site footer with social links
-- `Navigation` — Navigation menu with active states
+- `Header` — Stub (blank for redesign)
+- `Footer` — Stub (blank for redesign)
+- `Navigation` — Stub
+- `TabNav` — Pill icon tab bar (selected surface + unselected icon); Figma 109:562
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
 

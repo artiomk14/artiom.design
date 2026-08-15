@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { TabNav } from '@/components/layout/TabNav';
 import './globals.css';
 
 const geistSans = Geist({
@@ -57,7 +58,10 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <main id="main-content">{children}</main>
+        <div className="mx-auto w-full max-w-[var(--container-max)] px-[var(--container-padding)]">
+          <TabNav />
+          <main id="main-content">{children}</main>
+        </div>
       </body>
     </html>
   );
