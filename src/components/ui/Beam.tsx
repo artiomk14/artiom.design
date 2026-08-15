@@ -28,7 +28,7 @@ export function Beam({
   radius: radiusProp = 'lg',
   size = 'md',
   colorVariant = 'mono',
-  theme = 'auto',
+  theme = 'light',
   strength = 0.55,
   staticColors = colorVariant === 'mono',
   active,
