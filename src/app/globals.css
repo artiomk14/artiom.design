@@ -31,6 +31,9 @@
   /* Easing */
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Box shadow — Figma `shadow/sm` */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.1);
   
   /* Container — Figma `container/*` (default max = container/3xl) */
   --container-0: 0px;
@@ -100,6 +103,9 @@
   /* Breakpoints — Figma `breakpoint/*` (extends defaults with xs + 3xl) */
   --breakpoint-xs: 390px;
   --breakpoint-3xl: 1920px;
+
+  /* Box shadow — Figma `shadow/sm` (registers the `shadow-sm` utility) */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.1);
   
   /* Animation */
   --transition-fast: var(--duration-fast) var(--ease-out);
