@@ -14,16 +14,15 @@ interface NavigationProps {
   className?: string;
 }
 
-const defaultNavItems: NavItem[] = [
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Lab', href: '/lab' },
-  { label: 'Contact', href: '/contact' },
-];
+/** Empty by default — nav items will be defined during redesign. */
+const defaultNavItems: NavItem[] = [];
 
 export function Navigation({ items = defaultNavItems, className }: NavigationProps) {
   const pathname = usePathname();
+
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <nav className={className} aria-label="Main navigation">
