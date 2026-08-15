@@ -111,7 +111,8 @@ artiom.design/
 | Colors | `/src/styles/tokens/colors.ts` | CSS variables in `globals.css` |
 | Spacing | `/src/styles/tokens/spacing.ts` | Tailwind defaults |
 | Typography | `/src/styles/tokens/typography.ts` | Tailwind + next/font |
-| Breakpoints | `/src/styles/tokens/breakpoints.ts` | Tailwind defaults |
+| Breakpoints | `/src/styles/tokens/breakpoints.ts` | Figma `breakpoint/*` (xs–3xl); Tailwind `@theme` adds `xs` + `3xl` |
+| Containers | `/src/styles/tokens/breakpoints.ts` | Figma `container/*` (0–7xl); `--container-max` = `3xl` (768px) |
 | Animation | `/src/styles/tokens/animation.ts` | Framer Motion variants |
 | Radius / corners | `/src/styles/tokens/radius.ts` | Lisse `SmoothCorners` via `cornersFor()` |
 
@@ -122,9 +123,11 @@ artiom.design/
 --foreground, --foreground-muted, --foreground-subtle
 --accent, --accent-hover, --accent-muted
 --border, --border-muted
+--container-0 … --container-7xl, --container-max (= --container-3xl / 768px)
+--breakpoint-xs … --breakpoint-3xl
 ```
 
-Light mode only (`color-scheme: light`). No system dark-mode override.
+Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoint + container tokens aligned with Figma artiom.design Library.
 
 ---
 

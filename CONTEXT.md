@@ -59,7 +59,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Blank canvas + light mode — 2026-08-15. Page bodies empty; Header/Footer/nav unwired from layout (stubs kept). Tokens, typography, motion, and UI components preserved.*
+*Aligned breakpoint + container tokens with artiom.design Library (Figma) — 2026-08-15. Default content max-width is `container/3xl` (768px).*
 
 ---
 
@@ -70,6 +70,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Tailwind CSS v4 | Ships with modern Next.js, CSS-first configuration | 2026-03-31 |
 | CSS custom properties for tokens | Single source of truth for theming | 2026-03-31 |
 | Light mode only | Fresh canvas; no system dark-mode override | 2026-08-15 |
+| Figma-aligned breakpoints & containers | Match artiom.design Library `breakpoint/*` + `container/*`; site max-width = `container/3xl` (768px) | 2026-08-15 |
 | Lisse squircles for radii | Figma/iOS continuous corners instead of CSS border-radius on UI surfaces | 2026-08-14 |
 | Border Beam (opt-in) | Animated border accent via `border-beam` / `Beam`; mono + modest strength by default | 2026-08-14 |
 | bendc frontend guidelines | Adopt HTML/CSS/JS practices from bendc/frontend-guidelines (adapted in AGENTS.md) | 2026-08-14 |
@@ -160,4 +161,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-15 (blank canvas + light mode)*
+*Last updated: 2026-08-15 (Figma breakpoint/container token alignment)*

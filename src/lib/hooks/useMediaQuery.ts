@@ -31,10 +31,13 @@ export function useMediaQuery(query: string): boolean {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
+/** Figma `breakpoint/*` media queries (mobile-first). */
 export const breakpoints = {
+  xs: '(min-width: 390px)',
   sm: '(min-width: 640px)',
   md: '(min-width: 768px)',
   lg: '(min-width: 1024px)',
   xl: '(min-width: 1280px)',
   '2xl': '(min-width: 1536px)',
+  '3xl': '(min-width: 1920px)',
 } as const;
