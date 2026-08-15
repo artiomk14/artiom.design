@@ -6,7 +6,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Current Phase
 
-**Foundation live; design & content next** — The site shell is deployed. Placeholder pages are live. Next work is page design and in-repo content (no CMS).
+**Blank canvas; design & content next** — Site shell (tokens, layout, typography, motion, UI primitives) is intact. Page bodies are cleared for a fresh start. Light mode only.
 
 ---
 
@@ -35,10 +35,12 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Lisse squircles for surface radii (`@lisse/react` + radius tokens)
 - [x] Border Beam accent wrapper (`border-beam` via `Beam`, opt-in)
 - [x] Adopted bendc frontend guidelines (documented in AGENTS.md; light CSS/layout alignment)
-- [x] All route pages created with placeholders
+- [x] All route pages created (bodies cleared for redesign)
 - [x] 404 page
 - [x] AGENTS.md / PROJECT_STATUS.md documentation
 - [x] Deployed to Vercel with custom domain `artiom.design`
+- [x] Light mode locked (no `prefers-color-scheme` dark override)
+- [x] Page content wiped to blank canvas (shell preserved)
 
 ---
 
@@ -56,7 +58,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Border Beam (`border-beam`) integrated as opt-in accent via `Beam` — 2026-08-14.*
+*Blank page canvas + light mode — 2026-08-15. Design tokens, layout shell, typography, motion, and UI components kept.*
 
 ---
 
@@ -65,7 +67,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Decision | Rationale | Date |
 | -------- | --------- | ---- |
 | Tailwind CSS v4 | Ships with modern Next.js, CSS-first configuration | 2026-03-31 |
-| CSS custom properties for tokens | Single source of truth, dark mode support | 2026-03-31 |
+| CSS custom properties for tokens | Single source of truth for theming | 2026-03-31 |
+| Light mode only | Fresh canvas; no system dark-mode override | 2026-08-15 |
 | Lisse squircles for radii | Figma/iOS continuous corners instead of CSS border-radius on UI surfaces | 2026-08-14 |
 | Border Beam (opt-in) | Animated border accent via `border-beam` / `Beam`; mono + modest strength by default | 2026-08-14 |
 | bendc frontend guidelines | Adopt HTML/CSS/JS practices from bendc/frontend-guidelines (adapted in AGENTS.md) | 2026-08-14 |
@@ -112,7 +115,7 @@ Local secrets belong only in `.env.local` (gitignored). Prefer configuring env v
 ## Known Issues / Legacy Debt
 
 - Sanity scaffolding remains in the repo from the initial foundation. Owner decided against using it. Treat as tech debt to remove; do not build new features on it.
-- Live site still shows placeholder copy — design and content have not been implemented yet.
+- Page bodies are empty by design — ready for layout and content work.
 - `PROJECT_STATUS.md` and this file were previously out of date on Vercel (said “not deployed”); corrected 2026-08-14.
 
 ---
@@ -156,4 +159,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-14 (Border Beam)*
+*Last updated: 2026-08-15 (blank canvas + light mode)*

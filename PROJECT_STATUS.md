@@ -1,6 +1,6 @@
 # Project Status
 
-> Last updated: August 14, 2026
+> Last updated: August 15, 2026
 
 ---
 
@@ -8,7 +8,7 @@
 
 Portfolio website for **artiom.design** — high-performance, accessible, clean modern design.
 
-**Current reality:** Foundation is **live on Vercel**. Pages are placeholders. Owner decided **not to use Sanity**; content will live in the codebase.
+**Current reality:** Foundation is **live on Vercel**. Page bodies are blank (shell + tokens kept). Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
 
 ---
 
@@ -91,14 +91,14 @@ artiom.design/
 
 | Route | Type | Content Source |
 |-------|------|----------------|
-| `/` | Static | Hardcoded (placeholder) |
-| `/about` | Static | Hardcoded (placeholder) |
-| `/work` | Static | Placeholder; still has leftover Sanity fetch — migrate to in-repo content |
-| `/work/[slug]` | Dynamic | Same as Work |
-| `/blog` | Static | Placeholder; leftover Sanity fetch — migrate to in-repo content |
-| `/blog/[slug]` | Dynamic | Same as Blog |
-| `/lab` | Static | Hardcoded (placeholder) |
-| `/contact` | Static | Hardcoded (placeholder) |
+| `/` | Static | Blank canvas |
+| `/about` | Static | Blank canvas |
+| `/work` | Static | Blank canvas; migrate to in-repo content |
+| `/work/[slug]` | Dynamic | Blank canvas |
+| `/blog` | Static | Blank canvas; migrate to in-repo content |
+| `/blog/[slug]` | Dynamic | Blank canvas |
+| `/lab` | Static | Blank canvas |
+| `/contact` | Static | Blank canvas |
 
 ---
 
@@ -124,7 +124,7 @@ artiom.design/
 --border, --border-muted
 ```
 
-Dark mode supported via `prefers-color-scheme`.
+Light mode only (`color-scheme: light`). No system dark-mode override.
 
 ---
 
@@ -153,14 +153,14 @@ Dark mode supported via `prefers-color-scheme`.
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ All routes render (placeholder content)
-- ✓ Responsive layout, system dark mode, reduced-motion support
+- ✓ All routes render (blank bodies; header/footer shell)
+- ✓ Responsive layout, light mode, reduced-motion support
 
 ---
 
 ## What To Do Next (priority)
 
-1. **Design & content** — Real layouts for Home + Work first; put case studies/copy in the repo
+1. **Design & content** — Build layouts for Home + Work on the blank canvas; put case studies/copy in the repo
 2. **Remove Sanity** — Delete legacy CMS packages and code paths; stop fetching from Sanity
 3. **Polish** — Mobile menu, contact form, SEO (sitemap / robots)
 4. **Analytics** — Only if the owner asks

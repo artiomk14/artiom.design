@@ -1,23 +1,15 @@
 import Link from 'next/link';
-import { Section } from '@/components/layout';
-import { Heading, Text, Button } from '@/components/ui';
 
 export default function NotFound() {
   return (
-    <Section size="lg" className="flex min-h-[60vh] items-center">
-      <div className="text-center">
-        <Heading as="h1" size="display">
-          404
-        </Heading>
-        <Text size="lg" muted className="mt-4">
-          The page you&apos;re looking for doesn&apos;t exist.
-        </Text>
-        <div className="mt-8">
-          <Link href="/">
-            <Button>Go back home</Button>
-          </Link>
-        </div>
-      </div>
-    </Section>
+    <div className="container flex min-h-[60vh] flex-col items-center justify-center gap-4">
+      <p className="text-sm text-foreground-muted">Page not found</p>
+      <Link
+        href="/"
+        className="text-sm font-medium text-foreground underline-offset-4 hover:underline"
+      >
+        Go home
+      </Link>
+    </div>
   );
 }
