@@ -134,10 +134,9 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 ## Components Built
 
 ### Layout
-- `Header` — Stub (blank for redesign)
-- `Footer` — Stub (blank for redesign)
-- `Navigation` — Stub
-- `TabNav` — Pill icon tab bar (selected surface + unselected icon); Figma 109:562
+- `Header` — Fixed navigation with logo and links
+- `Footer` — Site footer with social links
+- `Navigation` — Navigation menu with active states
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
 
@@ -145,7 +144,6 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
 - `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`
-- `NavItem` — Icon nav control (Figma `nav-item`): selected/unselected × enabled/hover/focus/pressed/disabled
 - `Beam` — Opt-in border-beam accent (mono / auto theme by default)
 - `Heading` / `Text` — Typography components
 
