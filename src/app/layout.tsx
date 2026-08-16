@@ -54,9 +54,6 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background text-foreground">
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
         <main id="main-content">{children}</main>
       </body>
     </html>
