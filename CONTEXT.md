@@ -59,7 +59,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Tab nav (Figma 109:562) — pill of `NavItem` controls. `NavItem` (Figma `nav-item` set: state × selected) has enabled/hover/focus/pressed/disabled in both selected + unselected stages, using neutral surface tokens + `shadow/sm`. Content width `container/3xl` (md).*
+*Aligned breakpoint + container tokens with artiom.design Library (Figma) — 2026-08-15. Default content max-width is `container/3xl` (768px).*
 
 ---
 
