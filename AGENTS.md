@@ -305,3 +305,14 @@ Never commit API tokens or put secrets in markdown. Do not revive Sanity env var
 4. Update `CONTEXT.md` (and `PROJECT_STATUS.md` when status changes) after significant work
 5. Run `pnpm build` to verify no errors
 6. Run `pnpm lint` to check code quality
+
+---
+
+## Cursor Cloud specific instructions
+
+- Package manager is **pnpm** (see `pnpm-lock.yaml`); dependency install is handled by the startup update script, so no manual `pnpm install` is needed at session start.
+- Standard scripts live in `package.json`: `pnpm dev` (dev server on port 3000), `pnpm build`, `pnpm start`, `pnpm lint`.
+- Run the dev server with `pnpm dev` (Next.js 16 + Turbopack). It's the intended way to develop/test; `pnpm build` is only for verifying production output.
+- Page bodies are intentionally **blank placeholders** (`export default function ... { return null; }`) during the current blank-canvas phase. Routes returning HTTP 200 with an empty body is expected, not a bug — verify routing/titles rather than visible content.
+- `pnpm install` prints an ignored-build-scripts warning for `esbuild`; it comes from the legacy (unused) Sanity packages and is safe to ignore — do not run the interactive `pnpm approve-builds`.
+- No secrets or external services are required to run or test the site locally.
