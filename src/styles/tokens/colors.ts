@@ -25,6 +25,20 @@ export const colors = {
   border: {
     DEFAULT: '#e5e5e5',
     muted: '#f5f5f5',
+    strong: '#71717b',
+  },
+  /**
+   * Figma artiom.design Library — used by `button` class=primary (1920px).
+   * Names match the Figma variables: background/*, foreground/*.
+   */
+  surface: {
+    primary: '#f4f4f5',
+    hover: '#e4e4e7',
+    elevated: '#d4d4d8',
+  },
+  ink: {
+    secondary: '#3f3f46',
+    tertiary: '#52525c',
   },
 } as const;
 

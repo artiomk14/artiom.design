@@ -59,7 +59,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Aligned breakpoint + container tokens with artiom.design Library (Figma) — 2026-08-15. Default content max-width is `container/3xl` (768px).*
+*Figma `button` (1920px / class=primary) — 2026-08-17. Complete component: states enabled / hovered / focused / pressed; booleans hasLabel, hasLeadingIcon, hasTrailingIcon; default leading icon `linkedin-01`. Playground on `/lab`. Neutral / colored / 390px not in this pass.*
 
 ---
 
@@ -161,4 +161,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-15 (Figma breakpoint/container token alignment)*
+*Last updated: 2026-08-17 (Figma primary button 1920px)*
