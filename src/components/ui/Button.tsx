@@ -1,10 +1,16 @@
 'use client';
 
-import { forwardRef, type ReactNode } from 'react';
+import {
+  forwardRef,
+  useState,
+  type FocusEvent,
+  type PointerEvent,
+  type ReactNode,
+} from 'react';
 import { SmoothCorners } from '@lisse/react';
 import { LinkedIn01Icon } from '@/components/icons/LinkedIn01Icon';
 import { cn } from '@/lib/utils';
-import { cornersFor } from '@/styles/tokens';
+import { colors, cornersFor } from '@/styles/tokens';
 
 export type ButtonState = 'enabled' | 'hovered' | 'focused' | 'pressed';
 
@@ -35,6 +41,15 @@ export interface ButtonProps
   state?: ButtonState;
 }
 
+/** Figma `inner-shadow/sm` — inset 0 2px 4px rgb(0 0 0 / 0.05). */
+const pressedInnerShadow = {
+  offsetX: 0,
+  offsetY: 2,
+  blur: 4,
+  spread: 0,
+  color: '#000000',
+} as const;
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -49,6 +64,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       leadingIcon,
       trailingIcon,
       state,
+      onFocus,
+      onBlur,
+      onPointerDown,
       ...props
     },
     ref
@@ -59,69 +77,88 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const forced = state !== undefined;
     const { 'aria-label': ariaLabel, ...rest } = props;
 
+    const [isFocusVisible, setIsFocusVisible] = useState(false);
+    const [isPressed, setIsPressed] = useState(false);
+
+    const showFocusRing = forced
+      ? state === 'focused'
+      : isFocusVisible && !isPressed;
+    const showPressedShadow = forced ? state === 'pressed' : isPressed;
+
+    const handleFocus = (event: FocusEvent<HTMLButtonElement>) => {
+      onFocus?.(event);
+      setIsFocusVisible(event.currentTarget.matches(':focus-visible'));
+    };
+
+    const handleBlur = (event: FocusEvent<HTMLButtonElement>) => {
+      onBlur?.(event);
+      setIsFocusVisible(false);
+    };
+
+    const handlePointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+      onPointerDown?.(event);
+      if (forced || event.button !== 0) return;
+      setIsPressed(true);
+      const release = () => {
+        setIsPressed(false);
+        window.removeEventListener('pointerup', release);
+        window.removeEventListener('pointercancel', release);
+      };
+      window.addEventListener('pointerup', release);
+      window.addEventListener('pointercancel', release);
+    };
+
     return (
-      <SmoothCorners
-        ref={ref}
-        as="button"
-        type={type}
-        corners={cornersFor('md')}
-        disabled={disabled}
-        aria-label={
-          !hasLabel
-            ? (ariaLabel ?? (typeof text === 'string' ? text : undefined))
-            : ariaLabel
-        }
-        className={cn(
-          'ui-button group',
-          'relative inline-flex h-10 cursor-pointer items-center justify-center gap-2.5 px-5',
-          'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
-          'transition-[background-color,color] duration-150 ease-out',
-          'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
-          !forced && [
-            'bg-background-primary text-foreground-tertiary',
-            'hover:bg-background-hover',
-            'focus-visible:bg-background-hover',
-            'active:bg-background-elevated active:text-foreground-secondary',
-          ],
-          forced && state === 'enabled' && 'bg-background-primary text-foreground-tertiary',
-          forced && state === 'hovered' && 'bg-background-hover text-foreground-tertiary',
-          forced && state === 'focused' && 'bg-background-hover text-foreground-tertiary',
-          forced && state === 'pressed' && 'bg-background-elevated text-foreground-secondary',
-          className
-        )}
-        {...rest}
-      >
-        {hasLeadingIcon ? leading : null}
-        {hasLabel ? <span>{text}</span> : null}
-        {hasTrailingIcon ? trailing : null}
-
-        {/* Figma focused: 2px INSIDE stroke (border/border-strong). Overlay so
-            the ring sits above the fill and follows the Lisse clip. */}
-        <span
-          aria-hidden
+      <span className="inline-flex">
+        <SmoothCorners
+          ref={ref}
+          as="button"
+          type={type}
+          corners={cornersFor('md')}
+          autoEffects={false}
+          innerBorder={{
+            width: 2,
+            color: colors.border.strong,
+            opacity: showFocusRing ? 1 : 0,
+          }}
+          innerShadow={{
+            ...pressedInnerShadow,
+            opacity: showPressedShadow ? 0.05 : 0,
+          }}
+          disabled={disabled}
+          aria-label={
+            !hasLabel
+              ? (ariaLabel ?? (typeof text === 'string' ? text : undefined))
+              : ariaLabel
+          }
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onPointerDown={handlePointerDown}
           className={cn(
-            'pointer-events-none absolute inset-0 shadow-[inset_0_0_0_2px_var(--border-strong)]',
-            forced
-              ? state === 'focused'
-                ? 'opacity-100'
-                : 'opacity-0'
-              : 'opacity-0 group-focus-visible:opacity-100 group-active:opacity-0'
+            'ui-button',
+            'inline-flex h-10 cursor-pointer items-center justify-center gap-2.5 px-5',
+            'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
+            'transition-[background-color,color] duration-150 ease-out',
+            'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
+            !forced && [
+              'bg-background-primary text-foreground-tertiary',
+              'hover:bg-background-hover',
+              'focus-visible:bg-background-hover',
+              'active:bg-background-elevated active:text-foreground-secondary',
+            ],
+            forced && state === 'enabled' && 'bg-background-primary text-foreground-tertiary',
+            forced && state === 'hovered' && 'bg-background-hover text-foreground-tertiary',
+            forced && state === 'focused' && 'bg-background-hover text-foreground-tertiary',
+            forced && state === 'pressed' && 'bg-background-elevated text-foreground-secondary',
+            className
           )}
-        />
-
-        {/* Figma pressed: inner-shadow/sm */}
-        <span
-          aria-hidden
-          className={cn(
-            'pointer-events-none absolute inset-0 shadow-inner-sm',
-            forced
-              ? state === 'pressed'
-                ? 'opacity-100'
-                : 'opacity-0'
-              : 'opacity-0 group-active:opacity-100'
-          )}
-        />
-      </SmoothCorners>
+          {...rest}
+        >
+          {hasLeadingIcon ? leading : null}
+          {hasLabel ? <span>{text}</span> : null}
+          {hasTrailingIcon ? trailing : null}
+        </SmoothCorners>
+      </span>
     );
   }
 );
