@@ -13,6 +13,7 @@
   --background-subtle: #fafafa;
   
   --foreground: #171717;
+  --foreground-primary: #18181b;
   --foreground-muted: #737373;
   --foreground-subtle: #a3a3a3;
   
@@ -94,6 +95,7 @@
   --color-background-subtle: var(--background-subtle);
   
   --color-foreground: var(--foreground);
+  --color-foreground-primary: var(--foreground-primary);
   --color-foreground-muted: var(--foreground-muted);
   --color-foreground-subtle: var(--foreground-subtle);
   

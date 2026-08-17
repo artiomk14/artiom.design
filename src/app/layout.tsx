@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Header } from '@/components/layout';
 import './globals.css';
 
 const geistSans = Geist({
@@ -57,6 +58,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
+        <Header />
         <main id="main-content">{children}</main>
       </body>
     </html>

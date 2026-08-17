@@ -14,6 +14,7 @@ export const colors = {
   },
   foreground: {
     DEFAULT: '#171717',
+    primary: '#18181b',
     muted: '#737373',
     subtle: '#a3a3a3',
   },

@@ -6,6 +6,7 @@ import {
   type FocusEvent,
   type PointerEvent,
   type ReactNode,
+  type Ref,
 } from 'react';
 import { SmoothCorners } from '@lisse/react';
 import { LinkedIn01Icon } from '@/components/icons/LinkedIn01Icon';
@@ -39,6 +40,8 @@ export interface ButtonProps
    * Force a Figma `state` variant. Omit to follow hover / focus-visible / active.
    */
   state?: ButtonState;
+  /** When set, renders as a link (`<a>`) instead of a button. */
+  href?: string;
 }
 
 /** Figma `inner-shadow/sm` — inset 0 2px 4px rgb(0 0 0 / 0.05). */
@@ -50,7 +53,10 @@ const pressedInnerShadow = {
   color: '#000000',
 } as const;
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  ButtonProps
+>(
   (
     {
       className,
@@ -64,6 +70,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       leadingIcon,
       trailingIcon,
       state,
+      href,
       onFocus,
       onBlur,
       onPointerDown,
@@ -75,6 +82,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const leading = leadingIcon ?? <LinkedIn01Icon />;
     const trailing = trailingIcon ?? <LinkedIn01Icon />;
     const forced = state !== undefined;
+    const isLink = Boolean(href);
+    const isExternal = Boolean(href?.startsWith('http'));
     const { 'aria-label': ariaLabel, ...rest } = props;
 
     const [isFocusVisible, setIsFocusVisible] = useState(false);
@@ -85,18 +94,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       : isFocusVisible && !isPressed;
     const showPressedShadow = forced ? state === 'pressed' : isPressed;
 
-    const handleFocus = (event: FocusEvent<HTMLButtonElement>) => {
-      onFocus?.(event);
+    const handleFocus = (event: FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      onFocus?.(event as FocusEvent<HTMLButtonElement>);
       setIsFocusVisible(event.currentTarget.matches(':focus-visible'));
     };
 
-    const handleBlur = (event: FocusEvent<HTMLButtonElement>) => {
-      onBlur?.(event);
+    const handleBlur = (event: FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      onBlur?.(event as FocusEvent<HTMLButtonElement>);
       setIsFocusVisible(false);
     };
 
-    const handlePointerDown = (event: PointerEvent<HTMLButtonElement>) => {
-      onPointerDown?.(event);
+    const handlePointerDown = (
+      event: PointerEvent<HTMLButtonElement | HTMLAnchorElement>
+    ) => {
+      onPointerDown?.(event as PointerEvent<HTMLButtonElement>);
       if (forced || event.button !== 0) return;
       setIsPressed(true);
       const release = () => {
@@ -108,56 +119,88 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       window.addEventListener('pointercancel', release);
     };
 
+    const content = (
+      <>
+        {hasLeadingIcon ? leading : null}
+        {hasLabel ? <span>{text}</span> : null}
+        {hasTrailingIcon ? trailing : null}
+      </>
+    );
+
+    const surfaceClassName = cn(
+      'ui-button',
+      'inline-flex h-10 cursor-pointer items-center justify-center gap-2.5 px-5',
+      'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
+      'transition-[background-color,color] duration-150 ease-out',
+      'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
+      !forced && [
+        'bg-background-primary text-foreground-tertiary',
+        'hover:bg-background-hover',
+        'focus-visible:bg-background-hover',
+        'active:bg-background-elevated active:text-foreground-secondary',
+      ],
+      forced && state === 'enabled' && 'bg-background-primary text-foreground-tertiary',
+      forced && state === 'hovered' && 'bg-background-hover text-foreground-tertiary',
+      forced && state === 'focused' && 'bg-background-hover text-foreground-tertiary',
+      forced && state === 'pressed' && 'bg-background-elevated text-foreground-secondary',
+      className
+    );
+
+    const effects = {
+      corners: cornersFor('xl'),
+      autoEffects: false as const,
+      innerBorder: {
+        width: 2,
+        color: colors.border.strong,
+        opacity: showFocusRing ? 1 : 0,
+      },
+      innerShadow: {
+        ...pressedInnerShadow,
+        opacity: showPressedShadow ? 0.05 : 0,
+      },
+    };
+
+    const shared = {
+      disabled,
+      'aria-label': !hasLabel
+        ? (ariaLabel ?? (typeof text === 'string' ? text : undefined))
+        : ariaLabel,
+      onFocus: handleFocus,
+      onBlur: handleBlur,
+      onPointerDown: handlePointerDown,
+      className: surfaceClassName,
+    };
+
     return (
       <span className="inline-flex">
-        <SmoothCorners
-          ref={ref}
-          as="button"
-          type={type}
-          corners={cornersFor('md')}
-          autoEffects={false}
-          innerBorder={{
-            width: 2,
-            color: colors.border.strong,
-            opacity: showFocusRing ? 1 : 0,
-          }}
-          innerShadow={{
-            ...pressedInnerShadow,
-            opacity: showPressedShadow ? 0.05 : 0,
-          }}
-          disabled={disabled}
-          aria-label={
-            !hasLabel
-              ? (ariaLabel ?? (typeof text === 'string' ? text : undefined))
-              : ariaLabel
-          }
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onPointerDown={handlePointerDown}
-          className={cn(
-            'ui-button',
-            'inline-flex h-10 cursor-pointer items-center justify-center gap-2.5 px-5',
-            'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
-            'transition-[background-color,color] duration-150 ease-out',
-            'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
-            !forced && [
-              'bg-background-primary text-foreground-tertiary',
-              'hover:bg-background-hover',
-              'focus-visible:bg-background-hover',
-              'active:bg-background-elevated active:text-foreground-secondary',
-            ],
-            forced && state === 'enabled' && 'bg-background-primary text-foreground-tertiary',
-            forced && state === 'hovered' && 'bg-background-hover text-foreground-tertiary',
-            forced && state === 'focused' && 'bg-background-hover text-foreground-tertiary',
-            forced && state === 'pressed' && 'bg-background-elevated text-foreground-secondary',
-            className
-          )}
-          {...rest}
-        >
-          {hasLeadingIcon ? leading : null}
-          {hasLabel ? <span>{text}</span> : null}
-          {hasTrailingIcon ? trailing : null}
-        </SmoothCorners>
+        {isLink ? (
+          <SmoothCorners
+            ref={ref as Ref<HTMLAnchorElement>}
+            as="a"
+            href={href}
+            target={isExternal ? '_blank' : undefined}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            {...effects}
+            aria-label={shared['aria-label']}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onPointerDown={handlePointerDown}
+            className={surfaceClassName}
+          >
+            {content}
+          </SmoothCorners>
+        ) : (
+          <SmoothCorners
+            ref={ref as Ref<HTMLButtonElement>}
+            as="button"
+            type={type}
+            {...effects}
+            {...shared}
+            {...rest}
+          >
+            {content}
+          </SmoothCorners>
+        )}
       </span>
     );
   }

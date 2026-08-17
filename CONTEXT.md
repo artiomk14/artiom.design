@@ -42,6 +42,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Light mode locked (no `prefers-color-scheme` dark override)
 - [x] Page content wiped to blank canvas (shell preserved)
 - [x] Header logo/nav and Footer removed from layout (stubs remain for redesign)
+- [x] Figma 1920px primary button + top bar (`nav-container`)
 
 ---
 
@@ -59,7 +60,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `button` (1920px / class=primary) — 2026-08-17. Complete component: states enabled / hovered / focused / pressed; booleans hasLabel, hasLeadingIcon, hasTrailingIcon; default leading icon `linkedin-01`. Playground on `/lab`. Neutral / colored / 390px not in this pass.*
+*Figma `button` (1920px / class=primary, radius/xl 12px) + `nav-container` top bar (109:562). Header: name as logo, Twitter / LinkedIn / E-mail actions. Playground on `/lab`. Neutral / colored / 390px button not in this pass.*
 
 ---
 
@@ -161,4 +162,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-17 (Figma primary button 1920px)*
+*Last updated: 2026-08-17 (Figma primary button 12px + top bar)*
