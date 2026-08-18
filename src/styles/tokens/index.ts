@@ -11,3 +11,4 @@ export * from './typography';
 export * from './breakpoints';
 export * from './animation';
 export * from './radius';
+export * from './size';

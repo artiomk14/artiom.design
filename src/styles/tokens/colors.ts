@@ -11,12 +11,17 @@ export const colors = {
     DEFAULT: '#ffffff',
     muted: '#f5f5f5',
     subtle: '#fafafa',
+    /** Figma `background/background-surface` — site-logo frame. */
+    surface: '#fafafa',
   },
   foreground: {
     DEFAULT: '#171717',
     primary: '#18181b',
     muted: '#737373',
-    subtle: '#a3a3a3',
+    /** Figma `foreground/foreground-subtle` — company name in the hero lockup. */
+    subtle: '#71717b',
+    /** Figma `foreground/foreground-light` — “Hello,” greeting. */
+    light: '#d4d4d8',
   },
   accent: {
     DEFAULT: '#0a0a0a',
@@ -27,6 +32,16 @@ export const colors = {
     DEFAULT: '#e5e5e5',
     muted: '#f5f5f5',
     strong: '#71717b',
+    /** Figma `border/border-subtle` — hero divider + site-logo stroke. */
+    subtle: '#e4e4e7',
+    /** Figma `border/border-secondary` — company lockup underline. */
+    secondary: '#d4d4d8',
+  },
+  /**
+   * Figma `Bitter Lemon/100` — LSports mark background.
+   */
+  brand: {
+    bitterLemon: '#e4ff38',
   },
   /**
    * Figma artiom.design Library — used by `button` class=primary (1920px).

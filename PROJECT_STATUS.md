@@ -1,6 +1,6 @@
 # Project Status
 
-> Last updated: August 15, 2026
+> Last updated: August 18, 2026
 
 ---
 
@@ -70,6 +70,7 @@ artiom.design/
 │   ├── components/
 │   │   ├── layout/             # Header, Footer, Navigation, etc.
 │   │   ├── motion/             # FadeIn, SlideIn, PageTransition, etc.
+│   │   ├── sections/           # Page sections (HeroSection)
 │   │   └── ui/                 # Button, Card, Typography, SmoothSurface
 │   ├── lib/
 │   │   ├── sanity/             # LEGACY — remove (do not extend)
@@ -91,7 +92,7 @@ artiom.design/
 
 | Route | Type | Content Source |
 |-------|------|----------------|
-| `/` | Static | Blank canvas |
+| `/` | Static | Figma hero-section (in-repo copy) |
 | `/about` | Static | Blank canvas |
 | `/work` | Static | Blank canvas; migrate to in-repo content |
 | `/work/[slug]` | Dynamic | Blank canvas |
@@ -140,6 +141,11 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
 
+### Sections
+- `HeroSection` — Figma home hero (portrait, Hello, intro, LSports lockup)
+- `SiteLogo` — 52px squircle portrait
+- `CompanyLockup` — LSports mark + name with underline
+
 ### UI
 - `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
@@ -156,14 +162,14 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ All routes render (blank bodies; no header/footer chrome)
+- ✓ All routes render (home hero; other bodies blank; header/footer chrome on shell)
 - ✓ Responsive layout, light mode, reduced-motion support
 
 ---
 
 ## What To Do Next (priority)
 
-1. **Design & content** — Build layouts for Home + Work on the blank canvas; put case studies/copy in the repo
+1. **Design & content** — Home hero is in; continue layouts for Work and remaining Home sections; put case studies/copy in the repo
 2. **Remove Sanity** — Delete legacy CMS packages and code paths; stop fetching from Sanity
 3. **Polish** — Mobile menu, contact form, SEO (sitemap / robots)
 4. **Analytics** — Only if the owner asks

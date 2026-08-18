@@ -15,10 +15,11 @@ export const cornerSmoothing = 0.6;
  */
 export const radius = {
   none: 0,
+  xs: 2, // hairline — Figma `radius/xs` (LSports mark); CSS radius OK
   sm: 4, // ~rounded
   md: 6, // ~rounded-md (buttons, icon controls)
-  lg: 8, // ~rounded-lg (cards, panels)
-  xl: 12, // ~rounded-xl
+  lg: 8, // ~rounded-lg (cards, panels, site-logo imagery)
+  xl: 12, // ~rounded-xl (site-logo frame)
   '2xl': 16, // ~rounded-2xl
   '3xl': 24, // ~rounded-3xl
 } as const;

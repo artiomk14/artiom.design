@@ -6,7 +6,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Current Phase
 
-**Blank canvas; design & content next** — Site shell (tokens, layout, typography, motion, UI primitives) is intact. Page bodies are cleared for a fresh start. Light mode only.
+**Home hero in progress** — Site shell (tokens, layout, typography, motion, UI primitives) is intact. Home now has the Figma `hero-section` (portrait, Hello, intro, LSports lockup). Other page bodies remain a blank canvas. Light mode only.
 
 ---
 
@@ -43,13 +43,14 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Page content wiped to blank canvas (shell preserved)
 - [x] Header logo/nav and Footer removed from layout (stubs remain for redesign)
 - [x] Figma 1920px primary button + top bar (`nav-container`)
+- [x] Figma `hero-section` (110:563) on Home — site-logo, Hello, intro, LSports lockup
 
 ---
 
 ## Pending
 
 - [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types, Work/Blog fetch wiring) and use in-repo content instead
-- [ ] Page designs and layouts (Home + Work first)
+- [ ] Page designs and layouts (Work next; Home hero is in)
 - [ ] Real portfolio / blog / lab content in code
 - [ ] Mobile menu implementation
 - [ ] Contact form functionality
@@ -60,7 +61,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `button` (1920px / class=primary, radius/xl 12px) + `nav-container` top bar (109:562). Header: name as logo, Twitter / LinkedIn / E-mail actions. Playground on `/lab`. Neutral / colored / 390px button not in this pass.*
+*Figma `hero-section` (110:563). Portrait in a 52px squircle, Alkatra “Hello,”, body copy, LSports mark + name with a shared underline. Tokens only — no hardcoded colors/radii/crops.*
 
 ---
 
@@ -72,6 +73,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | CSS custom properties for tokens | Single source of truth for theming | 2026-03-31 |
 | Light mode only | Fresh canvas; no system dark-mode override | 2026-08-15 |
 | Figma-aligned breakpoints & containers | Match artiom.design Library `breakpoint/*` + `container/*`; site max-width = `container/3xl` (768px) | 2026-08-15 |
+| Alkatra for the Hello greeting | Figma `hero-section` uses Alkatra Bold 30/32; loaded via next/font as `--font-display` | 2026-08-18 |
 | Lisse squircles for radii | Figma/iOS continuous corners instead of CSS border-radius on UI surfaces | 2026-08-14 |
 | Border Beam (opt-in) | Animated border accent via `border-beam` / `Beam`; mono + modest strength by default | 2026-08-14 |
 | bendc frontend guidelines | Adopt HTML/CSS/JS practices from bendc/frontend-guidelines (adapted in AGENTS.md) | 2026-08-14 |
@@ -92,9 +94,11 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Motion components | `/src/components/motion/` |
 | Layout components | `/src/components/layout/` |
 | UI components | `/src/components/ui/` |
+| Page sections | `/src/components/sections/` |
 | SmoothSurface (Lisse) | `/src/components/ui/SmoothSurface.tsx` |
 | Beam (border-beam) | `/src/components/ui/Beam.tsx` |
 | Radius / corner tokens | `/src/styles/tokens/radius.ts` |
+| Size / crop / shadow tokens | `/src/styles/tokens/size.ts` |
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
 | Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
@@ -162,4 +166,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-17 (Figma primary button 12px + top bar)*
+*Last updated: 2026-08-18 (Figma hero-section on Home)*

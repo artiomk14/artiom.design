@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Alkatra, Geist, Geist_Mono } from 'next/font/google';
 import { Header } from '@/components/layout';
 import './globals.css';
 
@@ -12,6 +12,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  display: 'swap',
+});
+
+const alkatra = Alkatra({
+  variable: '--font-alkatra',
+  subsets: ['latin'],
+  weight: '700',
   display: 'swap',
 });
 
@@ -51,17 +58,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${alkatra.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background text-foreground">
-<<<<<<< HEAD
-=======
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
         <Header />
->>>>>>> origin/cursor/figma-primary-button-d520
         <main id="main-content">{children}</main>
       </body>
     </html>
