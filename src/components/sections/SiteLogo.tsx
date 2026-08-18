@@ -12,14 +12,20 @@ interface SiteLogoProps {
  */
 export function SiteLogo({ className }: SiteLogoProps) {
   return (
-    <div className={cn('size-[var(--size-site-logo)] shrink-0 shadow-xl', className)}>
+    <div
+      className={cn(
+        // Lisse wraps SmoothSurface in a position:relative div; size that wrapper too.
+        'size-[var(--size-site-logo)] shrink-0 shadow-xl [&>div]:size-full',
+        className
+      )}
+    >
       <SmoothSurface
         radius="xl"
         className="flex size-full items-center justify-center overflow-hidden border border-border-subtle bg-background-surface p-1"
       >
         <SmoothSurface
           radius="lg"
-          className="relative size-full min-w-px overflow-hidden"
+          className="relative size-11 shrink-0 overflow-hidden [&>div]:size-full"
         >
           <Image
             src={site.hero.portrait.src}
