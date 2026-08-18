@@ -1,8 +1,6 @@
-import type { Metadata } from 'next';
+import { legacyPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'About',
-};
+export const metadata = legacyPageMetadata('About');
 
 export default function AboutPage() {
   return null;
