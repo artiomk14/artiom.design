@@ -6,7 +6,7 @@ This file provides guidance for AI agents working on this portfolio project.
 
 ## Project Purpose
 
-Portfolio website for Artiom (product designer) — work, blog, lab/experiments, about, and contact. Priorities: performance, accessibility, clean modern design.
+Portfolio website for Artiom (product designer). The public site is a **single homepage**: header (name + socials) → hero → four in-place tabs (**Gems**, **Heavy Ones**, **Yapping**, **Who me**). Tab switches must not navigate. Priorities: performance, accessibility, clean modern design.
 
 **Owner context:** Not a full-time developer. Prefer clear, low-ceremony solutions. Keep explanations and change scope practical.
 
@@ -17,8 +17,8 @@ Portfolio website for Artiom (product designer) — work, blog, lab/experiments,
 1. Read **`CONTEXT.md`** first — living source of truth for phase, decisions, and env notes.
 2. Site is **already live** on Vercel at **https://artiom.design** (also `artiomdesign.vercel.app`). Pushing to `main` deploys.
 3. **No Sanity / no headless CMS.** Owner rejected CMS as overkill. Content belongs **in the repo**. Do not add Sanity credentials, Studio, or new CMS integrations.
-4. Sanity-related folders and packages may still exist as **legacy debt** — remove when working on content/Work/Blog; do not extend them.
-5. Pages are mostly **placeholders**; next meaningful work is **design + content**.
+4. Sanity-related folders and packages may still exist as **legacy debt** — remove when adding real Gems / Heavy Ones / Yapping content; do not extend them.
+5. Homepage tab shell is in place; panels are empty. Next work is **design + content** for those four areas. Leftover `/work`, `/about`, `/blog`, `/contact` routes are **not** the IA (keep `noindex`). `/lab` is a playground.
 
 Also see `PROJECT_STATUS.md` for a structured checklist.
 
@@ -44,16 +44,18 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
 
 ```
 /src
-  /app                 # Next.js App Router pages
+  /app                 # Next.js App Router (`/` is the public site)
   /components
     /layout            # Header, Footer, Navigation
-    /sections          # Reusable page sections
+    /sections          # Homepage canvas / tab shell
     /ui                # Button, Card, Typography
     /motion            # Animation wrappers
+  /content             # Site identity, tabs, SEO copy (`site.ts`)
   /lib
     /utils             # cn()
     /hooks             # Custom hooks
     /motion            # Framer Motion variants
+    /seo.ts            # Metadata + JSON-LD helpers
     /sanity            # LEGACY — do not extend; remove when touching content
   /styles
     /tokens            # Design system tokens
@@ -61,16 +63,20 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
 
 /sanity                # LEGACY schemas — remove with CMS cleanup
 /public
+  /brand               # Portrait source for favicon / OG images
 ```
 
 ---
 
 ## Content Guidelines (no CMS)
 
-- Keep portfolio/blog/lab content **in the codebase** (page components, typed local data modules under e.g. `src/content/` or similar, assets in `/public`).
+- Keep Gems / Heavy Ones / Yapping / Who me content **in the codebase** (typed modules under `src/content/`, page components, assets in `/public`).
 - Prefer simple structures a designer can edit with help from an agent.
 - Do **not** introduce a CMS without explicit owner permission.
-- When implementing Work/Blog: replace leftover Sanity fetches with local data; then delete Sanity deps and configs.
+- Do **not** turn homepage tabs into separate primary routes. Use client state plus `history.replaceState` (`/?tab=yapping`); never `router.push` / `<Link>` for tab changes.
+- Canonical URL is always `/`. Do not add `/?tab=` URLs to the sitemap.
+- When adding real Heavy Ones / Yapping entries: use local data; then delete leftover Sanity deps. Dedicated per-item URLs only when a piece needs to rank or be shared on its own.
+- Unknown `/work/[slug]` and `/blog/[slug]` must **404** until in-repo entries exist (empty HTTP 200 is a SEO trap).
 
 ---
 
@@ -289,7 +295,7 @@ Never commit API tokens or put secrets in markdown. Do not revive Sanity env var
 1. **Add new dependencies** - Discuss first to evaluate necessity and bundle impact
 2. **Change design tokens** - Colors, spacing, typography are intentional
 3. **Add or reconnect a CMS** (including Sanity) - Owner chose in-repo content
-4. **Alter routing structure** - URL structure impacts SEO and bookmarks
+4. **Treat leftover section routes as legacy** — `/work`, `/about`, `/blog`, `/contact`, `/lab` stay in the repo but are `noindex` and out of the sitemap. Do not revive them as the product IA or add tab-equivalent routes. The public site is `/`.
 5. **Add external scripts** - Third-party scripts affect performance
 6. **Remove accessibility features** - Skip links, ARIA labels, focus states
 7. **Use inline styles** - Use Tailwind classes instead
@@ -313,6 +319,6 @@ Never commit API tokens or put secrets in markdown. Do not revive Sanity env var
 - Package manager is **pnpm** (see `pnpm-lock.yaml`); dependency install is handled by the startup update script, so no manual `pnpm install` is needed at session start.
 - Standard scripts live in `package.json`: `pnpm dev` (dev server on port 3000), `pnpm build`, `pnpm start`, `pnpm lint`.
 - Run the dev server with `pnpm dev` (Next.js 16 + Turbopack). It's the intended way to develop/test; `pnpm build` is only for verifying production output.
-- Page bodies are intentionally **blank placeholders** (`export default function ... { return null; }`) during the current blank-canvas phase. Routes returning HTTP 200 with an empty body is expected, not a bug — verify routing/titles rather than visible content.
+- Homepage (`/`) has a hero placeholder plus four tabs (default **Gems**). Empty tab panels are expected until content exists. Leftover section pages may still be empty + `noindex`. `/lab` is a component playground. Unknown `/work/[slug]` and `/blog/[slug]` must 404 — empty 200 is **not** expected.
 - `pnpm install` prints an ignored-build-scripts warning for `esbuild`; it comes from the legacy (unused) Sanity packages and is safe to ignore — do not run the interactive `pnpm approve-builds`.
 - No secrets or external services are required to run or test the site locally.

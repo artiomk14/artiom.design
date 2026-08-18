@@ -1,9 +1,7 @@
-import type { Metadata } from 'next';
 import { Button } from '@/components/ui';
+import { legacyPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Lab',
-};
+export const metadata = legacyPageMetadata('Lab');
 
 export default function LabPage() {
   return (

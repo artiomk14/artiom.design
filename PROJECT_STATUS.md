@@ -1,6 +1,6 @@
 # Project Status
 
-> Last updated: August 15, 2026
+> Last updated: August 18, 2026
 
 ---
 
@@ -8,7 +8,7 @@
 
 Portfolio website for **artiom.design** — high-performance, accessible, clean modern design.
 
-**Current reality:** Foundation is **live on Vercel**. Page bodies are blank (shell + tokens kept). Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
+**Current reality:** Live on Vercel. Public site is the homepage: header (name + socials) → hero placeholder → four tabs (Gems, Heavy Ones, Yapping, Who me). Tab panels are empty. Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
 
 ---
 
@@ -22,7 +22,7 @@ Portfolio website for **artiom.design** — high-performance, accessible, clean 
 | Animations | Framer Motion | 12.x | ✓ Installed |
 | Corners | Lisse (`@lisse/react`) | 0.6.x | ✓ Squircles on UI surfaces |
 | Accent beam | Border Beam (`border-beam`) | 1.3.x | ✓ Opt-in via `Beam` |
-| Content | In-repo (no CMS) | — | ○ Design + content pending |
+| Content | In-repo (no CMS) | — | ○ Tab content pending |
 | Hosting | Vercel | — | ✓ Deployed |
 | Package Manager | pnpm | 10.x | ✓ Active |
 
@@ -37,8 +37,8 @@ Portfolio website for **artiom.design** — high-performance, accessible, clean 
 | Approach | Status | Notes |
 |----------|--------|-------|
 | Headless CMS (Sanity) | ✗ Rejected | Owner: overkill for this portfolio. Do not reconnect. |
-| In-repo content | ○ Planned | Hardcoded pages, local data modules, and/or MDX later if needed |
-| Legacy Sanity code in repo | ⚠ Debt | Schemas, client, queries still present — remove when touching Work/Blog |
+| In-repo content | ○ In progress | `src/content/site.ts` holds identity, tabs, SEO; tab panels still empty |
+| Legacy Sanity code in repo | ⚠ Debt | Schemas, client, queries still present — remove when adding real tab content |
 
 ### Vercel Deployment
 
@@ -57,21 +57,27 @@ Portfolio website for **artiom.design** — high-performance, accessible, clean 
 ```
 artiom.design/
 ├── src/
-│   ├── app/                    # Pages (App Router)
-│   │   ├── page.tsx            # Home
-│   │   ├── about/page.tsx
-│   │   ├── work/page.tsx
+│   ├── app/                    # `/` is the public site
+│   │   ├── page.tsx            # Home (hero + tabs)
+│   │   ├── sitemap.ts
+│   │   ├── robots.ts
+│   │   ├── about/page.tsx      # LEGACY noindex
+│   │   ├── work/page.tsx       # LEGACY noindex
 │   │   ├── work/[slug]/page.tsx
-│   │   ├── blog/page.tsx
+│   │   ├── blog/page.tsx       # LEGACY noindex
 │   │   ├── blog/[slug]/page.tsx
-│   │   ├── lab/page.tsx
-│   │   ├── contact/page.tsx
+│   │   ├── lab/page.tsx        # Playground, noindex
+│   │   ├── contact/page.tsx    # LEGACY noindex
 │   │   └── not-found.tsx
 │   ├── components/
-│   │   ├── layout/             # Header, Footer, Navigation, etc.
+│   │   ├── layout/             # Header (name + socials), Footer stubs, etc.
+│   │   ├── sections/           # HomeCanvas (hero + tabs)
 │   │   ├── motion/             # FadeIn, SlideIn, PageTransition, etc.
 │   │   └── ui/                 # Button, Card, Typography, SmoothSurface
+│   ├── content/
+│   │   └── site.ts             # Identity, tabs, SEO copy
 │   ├── lib/
+│   │   ├── seo.ts              # Metadata + JSON-LD
 │   │   ├── sanity/             # LEGACY — remove (do not extend)
 │   │   ├── hooks/
 │   │   ├── motion/
@@ -80,6 +86,7 @@ artiom.design/
 │   └── types/
 ├── sanity/schemas/             # LEGACY — remove
 ├── public/
+│   └── brand/                  # Portrait source for favicon / OG
 ├── AGENTS.md
 ├── CONTEXT.md                  # Living project context (read first)
 └── PROJECT_STATUS.md           # This file
@@ -89,16 +96,16 @@ artiom.design/
 
 ## Routes
 
-| Route | Type | Content Source |
-|-------|------|----------------|
-| `/` | Static | Blank canvas |
-| `/about` | Static | Blank canvas |
-| `/work` | Static | Blank canvas; migrate to in-repo content |
-| `/work/[slug]` | Dynamic | Blank canvas |
-| `/blog` | Static | Blank canvas; migrate to in-repo content |
-| `/blog/[slug]` | Dynamic | Blank canvas |
-| `/lab` | Static | Blank canvas |
-| `/contact` | Static | Blank canvas |
+| Route | Type | Notes |
+|-------|------|--------|
+| `/` | Static | Public site. Hero + tabs (default Gems). `?tab=` restores a tab without being a sitemap URL. |
+| `/about` | Static | Legacy; `noindex` |
+| `/work` | Static | Legacy; `noindex` |
+| `/work/[slug]` | Dynamic | 404 until in-repo entries exist |
+| `/blog` | Static | Legacy; `noindex` |
+| `/blog/[slug]` | Dynamic | 404 until in-repo entries exist |
+| `/lab` | Static | Component playground; `noindex` |
+| `/contact` | Static | Legacy; `noindex` |
 
 ---
 
@@ -134,11 +141,12 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 ## Components Built
 
 ### Layout
-- `Header` — Fixed navigation with logo and links
-- `Footer` — Site footer with social links
-- `Navigation` — Navigation menu with active states
+- `Header` — Name as logo, Twitter / LinkedIn / E-mail actions (not section nav)
+- `Footer` — Site footer stub (not in the live layout)
+- `Navigation` — Legacy menu stub
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
+- `HomeCanvas` — Homepage hero placeholder + in-place tabs
 
 ### UI
 - `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
@@ -156,16 +164,18 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ All routes render (blank bodies; no header/footer chrome)
+- ✓ Homepage tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
+- ✓ SEO: person-first metadata, JSON-LD, `/sitemap.xml`, `/robots.txt`
+- ✓ Favicon / Apple / Open Graph images
 - ✓ Responsive layout, light mode, reduced-motion support
 
 ---
 
 ## What To Do Next (priority)
 
-1. **Design & content** — Build layouts for Home + Work on the blank canvas; put case studies/copy in the repo
+1. **Tab content & hero** — Design the hero; put Gems / Heavy Ones / Yapping / Who me content in the repo
 2. **Remove Sanity** — Delete legacy CMS packages and code paths; stop fetching from Sanity
-3. **Polish** — Mobile menu, contact form, SEO (sitemap / robots)
+3. **Per-item URLs** — Only when a Heavy One or Yapping post needs to rank or be shared on its own
 4. **Analytics** — Only if the owner asks
 
 ---
