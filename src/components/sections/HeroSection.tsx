@@ -1,6 +1,5 @@
 import { CompanyLockup } from '@/components/sections/CompanyLockup';
 import { SiteLogo } from '@/components/sections/SiteLogo';
-import { cn } from '@/lib/utils';
 import { site } from '@/content/site';
 
 interface HeroSectionProps {
@@ -14,11 +13,8 @@ export function HeroSection({ className }: HeroSectionProps) {
   const { greeting, intro, rolePrefix, roleSuffix } = site.hero;
 
   return (
-    <section
-      aria-labelledby="hero-heading"
-      className={cn('border-b border-border-subtle', className)}
-    >
-      <div className="mx-auto flex w-full max-w-[var(--container-max)] flex-col items-start justify-center gap-11 px-[var(--container-padding)] pt-20 pb-16">
+    <section aria-labelledby="hero-heading" className={className}>
+      <div className="mx-auto flex w-full max-w-[var(--container-max)] flex-col items-start justify-center gap-11 border-b border-border-subtle px-[var(--container-padding)] pt-20 pb-16">
         <h1 id="hero-heading" className="sr-only">
           {site.name}, product designer
         </h1>
