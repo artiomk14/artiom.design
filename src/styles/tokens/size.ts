@@ -33,10 +33,29 @@ export const companyGlyph = {
 
 /**
  * Figma `shadow/xl` — site-logo elevation.
- * Matches Tailwind `shadow-xl`.
+ * CSS string matches Tailwind `shadow-xl`. Layers are for Lisse so the
+ * shadow follows the squircle instead of a square box.
  */
 export const shadow = {
   xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04)',
+  xlLayers: [
+    {
+      offsetX: 0,
+      offsetY: 20,
+      blur: 25,
+      spread: -5,
+      color: '#000000',
+      opacity: 0.1,
+    },
+    {
+      offsetX: 0,
+      offsetY: 10,
+      blur: 10,
+      spread: -5,
+      color: '#000000',
+      opacity: 0.04,
+    },
+  ],
 } as const;
 
 export type SizeToken = typeof size;
