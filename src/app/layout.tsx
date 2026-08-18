@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Alkatra, Geist, Geist_Mono } from 'next/font/google';
 import { Header } from '@/components/layout';
+import { jsonLd, siteMetadata } from '@/lib/seo';
 import './globals.css';
 
 const geistSans = Geist({
@@ -22,26 +23,7 @@ const alkatra = Alkatra({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: 'Artiom Design',
-    template: '%s | Artiom Design',
-  },
-  description: 'Portfolio of Artiom - Design & Development',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    siteName: 'Artiom Design',
-  },
-  twitter: {
-    card: 'summary_large_image',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export const metadata: Metadata = siteMetadata();
 
 export const viewport: Viewport = {
   themeColor: '#ffffff',
@@ -62,6 +44,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background text-foreground">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

@@ -6,7 +6,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Current Phase
 
-**Home hero in progress** — Site shell (tokens, layout, typography, motion, UI primitives) is intact. Home now has the Figma `hero-section` (portrait, Hello, intro, LSports lockup). Other page bodies remain a blank canvas. Light mode only.
+**Homepage: Figma hero + tab shell** — Header, Figma `hero-section`, and four in-place tabs (Gems, Heavy Ones, Yapping, Who me). Tab panels are empty until design/content. Light mode only.
 
 ---
 
@@ -15,6 +15,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Decision | Status | Notes |
 | -------- | ------ | ----- |
 | **No Sanity / no headless CMS** | Confirmed 2026-08-14 | Overkill for a personal portfolio. Content should live in the codebase (pages, local data modules, or similar). Do not set up or extend Sanity. |
+| **Single-page IA** | Confirmed 2026-08-18 | Public site is `/`. Four tabs under the hero (Gems, Heavy Ones, Yapping, Who me). Tabs do not navigate — client state + `history.replaceState`. Default tab: Gems. Canonical is always `/`. |
 | **Hosting on Vercel** | Live | Connected; production deploys from GitHub. |
 | **Domain** | Live | `https://artiom.design` (also `https://www.artiom.design`, `https://artiomdesign.vercel.app`) |
 
@@ -44,24 +45,24 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Header logo/nav and Footer removed from layout (stubs remain for redesign)
 - [x] Figma 1920px primary button + top bar (`nav-container`)
 - [x] Figma `hero-section` (110:563) on Home — site-logo, Hello, intro, LSports lockup
+- [x] Homepage tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
+- [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
+- [x] Favicon / Apple / Open Graph images from `public/brand/portrait.png`
 
 ---
 
 ## Pending
 
-- [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types, Work/Blog fetch wiring) and use in-repo content instead
-- [ ] Page designs and layouts (Work next; Home hero is in)
-- [ ] Real portfolio / blog / lab content in code
-- [ ] Mobile menu implementation
-- [ ] Contact form functionality
-- [ ] SEO (sitemap, robots.txt)
+- [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types) and use in-repo content instead
+- [ ] Real tab content (Gems, Heavy Ones, Yapping, Who me)
+- [ ] Per-item URLs only when a Heavy One or Yapping post needs to rank or be shared
 - [ ] Analytics (only if requested)
 
 ---
 
 ## Active Work
 
-*Figma `hero-section` (110:563). Portrait in a 52px squircle, Alkatra “Hello,”, body copy, LSports mark + name with a shared underline. Tokens only — no hardcoded colors/radii/crops.*
+*Figma `hero-section` (110:563) on Home, then tabs (default Gems). Copy, identity, and SEO live in `src/content/site.ts`. Leftover `/work` `/about` `/blog` `/contact` `/lab` are noindex. Next: real tab content.*
 
 ---
 
@@ -81,6 +82,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Motion components with reduced-motion | Accessibility compliance | 2026-03-31 |
 | pnpm package manager | Fastest, disk efficient | 2026-03-31 |
 | No headless CMS | Portfolio updates are infrequent; keep content in-repo | 2026-08-14 |
+| Single homepage + four tabs | Content sits under the hero; tab switches must not reload the page | 2026-08-18 |
 
 ---
 
@@ -101,6 +103,10 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Size / crop / shadow tokens | `/src/styles/tokens/size.ts` |
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
+| Site identity / tabs / SEO copy | `/src/content/site.ts` |
+| Metadata + JSON-LD helpers | `/src/lib/seo.ts` |
+| Homepage canvas | `/src/components/sections/HomeCanvas.tsx` |
+| Brand portrait (favicon / OG source) | `/public/brand/portrait.png` |
 | Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
 
 ---
@@ -122,8 +128,9 @@ Local secrets belong only in `.env.local` (gitignored). Prefer configuring env v
 ## Known Issues / Legacy Debt
 
 - Sanity scaffolding remains in the repo from the initial foundation. Owner decided against using it. Treat as tech debt to remove; do not build new features on it.
-- Page bodies are empty by design — ready for layout and content work.
+- Homepage tab panels are empty by design — ready for content. Leftover section routes are empty + noindex.
 - `PROJECT_STATUS.md` and this file were previously out of date on Vercel (said “not deployed”); corrected 2026-08-14.
+- Production deploy of merge `e5a4b63` (`artiomdesign-krsc3fz1u-artiom-design.vercel.app`) failed because leftover Git conflict markers were committed in `src/app/layout.tsx`. Fixed by committing the resolved layout (Header). Skip link restored with SEO layout work.
 
 ---
 
@@ -166,4 +173,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-18 (Figma hero-section on Home)*
+*Last updated: 2026-08-18 (Figma hero-section merged with homepage tabs)*

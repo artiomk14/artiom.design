@@ -1,5 +1,19 @@
-import { HeroSection } from '@/components/sections';
+import { HeroSection, HomeCanvas } from '@/components/sections';
+import { parseTabId } from '@/content/site';
 
-export default function HomePage() {
-  return <HeroSection />;
+interface HomePageProps {
+  searchParams: Promise<{
+    tab?: string | string[];
+  }>;
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const { tab } = await searchParams;
+
+  return (
+    <>
+      <HeroSection />
+      <HomeCanvas initialTab={parseTabId(tab)} />
+    </>
+  );
 }
