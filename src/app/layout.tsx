@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Alkatra, Geist, Geist_Mono } from 'next/font/google';
 import { Header } from '@/components/layout';
 import { jsonLd, siteMetadata } from '@/lib/seo';
 import './globals.css';
@@ -13,6 +13,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  display: 'swap',
+});
+
+const alkatra = Alkatra({
+  variable: '--font-alkatra',
+  subsets: ['latin'],
+  weight: '700',
   display: 'swap',
 });
 
@@ -33,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${alkatra.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background text-foreground">

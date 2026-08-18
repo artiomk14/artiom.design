@@ -1,4 +1,4 @@
-import { HomeCanvas } from '@/components/sections';
+import { HeroSection, HomeCanvas } from '@/components/sections';
 import { parseTabId } from '@/content/site';
 
 interface HomePageProps {
@@ -10,5 +10,10 @@ interface HomePageProps {
 export default async function HomePage({ searchParams }: HomePageProps) {
   const { tab } = await searchParams;
 
-  return <HomeCanvas initialTab={parseTabId(tab)} />;
+  return (
+    <>
+      <HeroSection />
+      <HomeCanvas initialTab={parseTabId(tab)} />
+    </>
+  );
 }

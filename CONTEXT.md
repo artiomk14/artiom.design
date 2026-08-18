@@ -6,7 +6,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Current Phase
 
-**Homepage tab shell; content next** — Header + hero placeholder + four in-place tabs (Gems, Heavy Ones, Yapping, Who me). Tab panels are empty until design/content. Light mode only.
+**Homepage: Figma hero + tab shell** — Header, Figma `hero-section`, and four in-place tabs (Gems, Heavy Ones, Yapping, Who me). Tab panels are empty until design/content. Light mode only.
 
 ---
 
@@ -44,6 +44,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Page content wiped to blank canvas (shell preserved)
 - [x] Header logo/nav and Footer removed from layout (stubs remain for redesign)
 - [x] Figma 1920px primary button + top bar (`nav-container`)
+- [x] Figma `hero-section` (110:563) on Home — site-logo, Hello, intro, LSports lockup
 - [x] Homepage tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
 - [x] Favicon / Apple / Open Graph images from `public/brand/portrait.png`
@@ -53,7 +54,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 ## Pending
 
 - [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types) and use in-repo content instead
-- [ ] Hero design and real tab content (Gems, Heavy Ones, Yapping, Who me)
+- [ ] Real tab content (Gems, Heavy Ones, Yapping, Who me)
 - [ ] Per-item URLs only when a Heavy One or Yapping post needs to rank or be shared
 - [ ] Analytics (only if requested)
 
@@ -61,7 +62,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Homepage is the product: hero placeholder + tabs (default Gems). Copy, identity, and SEO live in `src/content/site.ts`. Leftover `/work` `/about` `/blog` `/contact` `/lab` are noindex. Next: real tab content and hero design.*
+*Figma `hero-section` (110:563) on Home, then tabs (default Gems). Copy, identity, and SEO live in `src/content/site.ts`. Leftover `/work` `/about` `/blog` `/contact` `/lab` are noindex. Next: real tab content.*
 
 ---
 
@@ -73,6 +74,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | CSS custom properties for tokens | Single source of truth for theming | 2026-03-31 |
 | Light mode only | Fresh canvas; no system dark-mode override | 2026-08-15 |
 | Figma-aligned breakpoints & containers | Match artiom.design Library `breakpoint/*` + `container/*`; site max-width = `container/3xl` (768px) | 2026-08-15 |
+| Alkatra for the Hello greeting | Figma `hero-section` uses Alkatra Bold 30/32; loaded via next/font as `--font-display` | 2026-08-18 |
 | Lisse squircles for radii | Figma/iOS continuous corners instead of CSS border-radius on UI surfaces | 2026-08-14 |
 | Border Beam (opt-in) | Animated border accent via `border-beam` / `Beam`; mono + modest strength by default | 2026-08-14 |
 | bendc frontend guidelines | Adopt HTML/CSS/JS practices from bendc/frontend-guidelines (adapted in AGENTS.md) | 2026-08-14 |
@@ -94,9 +96,11 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Motion components | `/src/components/motion/` |
 | Layout components | `/src/components/layout/` |
 | UI components | `/src/components/ui/` |
+| Page sections | `/src/components/sections/` |
 | SmoothSurface (Lisse) | `/src/components/ui/SmoothSurface.tsx` |
 | Beam (border-beam) | `/src/components/ui/Beam.tsx` |
 | Radius / corner tokens | `/src/styles/tokens/radius.ts` |
+| Size / crop / shadow tokens | `/src/styles/tokens/size.ts` |
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
 | Site identity / tabs / SEO copy | `/src/content/site.ts` |
@@ -169,4 +173,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-18 (homepage tabs, SEO, favicon)*
+*Last updated: 2026-08-18 (Figma hero-section merged with homepage tabs)*

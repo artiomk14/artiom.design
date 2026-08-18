@@ -18,7 +18,7 @@ Portfolio website for Artiom (product designer). The public site is a **single h
 2. Site is **already live** on Vercel at **https://artiom.design** (also `artiomdesign.vercel.app`). Pushing to `main` deploys.
 3. **No Sanity / no headless CMS.** Owner rejected CMS as overkill. Content belongs **in the repo**. Do not add Sanity credentials, Studio, or new CMS integrations.
 4. Sanity-related folders and packages may still exist as **legacy debt** — remove when adding real Gems / Heavy Ones / Yapping content; do not extend them.
-5. Homepage tab shell is in place; panels are empty. Next work is **design + content** for those four areas. Leftover `/work`, `/about`, `/blog`, `/contact` routes are **not** the IA (keep `noindex`). `/lab` is a playground.
+5. Homepage has the Figma hero plus four tabs; panels are empty. Next work is **design + content** for those four areas. Leftover `/work`, `/about`, `/blog`, `/contact` routes are **not** the IA (keep `noindex`). `/lab` is a playground.
 
 Also see `PROJECT_STATUS.md` for a structured checklist.
 
@@ -319,6 +319,6 @@ Never commit API tokens or put secrets in markdown. Do not revive Sanity env var
 - Package manager is **pnpm** (see `pnpm-lock.yaml`); dependency install is handled by the startup update script, so no manual `pnpm install` is needed at session start.
 - Standard scripts live in `package.json`: `pnpm dev` (dev server on port 3000), `pnpm build`, `pnpm start`, `pnpm lint`.
 - Run the dev server with `pnpm dev` (Next.js 16 + Turbopack). It's the intended way to develop/test; `pnpm build` is only for verifying production output.
-- Homepage (`/`) has a hero placeholder plus four tabs (default **Gems**). Empty tab panels are expected until content exists. Leftover section pages may still be empty + `noindex`. `/lab` is a component playground. Unknown `/work/[slug]` and `/blog/[slug]` must 404 — empty 200 is **not** expected.
+- Homepage (`/`) has the Figma hero plus four tabs (default **Gems**). Empty tab panels are expected until content exists. Leftover section pages may still be empty + `noindex`. `/lab` is a component playground. Unknown `/work/[slug]` and `/blog/[slug]` must 404 — empty 200 is **not** expected.
 - `pnpm install` prints an ignored-build-scripts warning for `esbuild`; it comes from the legacy (unused) Sanity packages and is safe to ignore — do not run the interactive `pnpm approve-builds`.
 - No secrets or external services are required to run or test the site locally.

@@ -1,6 +1,6 @@
 /**
- * Site identity, homepage tabs, and SEO copy.
- * Edit these values — they power the top bar, homepage, and metadata.
+ * Site identity, homepage tabs, hero copy, and SEO.
+ * Edit these values — they power the top bar, home hero, tabs, and metadata.
  */
 
 const siteUrl = (
@@ -23,6 +23,20 @@ export const site = {
     twitter: 'https://x.com/artiomkot14',
     linkedin: 'https://www.linkedin.com/in/artiom-kotlovski-437640270',
     email: 'artiomkot14@gmail.com',
+  },
+  hero: {
+    greeting: 'Hello,',
+    intro:
+      'I’m a designer dedicated of solving complexity, adopting modern UI, and interface interactions.',
+    rolePrefix: 'Currently the product designer of',
+    roleSuffix: 'B2B trading platform.',
+    portrait: {
+      src: '/images/hero/portrait.png',
+      alt: 'Portrait of Artiom Kotlovski',
+    },
+    company: {
+      name: 'LSports',
+    },
   },
   tabs: [
     {

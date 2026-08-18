@@ -93,10 +93,6 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
 
   return (
     <div className="mx-auto flex w-full max-w-[var(--container-max)] flex-col px-[var(--container-padding)]">
-      <section aria-label="Introduction" className="min-h-32 pt-16">
-        <h1 className="sr-only">{site.title}</h1>
-      </section>
-
       <div>
         <div
           role="tablist"

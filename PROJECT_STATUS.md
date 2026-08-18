@@ -8,7 +8,7 @@
 
 Portfolio website for **artiom.design** — high-performance, accessible, clean modern design.
 
-**Current reality:** Live on Vercel. Public site is the homepage: header (name + socials) → hero placeholder → four tabs (Gems, Heavy Ones, Yapping, Who me). Tab panels are empty. Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
+**Current reality:** Live on Vercel. Public site is the homepage: header (name + socials) → Figma hero → four tabs (Gems, Heavy Ones, Yapping, Who me). Tab panels are empty. Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
 
 ---
 
@@ -58,7 +58,7 @@ Portfolio website for **artiom.design** — high-performance, accessible, clean 
 artiom.design/
 ├── src/
 │   ├── app/                    # `/` is the public site
-│   │   ├── page.tsx            # Home (hero + tabs)
+│   │   ├── page.tsx            # Home (Figma hero + tabs)
 │   │   ├── sitemap.ts
 │   │   ├── robots.ts
 │   │   ├── about/page.tsx      # LEGACY noindex
@@ -71,7 +71,7 @@ artiom.design/
 │   │   └── not-found.tsx
 │   ├── components/
 │   │   ├── layout/             # Header (name + socials), Footer stubs, etc.
-│   │   ├── sections/           # HomeCanvas (hero + tabs)
+│   │   ├── sections/           # HeroSection + HomeCanvas (tabs)
 │   │   ├── motion/             # FadeIn, SlideIn, PageTransition, etc.
 │   │   └── ui/                 # Button, Card, Typography, SmoothSurface
 │   ├── content/
@@ -98,7 +98,7 @@ artiom.design/
 
 | Route | Type | Notes |
 |-------|------|--------|
-| `/` | Static | Public site. Hero + tabs (default Gems). `?tab=` restores a tab without being a sitemap URL. |
+| `/` | Static | Public site. Figma hero + tabs (default Gems). `?tab=` restores a tab without being a sitemap URL. |
 | `/about` | Static | Legacy; `noindex` |
 | `/work` | Static | Legacy; `noindex` |
 | `/work/[slug]` | Dynamic | 404 until in-repo entries exist |
@@ -146,7 +146,12 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `Navigation` — Legacy menu stub
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
-- `HomeCanvas` — Homepage hero placeholder + in-place tabs
+- `HomeCanvas` — Homepage in-place tabs (Gems / Heavy Ones / Yapping / Who me)
+
+### Sections
+- `HeroSection` — Figma home hero (portrait, Hello, intro, LSports lockup)
+- `SiteLogo` — 52px squircle portrait
+- `CompanyLockup` — LSports mark + name with underline
 
 ### UI
 - `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
@@ -164,7 +169,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ Homepage tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
+- ✓ Homepage: Figma hero + tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
 - ✓ SEO: person-first metadata, JSON-LD, `/sitemap.xml`, `/robots.txt`
 - ✓ Favicon / Apple / Open Graph images
 - ✓ Responsive layout, light mode, reduced-motion support
@@ -173,7 +178,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 ## What To Do Next (priority)
 
-1. **Tab content & hero** — Design the hero; put Gems / Heavy Ones / Yapping / Who me content in the repo
+1. **Tab content** — Put Gems / Heavy Ones / Yapping / Who me content in the repo
 2. **Remove Sanity** — Delete legacy CMS packages and code paths; stop fetching from Sanity
 3. **Per-item URLs** — Only when a Heavy One or Yapping post needs to rank or be shared on its own
 4. **Analytics** — Only if the owner asks

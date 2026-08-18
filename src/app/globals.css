@@ -11,11 +11,13 @@
   --background: #ffffff;
   --background-muted: #f5f5f5;
   --background-subtle: #fafafa;
+  --background-surface: #fafafa;
   
   --foreground: #171717;
   --foreground-primary: #18181b;
   --foreground-muted: #737373;
-  --foreground-subtle: #a3a3a3;
+  --foreground-subtle: #71717b;
+  --foreground-light: #d4d4d8;
   
   --accent: #0a0a0a;
   --accent-hover: #262626;
@@ -24,6 +26,12 @@
   --border: #e5e5e5;
   --border-muted: #f5f5f5;
   --border-strong: #71717b;
+  --border-subtle: #e4e4e7;
+  --border-secondary: #d4d4d8;
+  --border-width: 1px;
+
+  /* Figma `Bitter Lemon/100` */
+  --brand-bitter-lemon: #e4ff38;
 
   /* Figma `background/*` + `foreground/*` used by button class=primary */
   --background-primary: #f4f4f5;
@@ -34,6 +42,28 @@
 
   /* Figma `inner-shadow/sm` */
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+
+  /* Figma `shadow/xl` — site-logo */
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+
+  /* Figma `radius/xs` */
+  --radius-xs: 2px;
+
+  /* Figma `site-logo` 52px + `logo-imagery` crop */
+  --size-site-logo: 3.25rem;
+  --site-logo-image-width: 107.14%;
+  --site-logo-image-height: 190.48%;
+  --site-logo-image-left: -4.76%;
+  --site-logo-image-top: -80%;
+
+  /* Figma `Lsports_logo` 10×11 leaf + 8.82% inset */
+  --size-company-glyph-width: 0.625rem;
+  --size-company-glyph-height: 0.6875rem;
+  --size-company-glyph-inset: 8.82%;
+  --aspect-company-glyph: 26 / 28;
+
+  /* Figma `font/tracking/tight` at size/3xl */
+  --tracking-display: -0.4px;
   
   /* Animation Durations (seconds — prefer s over ms in custom CSS) */
   --duration-fast: .15s;
@@ -93,11 +123,13 @@
   --color-background: var(--background);
   --color-background-muted: var(--background-muted);
   --color-background-subtle: var(--background-subtle);
+  --color-background-surface: var(--background-surface);
   
   --color-foreground: var(--foreground);
   --color-foreground-primary: var(--foreground-primary);
   --color-foreground-muted: var(--foreground-muted);
   --color-foreground-subtle: var(--foreground-subtle);
+  --color-foreground-light: var(--foreground-light);
   
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
@@ -106,6 +138,10 @@
   --color-border: var(--border);
   --color-border-muted: var(--border-muted);
   --color-border-strong: var(--border-strong);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-secondary: var(--border-secondary);
+
+  --color-brand-bitter-lemon: var(--brand-bitter-lemon);
 
   --color-background-primary: var(--background-primary);
   --color-background-hover: var(--background-hover);
@@ -115,10 +151,19 @@
 
   /* Figma `inner-shadow/sm` */
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+
+  /* Figma `shadow/xl` */
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+
+  /* Figma `radius/xs` */
+  --radius-xs: 2px;
+
+  --tracking-display: -0.4px;
   
   /* Typography */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-alkatra);
 
   /* Breakpoints — Figma `breakpoint/*` (extends defaults with xs + 3xl) */
   --breakpoint-xs: 390px;

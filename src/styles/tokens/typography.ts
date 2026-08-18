@@ -8,6 +8,8 @@
 export const fontFamily = {
   sans: 'var(--font-geist-sans)',
   mono: 'var(--font-geist-mono)',
+  /** Figma Hello greeting — Alkatra Bold via next/font. */
+  display: 'var(--font-alkatra)',
 } as const;
 
 export const fontSize = {
@@ -41,6 +43,8 @@ export const fontWeight = {
 export const letterSpacing = {
   tighter: '-0.05em',
   tight: '-0.025em',
+  /** Figma `font/tracking/tight` — Hello greeting at size/3xl. */
+  display: '-0.4px',
   normal: '0em',
   wide: '0.025em',
   wider: '0.05em',
