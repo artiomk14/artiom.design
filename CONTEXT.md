@@ -120,6 +120,7 @@ Local secrets belong only in `.env.local` (gitignored). Prefer configuring env v
 - Sanity scaffolding remains in the repo from the initial foundation. Owner decided against using it. Treat as tech debt to remove; do not build new features on it.
 - Page bodies are empty by design — ready for layout and content work.
 - `PROJECT_STATUS.md` and this file were previously out of date on Vercel (said “not deployed”); corrected 2026-08-14.
+- Production deploy of merge `e5a4b63` (`artiomdesign-krsc3fz1u-artiom-design.vercel.app`) failed because leftover Git conflict markers were committed in `src/app/layout.tsx`. Fixed by committing the resolved layout (Header, no skip-link).
 
 ---
 
@@ -162,4 +163,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-17 (Figma primary button 12px + top bar)*
+*Last updated: 2026-08-18 (fix leftover conflict markers in layout.tsx)*
