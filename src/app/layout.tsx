@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Header } from '@/components/layout';
 import './globals.css';
 
 const geistSans = Geist({
@@ -54,6 +55,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background text-foreground">
+<<<<<<< HEAD
+=======
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <Header />
+>>>>>>> origin/cursor/figma-primary-button-d520
         <main id="main-content">{children}</main>
       </body>
     </html>
