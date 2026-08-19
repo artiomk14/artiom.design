@@ -70,8 +70,9 @@ function IconSlot({ open, drawKey = 0, children }: IconSlotProps) {
       ref={slotRef}
       className={cn(
         'flex items-center overflow-hidden',
-        'transition-[width,opacity] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-        open ? 'w-3.5 opacity-100' : 'w-0 opacity-0'
+        open
+          ? 'w-3.5 opacity-100 transition-opacity duration-[var(--duration-fast)] ease-[var(--ease-out)]'
+          : 'w-0 opacity-0 transition-[width,opacity] duration-[var(--duration-fast)] ease-[var(--ease-out)]'
       )}
       aria-hidden={!open}
     >

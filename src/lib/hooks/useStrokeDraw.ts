@@ -54,11 +54,23 @@ function durationForPath(length: number, maxMs: number): number {
   return Math.min(maxMs, Math.max(MIN_PATH_DUR_MS, length * 10));
 }
 
+function delayForShape(
+  shape: SVGGeometryElement,
+  index: number,
+  staggerMs: number
+): number {
+  const raw = shape.dataset.drawDelay;
+  if (raw === undefined || raw === '') return index * staggerMs;
+  const parsed = Number.parseFloat(raw);
+  return Number.isFinite(parsed) ? parsed : index * staggerMs;
+}
+
 /**
  * Stroke-draws outline SVG paths when `open` flips from false → true,
  * or when `replayKey` changes while open.
  * Skips the first mount so the default selected pill is fully drawn.
  * Unselect resets instantly (no reverse-draw while the slot collapses).
+ * Paths may set `data-draw-delay` (ms) to override index × stagger.
  */
 export function useStrokeDraw(
   containerRef: RefObject<HTMLElement | null>,
@@ -104,7 +116,7 @@ export function useStrokeDraw(
     shapes.forEach((shape, index) => {
       const length = Math.ceil(shape.getTotalLength()) + 1;
       const duration = durationForPath(length, durationMs);
-      const delay = index * staggerMs;
+      const delay = delayForShape(shape, index, staggerMs);
       settleAt = Math.max(settleAt, duration + delay);
 
       shape.style.transition = 'none';
