@@ -10,6 +10,9 @@ interface PillGlyphProps {
   width?: number;
   /** Exported leaf height in px. Defaults to the 14×14 slot. */
   height?: number;
+  /** Override when the glyph is authored on a different grid (e.g. 24). */
+  viewBox?: string;
+  strokeWidth?: number;
   children: ReactNode;
 }
 
@@ -20,22 +23,25 @@ export function PillGlyph({
   className,
   width = PILL_ICON_SLOT,
   height = PILL_ICON_SLOT,
+  viewBox,
+  strokeWidth = 1.5,
   children,
 }: PillGlyphProps) {
-  const x = (PILL_ICON_SLOT - width) / 2;
-  const y = (PILL_ICON_SLOT - height) / 2;
+  const box = viewBox ?? `0 0 ${PILL_ICON_SLOT} ${PILL_ICON_SLOT}`;
+  const x = viewBox ? 0 : (PILL_ICON_SLOT - width) / 2;
+  const y = viewBox ? 0 : (PILL_ICON_SLOT - height) / 2;
 
   return (
     <svg
       width={PILL_ICON_SLOT}
       height={PILL_ICON_SLOT}
-      viewBox={`0 0 ${PILL_ICON_SLOT} ${PILL_ICON_SLOT}`}
+      viewBox={box}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       overflow="visible"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={strokeWidth}
       className={cn(
         'pill-outline-icon size-3.5 shrink-0 overflow-visible',
         className
