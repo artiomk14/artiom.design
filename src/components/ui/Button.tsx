@@ -15,10 +15,16 @@ import { colors, cornersFor } from '@/styles/tokens';
 
 export type ButtonState = 'enabled' | 'hovered' | 'focused' | 'pressed';
 
+/** Figma `class` on `button`. */
+export type ButtonVariant = 'primary' | 'transparent';
+
+type SurfaceTone = ButtonState | 'interactive';
+
 /**
- * Figma `button` — breakpoint=1920px, class=primary.
+ * Figma `button` — breakpoint=1920px, class=primary | transparent.
  *
- * Variants (CSS, or `state` to force): enabled, hovered, focused, pressed.
+ * Same layout, radius, focus ring, and pressed inner shadow on both classes.
+ * Color tokens shift with `variant`. States: enabled, hovered, focused, pressed.
  * Booleans: hasLabel, hasLeadingIcon, hasTrailingIcon.
  */
 export interface ButtonProps
@@ -40,8 +46,48 @@ export interface ButtonProps
    * Force a Figma `state` variant. Omit to follow hover / focus-visible / active.
    */
   state?: ButtonState;
+  /** Figma `class`. Default `primary`. */
+  variant?: ButtonVariant;
   /** When set, renders as a link (`<a>`) instead of a button. */
   href?: string;
+}
+
+function surfaceTone(variant: ButtonVariant, tone: SurfaceTone): string {
+  if (variant === 'transparent') {
+    switch (tone) {
+      case 'interactive':
+        return cn(
+          'bg-transparent text-foreground-tertiary',
+          'hover:bg-background-primary hover:text-foreground-secondary',
+          'focus-visible:bg-background-primary focus-visible:text-foreground-secondary',
+          'active:bg-background-hover active:text-foreground-primary'
+        );
+      case 'enabled':
+        return 'bg-transparent text-foreground-tertiary';
+      case 'hovered':
+      case 'focused':
+        return 'bg-background-primary text-foreground-secondary';
+      case 'pressed':
+        return 'bg-background-hover text-foreground-primary';
+    }
+  }
+
+  switch (tone) {
+    case 'interactive':
+      return cn(
+        'bg-background-primary text-foreground-tertiary',
+        'hover:bg-background-hover',
+        'focus-visible:bg-background-hover',
+        'active:bg-background-elevated active:text-foreground-secondary'
+      );
+    case 'enabled':
+      return 'bg-background-primary text-foreground-tertiary';
+    case 'hovered':
+    case 'focused':
+      return 'bg-background-hover text-foreground-tertiary';
+    case 'pressed':
+      return 'bg-background-elevated text-foreground-secondary';
+  }
 }
 
 /** Figma `inner-shadow/sm` — inset 0 2px 4px rgb(0 0 0 / 0.05). */
@@ -70,6 +116,7 @@ export const Button = forwardRef<
       leadingIcon,
       trailingIcon,
       state,
+      variant = 'primary',
       href,
       onFocus,
       onBlur,
@@ -133,16 +180,7 @@ export const Button = forwardRef<
       'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
       'transition-[background-color,color] duration-150 ease-out',
       'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
-      !forced && [
-        'bg-background-primary text-foreground-tertiary',
-        'hover:bg-background-hover',
-        'focus-visible:bg-background-hover',
-        'active:bg-background-elevated active:text-foreground-secondary',
-      ],
-      forced && state === 'enabled' && 'bg-background-primary text-foreground-tertiary',
-      forced && state === 'hovered' && 'bg-background-hover text-foreground-tertiary',
-      forced && state === 'focused' && 'bg-background-hover text-foreground-tertiary',
-      forced && state === 'pressed' && 'bg-background-elevated text-foreground-secondary',
+      surfaceTone(variant, state ?? 'interactive'),
       className
     );
 

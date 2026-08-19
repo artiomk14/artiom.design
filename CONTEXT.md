@@ -44,6 +44,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Page content wiped to blank canvas (shell preserved)
 - [x] Header logo/nav and Footer removed from layout (stubs remain for redesign)
 - [x] Figma 1920px primary button + top bar (`nav-container`)
+- [x] Figma 1920px transparent button (`class=transparent` on the same `Button`)
 - [x] Figma `hero-section` (110:563) on Home — site-logo, Hello, intro, LSports lockup
 - [x] Homepage tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
 - [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed; per-tab leading icons
@@ -87,6 +88,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Single homepage + four tabs | Content sits under the hero; tab switches must not reload the page | 2026-08-18 |
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
+| Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header) and `transparent` (ghost fill; darker ink on hover/press) | 2026-08-19 |
 
 ---
 
@@ -114,6 +116,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Homepage canvas | `/src/components/sections/HomeCanvas.tsx` |
 | Content item (placeholder) | `/src/components/sections/ContentItem.tsx` |
 | Navigation pill | `/src/components/ui/Pill.tsx` |
+| Button (primary / transparent) | `/src/components/ui/Button.tsx` |
 | Tab leading icons | `/src/components/icons/TabLeadingIcon.tsx` |
 | Gems placeholders | `/src/content/gems.ts` |
 | Brand portrait (favicon / OG source) | `/public/brand/portrait.png` |
@@ -183,4 +186,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-19 (pill color retune, per-tab icons, content_container outlines)*
+*Last updated: 2026-08-19 (Figma button class=transparent)*
