@@ -67,7 +67,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `wc26-walktrough` (156:1658) is the first Gems card. Remaining Gems slots stay placeholders. Next: more Gems, then Heavy Ones / Yapping / Who Me? content.*
+*Figma `content-item` (124:655) holds each gem, centered. First gem is the WC26 walkthrough. Remaining slots stay empty. Next: more Gems.*
 
 ---
 
@@ -93,6 +93,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header) and `transparent` (ghost fill; darker ink on hover/press) | 2026-08-19 |
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
 | Gems walkthrough template | First Gems card is Figma `wc26-walktrough`: image, copy, 1/3 counter, 32px transparent prev/next. More Gems reuse this. | 2026-08-19 |
+| Gems sit in content-item | Gray `content-item` (124:655) is the holder; the gem is centered inside. | 2026-08-19 |
 
 ---
 

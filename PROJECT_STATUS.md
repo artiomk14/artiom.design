@@ -147,7 +147,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
 - `HomeCanvas` — Homepage canvas: Figma pills + first Gems walkthrough
-- `ContentItem` — Figma `content-item` placeholder (602px, radius/3xl)
+- `ContentItem` — Figma `content-item` (124:655): 602px gray holder; gems sit centered inside
 - `GemWalkthrough` — Figma `wc26-walktrough` (156:1658): image, copy, 1/3 pager
 
 ### Sections

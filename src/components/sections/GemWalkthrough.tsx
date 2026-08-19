@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useId, useState, type CSSProperties } from 'react';
 import Image from 'next/image';
 import {
   ArrowLeftIcon,
@@ -16,13 +16,29 @@ interface GemWalkthroughProps {
   className?: string;
 }
 
+interface SwapTextProps {
+  value: string;
+  className?: string;
+}
+
+function SwapText({ value, className }: SwapTextProps) {
+  return (
+    <p key={value} className={cn('t-text-swap', className)}>
+      {value}
+    </p>
+  );
+}
+
 /**
  * Figma `wc26-walktrough` (156:1658) — image, copy, step counter,
- * transparent 32px previous / next.
+ * transparent 32px previous / next. Sits centered in `content-item`.
  */
 export function GemWalkthrough({ className }: GemWalkthroughProps) {
   const labelId = useId();
   const [index, setIndex] = useState(0);
+  const [digitDir, setDigitDir] = useState(1);
+  const [stepMotion, setStepMotion] = useState(false);
+
   const steps = wc26Walkthrough.steps;
   const total = steps.length;
   const step = steps[index];
@@ -32,20 +48,21 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
   if (!step) return null;
 
   const goPrevious = () => {
+    setStepMotion(true);
+    setDigitDir(-1);
     setIndex((current) => Math.max(0, current - 1));
   };
 
   const goNext = () => {
+    setStepMotion(true);
+    setDigitDir(1);
     setIndex((current) => Math.min(total - 1, current + 1));
   };
 
   return (
     <article
       aria-labelledby={labelId}
-      className={cn(
-        'w-full max-w-[var(--size-gem-walkthrough)]',
-        className
-      )}
+      className={cn('w-full max-w-[var(--size-gem-walkthrough)]', className)}
     >
       <h2 id={labelId} className="sr-only">
         {wc26Walkthrough.label}
@@ -60,36 +77,51 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
           radius="2xl"
           className="relative aspect-[424/236] w-full overflow-hidden"
         >
-          <Image
-            key={step.id}
-            src={step.image.src}
-            alt={step.image.alt}
-            width={step.image.width}
-            height={step.image.height}
-            sizes="(max-width: 420px) 100vw, 420px"
-            className="size-full object-cover"
-            priority={isFirst}
-          />
+          {steps.map((item, itemIndex) => (
+            <Image
+              key={item.id}
+              src={item.image.src}
+              alt={itemIndex === index ? item.image.alt : ''}
+              width={item.image.width}
+              height={item.image.height}
+              sizes="(max-width: 420px) 100vw, 420px"
+              priority={itemIndex === 0}
+              aria-hidden={itemIndex !== index}
+              className={cn(
+                't-gem-image absolute inset-0 size-full object-cover',
+                itemIndex === index ? 'opacity-100' : 'opacity-0'
+              )}
+            />
+          ))}
         </SmoothSurface>
         <div className="flex w-full flex-col items-start gap-7 overflow-hidden py-5 pr-6 pl-5">
           <div
             className="flex w-full flex-col items-start gap-1.5 pr-5 tracking-normal"
             aria-live="polite"
           >
-            <p className="text-base font-medium leading-6 text-foreground-primary">
-              {step.title}
-            </p>
-            <p className="text-sm font-normal leading-5 text-foreground-subtle">
-              {step.description}
-            </p>
+            <SwapText
+              value={step.title}
+              className="w-full text-base font-medium leading-6 text-foreground-primary"
+            />
+            <SwapText
+              value={step.description}
+              className="w-full text-sm font-normal leading-5 text-foreground-subtle"
+            />
           </div>
           <div className="flex w-full items-center justify-between">
             <p
               className="flex shrink-0 items-center gap-1 rounded-full bg-background-primary px-3 py-1.5 text-center text-xs tracking-normal"
               aria-label={`Step ${index + 1} of ${total}`}
             >
-              <span className="inline-block w-3 font-medium text-foreground-tertiary">
-                {index + 1}
+              <span
+                key={index}
+                className={cn(
+                  't-digit-group inline-block w-3 font-medium text-foreground-tertiary',
+                  stepMotion && 'is-animating'
+                )}
+                style={{ '--digit-dir-y': digitDir } as CSSProperties}
+              >
+                <span className="t-digit">{index + 1}</span>
               </span>
               <span className="font-normal text-foreground-quiet">/</span>
               <span className="inline-block w-3 font-normal text-foreground-quiet">
@@ -123,7 +155,19 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
                 size="icon"
                 hasLabel={false}
                 hasTrailingIcon={false}
-                leadingIcon={isLast ? <CheckIcon /> : <ArrowRightIcon />}
+                leadingIcon={
+                  <span
+                    className="t-icon-swap"
+                    data-state={isLast ? 'b' : 'a'}
+                  >
+                    <span className="t-icon" data-icon="a">
+                      <ArrowRightIcon />
+                    </span>
+                    <span className="t-icon" data-icon="b">
+                      <CheckIcon />
+                    </span>
+                  </span>
+                }
                 aria-label={isLast ? 'Last step' : 'Next step'}
                 onClick={goNext}
               />

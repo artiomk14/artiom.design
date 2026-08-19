@@ -144,7 +144,9 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
             >
               {isSelected && tab.id === DEFAULT_TAB_ID ? (
                 <>
-                  <GemWalkthrough />
+                  <ContentItem>
+                    <GemWalkthrough />
+                  </ContentItem>
                   {gems.placeholders.map((item) => (
                     <ContentItem key={item.id} />
                   ))}
