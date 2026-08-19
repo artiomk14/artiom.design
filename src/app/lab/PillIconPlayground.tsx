@@ -28,8 +28,8 @@ export function PillIconPlayground() {
         Pill · tab switch (outline draw)
       </h2>
       <p className="text-sm text-foreground-muted">
-        Click Heavy Ones to sketch the briefcase. Click a selected pill again
-        to replay the draw.
+        Click Yapping to sketch the pencil. Click a selected pill again to
+        replay the draw.
       </p>
       <div className="flex flex-wrap items-center gap-3">
         {TABS.map((tab) => (
