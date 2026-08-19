@@ -1,3 +1,6 @@
+export { ArrowLeftIcon } from './ArrowLeftIcon';
+export { ArrowRightIcon } from './ArrowRightIcon';
+export { CheckIcon } from './CheckIcon';
 export { LinkedIn01Icon } from './LinkedIn01Icon';
 export { TwitterIcon } from './TwitterIcon';
 export { ChevronDownIcon } from './ChevronDownIcon';

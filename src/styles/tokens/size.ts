@@ -9,6 +9,8 @@ export const size = {
   siteLogo: '3.25rem',
   /** Figma `content-item` — 602px placeholder slot. */
   contentItem: '37.625rem',
+  /** Figma `wc26-walktrough` step card — 420px. */
+  gemWalkthrough: '26.25rem',
 } as const;
 
 /**
@@ -39,6 +41,43 @@ export const companyGlyph = {
  * shadow follows the squircle instead of a square box.
  */
 export const shadow = {
+  /** Figma `elevation/md-elevation` — gem walkthrough card. */
+  mdElevation:
+    '0 1px 2px 0 rgb(120 120 120 / 0.1), 0 4px 4px 0 rgb(120 120 120 / 0.09), 0 9px 6px 0 rgb(120 120 120 / 0.05), 0 17px 7px 0 rgb(120 120 120 / 0.01)',
+  mdLayers: [
+    {
+      offsetX: 0,
+      offsetY: 1,
+      blur: 2,
+      spread: 0,
+      color: '#787878',
+      opacity: 0.1,
+    },
+    {
+      offsetX: 0,
+      offsetY: 4,
+      blur: 4,
+      spread: 0,
+      color: '#787878',
+      opacity: 0.09,
+    },
+    {
+      offsetX: 0,
+      offsetY: 9,
+      blur: 6,
+      spread: 0,
+      color: '#787878',
+      opacity: 0.05,
+    },
+    {
+      offsetX: 0,
+      offsetY: 17,
+      blur: 7,
+      spread: 0,
+      color: '#787878',
+      opacity: 0.01,
+    },
+  ],
   xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04)',
   xlLayers: [
     {

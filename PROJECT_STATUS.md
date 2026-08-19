@@ -146,8 +146,9 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `Navigation` — Legacy menu stub
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
-- `HomeCanvas` — Homepage canvas: Figma pills + Gems content-item outlines
+- `HomeCanvas` — Homepage canvas: Figma pills + first Gems walkthrough
 - `ContentItem` — Figma `content-item` placeholder (602px, radius/3xl)
+- `GemWalkthrough` — Figma `wc26-walktrough` (156:1658): image, copy, 1/3 pager
 
 ### Sections
 - `HeroSection` — Figma home hero (portrait, Hello, intro, LSports lockup); divider on the inner column, not full-bleed
@@ -171,7 +172,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ Homepage: Figma hero + Figma pills (outline icons + stroke-draw) + Gems placeholder slots
+- ✓ Homepage: Figma hero + Figma pills + first Gems walkthrough + placeholder slots
 - ✓ SEO: person-first metadata, JSON-LD, `/sitemap.xml`, `/robots.txt`
 - ✓ Favicon / Apple / Open Graph images
 - ✓ Responsive layout, light mode, reduced-motion support
@@ -180,7 +181,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 ## What To Do Next (priority)
 
-1. **Tab content** — Put Gems / Heavy Ones / Yapping / Who me content in the repo
+1. **Tab content** — Remaining Gems, then Heavy Ones / Yapping / Who me
 2. **Remove Sanity** — Delete legacy CMS packages and code paths; stop fetching from Sanity
 3. **Per-item URLs** — Only when a Heavy One or Yapping post needs to rank or be shared on its own
 4. **Analytics** — Only if the owner asks

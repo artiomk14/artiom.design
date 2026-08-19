@@ -50,6 +50,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed; per-tab leading icons
 - [x] Pill outline icons (diamond / briefcase / pencil / user) with stroke-draw on tab switch
 - [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
+- [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
 - [x] Favicon / Apple / Open Graph images from `public/brand/portrait.png`
 
@@ -58,7 +59,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 ## Pending
 
 - [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types) and use in-repo content instead
-- [ ] Real tab content (Gems, Heavy Ones, Yapping, Who Me?)
+- [ ] Real tab content (remaining Gems, Heavy Ones, Yapping, Who Me?)
 - [ ] Per-item URLs only when a Heavy One or Yapping post needs to rank or be shared
 - [ ] Analytics (only if requested)
 
@@ -66,7 +67,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `hero-section` (110:563) + `content_container` (124:583) on Home. Pill outline icons + stroke-draw shipping to main. Next: tab content (Gems / Heavy Ones / Yapping / Who Me?).*
+*Figma `wc26-walktrough` (156:1658) is the first Gems card. Remaining Gems slots stay placeholders. Next: more Gems, then Heavy Ones / Yapping / Who Me? content.*
 
 ---
 
@@ -91,6 +92,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header) and `transparent` (ghost fill; darker ink on hover/press) | 2026-08-19 |
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
+| Gems walkthrough template | First Gems card is Figma `wc26-walktrough`: image, copy, 1/3 counter, 32px transparent prev/next. More Gems reuse this. | 2026-08-19 |
 
 ---
 
@@ -118,6 +120,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Homepage canvas | `/src/components/sections/HomeCanvas.tsx` |
 | Content item (placeholder) | `/src/components/sections/ContentItem.tsx` |
 | Navigation pill | `/src/components/ui/Pill.tsx` |
+| Gem walkthrough | `/src/components/sections/GemWalkthrough.tsx` |
+| Gems content | `/src/content/gems.ts` |
 | Button (primary / transparent) | `/src/components/ui/Button.tsx` |
 | Tab leading icons | `/src/components/icons/TabLeadingIcon.tsx` |
 | Gems placeholders | `/src/content/gems.ts` |
@@ -188,4 +192,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-19 (pill outline icons + stroke-draw; Figma button class=transparent)*
+*Last updated: 2026-08-19 (first Gems walkthrough card)*

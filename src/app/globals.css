@@ -30,6 +30,7 @@
   --border-strong: #71717b;
   --border-subtle: #e4e4e7;
   --border-secondary: #d4d4d8;
+  --border-primary: #eeeeee;
   --border-width: 1px;
 
   /* Figma `Bitter Lemon/100` */
@@ -41,10 +42,13 @@
   --background-elevated: #d4d4d8;
   --foreground-secondary: #3f3f46;
   --foreground-tertiary: #52525c;
+  --foreground-success: #00a63e;
 
   /* Figma `inner-shadow/sm` */
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 
+  /* Figma `elevation/md-elevation` — gem walkthrough card */
+  --shadow-md-elevation: 0 1px 2px 0 rgb(120 120 120 / 0.1), 0 4px 4px 0 rgb(120 120 120 / 0.09), 0 9px 6px 0 rgb(120 120 120 / 0.05), 0 17px 7px 0 rgb(120 120 120 / 0.01);
   /* Figma `shadow/xl` — site-logo */
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
 
@@ -55,6 +59,8 @@
   --size-site-logo: 3.25rem;
   /* Figma `content-item` 602px */
   --size-content-item: 37.625rem;
+  /* Figma `wc26-walktrough` step card 420px */
+  --size-gem-walkthrough: 26.25rem;
   --site-logo-image-width: 107.14%;
   --site-logo-image-height: 190.48%;
   --site-logo-image-left: -4.76%;
@@ -150,6 +156,7 @@
   --color-border-strong: var(--border-strong);
   --color-border-subtle: var(--border-subtle);
   --color-border-secondary: var(--border-secondary);
+  --color-border-primary: var(--border-primary);
 
   --color-brand-bitter-lemon: var(--brand-bitter-lemon);
 
@@ -158,6 +165,7 @@
   --color-background-elevated: var(--background-elevated);
   --color-foreground-secondary: var(--foreground-secondary);
   --color-foreground-tertiary: var(--foreground-tertiary);
+  --color-foreground-success: var(--foreground-success);
 
   /* Figma `inner-shadow/sm` */
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);

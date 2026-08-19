@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { TabLeadingIcon } from '@/components/icons';
 import { ContentItem } from '@/components/sections/ContentItem';
+import { GemWalkthrough } from '@/components/sections/GemWalkthrough';
 import { Pill } from '@/components/ui';
 import { gems } from '@/content/gems';
 import {
@@ -141,11 +142,14 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
               hidden={!isSelected}
               className="flex w-full flex-col gap-6"
             >
-              {isSelected && tab.id === DEFAULT_TAB_ID
-                ? gems.items.map((item) => (
+              {isSelected && tab.id === DEFAULT_TAB_ID ? (
+                <>
+                  <GemWalkthrough />
+                  {gems.placeholders.map((item) => (
                     <ContentItem key={item.id} />
-                  ))
-                : null}
+                  ))}
+                </>
+              ) : null}
               {isSelected ? (
                 <p className="sr-only">{active.description}</p>
               ) : null}

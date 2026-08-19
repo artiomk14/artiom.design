@@ -41,6 +41,8 @@ export const colors = {
     subtle: '#e4e4e7',
     /** Figma `border/border-secondary` — company lockup underline. */
     secondary: '#d4d4d8',
+    /** Figma `border/border_primary` — gem walkthrough card stroke. */
+    primary: '#eeeeee',
   },
   /**
    * Figma `Bitter Lemon/100` — LSports mark background.
@@ -60,6 +62,8 @@ export const colors = {
   ink: {
     secondary: '#3f3f46',
     tertiary: '#52525c',
+    /** Figma check on the last walkthrough step. */
+    success: '#00a63e',
   },
 } as const;
 

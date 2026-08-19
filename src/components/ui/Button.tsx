@@ -18,6 +18,9 @@ export type ButtonState = 'enabled' | 'hovered' | 'focused' | 'pressed';
 /** Figma `class` on `button`. */
 export type ButtonVariant = 'primary' | 'transparent';
 
+/** Figma 1920px default (40px) vs walkthrough pagination (32px icon). */
+export type ButtonSize = 'default' | 'icon';
+
 type SurfaceTone = ButtonState | 'interactive';
 
 /**
@@ -48,6 +51,8 @@ export interface ButtonProps
   state?: ButtonState;
   /** Figma `class`. Default `primary`. */
   variant?: ButtonVariant;
+  /** Figma 32px icon control when `icon`; default is the 40px header button. */
+  size?: ButtonSize;
   /** When set, renders as a link (`<a>`) instead of a button. */
   href?: string;
 }
@@ -117,6 +122,7 @@ export const Button = forwardRef<
       trailingIcon,
       state,
       variant = 'primary',
+      size = 'default',
       href,
       onFocus,
       onBlur,
@@ -166,6 +172,8 @@ export const Button = forwardRef<
       window.addEventListener('pointercancel', release);
     };
 
+    const isIcon = size === 'icon';
+
     const content = (
       <>
         {hasLeadingIcon ? leading : null}
@@ -176,7 +184,10 @@ export const Button = forwardRef<
 
     const surfaceClassName = cn(
       'ui-button',
-      'inline-flex h-10 cursor-pointer items-center justify-center gap-2.5 px-5',
+      'inline-flex cursor-pointer items-center justify-center',
+      isIcon
+        ? 'size-8 gap-0 px-0 py-0'
+        : 'h-10 gap-2.5 px-5',
       'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
       'transition-[background-color,color] duration-150 ease-out',
       'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
@@ -185,7 +196,7 @@ export const Button = forwardRef<
     );
 
     const effects = {
-      corners: cornersFor('xl'),
+      corners: cornersFor(isIcon ? 'md' : 'xl'),
       autoEffects: false as const,
       innerBorder: {
         width: 2,
