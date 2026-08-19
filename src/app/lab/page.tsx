@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui';
+import { Button, Pill } from '@/components/ui';
 import { legacyPageMetadata } from '@/lib/seo';
 
 export const metadata = legacyPageMetadata('Lab');
@@ -96,6 +96,53 @@ export default function LabPage() {
             </span>
           </li>
         </ul>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <h2 className="text-sm font-semibold text-foreground-tertiary">
+          Pill · selected × state
+        </h2>
+        <p className="text-sm text-foreground-muted">
+          Figma `pill` (145:1021). Icon is visible only when selected. States
+          are forced so they can be compared without hovering.
+        </p>
+        <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+          <p className="text-xs text-foreground-muted">selected</p>
+          <p className="text-xs text-foreground-muted">unselected</p>
+          {(
+            [
+              'enabled',
+              'hovered',
+              'focused',
+              'pressed',
+            ] as const
+          ).flatMap((pillState) => [
+            <div key={`${pillState}-on`} className="flex flex-col gap-2">
+              <Pill selected state={pillState} label="Pill" />
+              <span className="text-xs text-foreground-muted">{pillState}</span>
+            </div>,
+            <div key={`${pillState}-off`} className="flex flex-col gap-2">
+              <Pill selected={false} state={pillState} label="Pill" />
+              <span className="text-xs text-foreground-muted">{pillState}</span>
+            </div>,
+          ])}
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <h2 className="text-sm font-semibold text-foreground-tertiary">
+          Pill · interactive
+        </h2>
+        <p className="text-sm text-foreground-muted">
+          Hover, tab to focus, and press. Selected shows the gem; unselected
+          hides it.
+        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <Pill selected label="Gems" />
+          <Pill selected={false} label="Heavy Ones" />
+          <Pill selected={false} label="Yapping" />
+          <Pill selected={false} label="Who me" />
+        </div>
       </section>
     </div>
   );

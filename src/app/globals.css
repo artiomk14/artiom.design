@@ -18,6 +18,8 @@
   --foreground-muted: #737373;
   --foreground-subtle: #71717b;
   --foreground-light: #d4d4d8;
+  /* Figma `foreground/foreground-muted` — unselected pill label */
+  --foreground-quiet: #9f9fa9;
   
   --accent: #0a0a0a;
   --accent-hover: #262626;
@@ -130,6 +132,7 @@
   --color-foreground-muted: var(--foreground-muted);
   --color-foreground-subtle: var(--foreground-subtle);
   --color-foreground-light: var(--foreground-light);
+  --color-foreground-quiet: var(--foreground-quiet);
   
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
@@ -221,8 +224,9 @@ body {
   outline-offset: 2px;
 }
 
-/* Figma button paints its own 2px inside-stroke focus ring. */
-.ui-button:focus-visible {
+/* Figma button / pill paint their own inside-stroke focus ring. */
+.ui-button:focus-visible,
+.ui-pill:focus-visible {
   outline: none;
   outline-offset: 0;
 }

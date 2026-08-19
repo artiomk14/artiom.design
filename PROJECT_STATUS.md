@@ -146,7 +146,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `Navigation` — Legacy menu stub
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
-- `HomeCanvas` — Homepage in-place tabs (Gems / Heavy Ones / Yapping / Who me)
+- `HomeCanvas` — Homepage in-place tabs using Figma `pill` (Gems / Heavy Ones / Yapping / Who me)
 
 ### Sections
 - `HeroSection` — Figma home hero (portrait, Hello, intro, LSports lockup); divider on the inner column, not full-bleed
@@ -155,6 +155,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 ### UI
 - `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
+- `Pill` — Figma navigation pill (selected × state; gem icon only when selected)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
 - `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`
 - `Beam` — Opt-in border-beam accent (mono / auto theme by default)
@@ -169,7 +170,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ Homepage: Figma hero + tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
+- ✓ Homepage: Figma hero + Figma pill tabs (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
 - ✓ SEO: person-first metadata, JSON-LD, `/sitemap.xml`, `/robots.txt`
 - ✓ Favicon / Apple / Open Graph images
 - ✓ Responsive layout, light mode, reduced-motion support

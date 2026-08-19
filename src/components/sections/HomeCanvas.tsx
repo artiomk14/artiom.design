@@ -8,6 +8,7 @@ import {
   useState,
   type KeyboardEvent,
 } from 'react';
+import { Pill } from '@/components/ui';
 import {
   DEFAULT_TAB_ID,
   parseTabId,
@@ -15,7 +16,6 @@ import {
   tabById,
   type TabId,
 } from '@/content/site';
-import { cn } from '@/lib/utils';
 
 interface HomeCanvasProps {
   initialTab: TabId;
@@ -35,6 +35,9 @@ function setClientTitle(tab: TabId) {
   document.title = `${tabById(tab).label} · ${site.name}`;
 }
 
+/**
+ * Homepage tabs — Figma `pill` (145:1021) for Gems / Heavy Ones / Yapping / Who me.
+ */
 export function HomeCanvas({ initialTab }: HomeCanvasProps) {
   const [selected, setSelected] = useState<TabId>(initialTab);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -97,33 +100,28 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
         <div
           role="tablist"
           aria-label="Site sections"
-          className="flex flex-wrap gap-6 border-b border-border"
+          className="flex flex-wrap items-center gap-2"
         >
           {site.tabs.map((tab, index) => {
             const isSelected = tab.id === selected;
             return (
-              <button
+              <Pill
                 key={tab.id}
                 ref={(node) => {
                   tabRefs.current[index] = node;
                 }}
-                type="button"
                 role="tab"
                 id={`${idPrefix}-tab-${tab.id}`}
                 aria-controls={`${idPrefix}-panel-${tab.id}`}
                 aria-selected={isSelected}
                 tabIndex={isSelected ? 0 : -1}
-                className={cn(
-                  '-mb-px border-b-2 pb-3 text-sm transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-                  isSelected
-                    ? 'border-foreground-primary font-medium text-foreground-primary'
-                    : 'border-transparent text-foreground-muted hover:text-foreground-secondary'
-                )}
+                selected={isSelected}
+                label={tab.label}
+                hasLeadingIcon
+                hasTrailingIcon={false}
                 onClick={() => selectTab(tab.id, true)}
                 onKeyDown={(event) => onTabKeyDown(event, index)}
-              >
-                {tab.label}
-              </button>
+              />
             );
           })}
         </div>

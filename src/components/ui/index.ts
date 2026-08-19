@@ -1,5 +1,7 @@
 export { Button } from './Button';
 export type { ButtonProps, ButtonState } from './Button';
+export { Pill } from './Pill';
+export type { PillProps, PillState } from './Pill';
 export { Heading, Text } from './Typography';
 export { Card, CardContent } from './Card';
 export { SmoothSurface } from './SmoothSurface';

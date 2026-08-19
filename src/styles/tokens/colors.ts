@@ -22,6 +22,11 @@ export const colors = {
     subtle: '#71717b',
     /** Figma `foreground/foreground-light` — “Hello,” greeting. */
     light: '#d4d4d8',
+    /**
+     * Figma `foreground/foreground-muted` — unselected pill label.
+     * Distinct from `--foreground-muted` (#737373).
+     */
+    quiet: '#9f9fa9',
   },
   accent: {
     DEFAULT: '#0a0a0a',

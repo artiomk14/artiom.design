@@ -22,6 +22,8 @@ export const radius = {
   xl: 12, // ~rounded-xl (site-logo frame)
   '2xl': 16, // ~rounded-2xl
   '3xl': 24, // ~rounded-3xl
+  /** Figma `radius/full` — navigation pills (stadium). */
+  full: 9999,
 } as const;
 
 export type RadiusToken = keyof typeof radius;
