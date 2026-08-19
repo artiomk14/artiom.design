@@ -19,7 +19,8 @@ const TABS = [
 type TabId = (typeof TABS)[number]['id'];
 
 export function PillIconPlayground() {
-  const [selected, setSelected] = useState<TabId>('gems');
+  const [selected, setSelected] = useState<TabId>('heavy-ones');
+  const [drawKey, setDrawKey] = useState(0);
 
   return (
     <section className="flex flex-col gap-4">
@@ -27,8 +28,8 @@ export function PillIconPlayground() {
         Pill · tab switch (outline draw)
       </h2>
       <p className="text-sm text-foreground-muted">
-        Click between pills to replay the stroke-draw. The default selected
-        pill stays fully drawn on first paint.
+        Starts off Gems so the first click sketches the gem. Click the selected
+        pill again to replay the draw.
       </p>
       <div className="flex flex-wrap items-center gap-3">
         {TABS.map((tab) => (
@@ -37,7 +38,14 @@ export function PillIconPlayground() {
             selected={selected === tab.id}
             label={tab.label}
             leadingIcon={tab.icon}
-            onClick={() => setSelected(tab.id)}
+            drawKey={selected === tab.id ? drawKey : 0}
+            onClick={() => {
+              if (selected === tab.id) {
+                setDrawKey((key) => key + 1);
+                return;
+              }
+              setSelected(tab.id);
+            }}
           />
         ))}
       </div>

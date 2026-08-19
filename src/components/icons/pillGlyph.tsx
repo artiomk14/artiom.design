@@ -6,14 +6,25 @@ export const PILL_ICON_SLOT = 14;
 
 interface PillGlyphProps {
   className?: string;
+  /** Exported leaf width in px. Defaults to the 14×14 slot. */
+  width?: number;
+  /** Exported leaf height in px. Defaults to the 14×14 slot. */
+  height?: number;
   children: ReactNode;
 }
 
 /**
- * 14×14 outline slot. Stroke is inherited so pill icons stay a single weight
- * and can be stroke-drawn on select.
+ * 14×14 slot. Pass width/height to center a smaller exported leaf.
  */
-export function PillGlyph({ className, children }: PillGlyphProps) {
+export function PillGlyph({
+  className,
+  width = PILL_ICON_SLOT,
+  height = PILL_ICON_SLOT,
+  children,
+}: PillGlyphProps) {
+  const x = (PILL_ICON_SLOT - width) / 2;
+  const y = (PILL_ICON_SLOT - height) / 2;
+
   return (
     <svg
       width={PILL_ICON_SLOT}
@@ -25,11 +36,12 @@ export function PillGlyph({ className, children }: PillGlyphProps) {
       overflow="visible"
       stroke="currentColor"
       strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={cn('pill-outline-icon size-3.5 shrink-0 overflow-visible', className)}
+      className={cn(
+        'pill-outline-icon size-3.5 shrink-0 overflow-visible',
+        className
+      )}
     >
-      {children}
+      <g transform={`translate(${x} ${y})`}>{children}</g>
     </svg>
   );
 }

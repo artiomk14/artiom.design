@@ -49,16 +49,21 @@ export interface PillProps
    * Force a Figma `state` variant. Omit to follow hover / focus-visible / active.
    */
   state?: PillState;
+  /**
+   * Bump while selected to replay the outline draw (used on /lab).
+   */
+  drawKey?: number;
 }
 
 interface IconSlotProps {
   open: boolean;
+  drawKey?: number;
   children: ReactNode;
 }
 
-function IconSlot({ open, children }: IconSlotProps) {
+function IconSlot({ open, drawKey = 0, children }: IconSlotProps) {
   const slotRef = useRef<HTMLSpanElement>(null);
-  useStrokeDraw(slotRef, open);
+  useStrokeDraw(slotRef, open, drawKey);
 
   return (
     <span
@@ -130,6 +135,7 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
       trailingIcon,
       selected = false,
       state,
+      drawKey = 0,
       onFocus,
       onBlur,
       onPointerDown,
@@ -195,11 +201,15 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
     const content = (
       <>
         {hasLeadingIcon ? (
-          <IconSlot open={selected}>{leading}</IconSlot>
+          <IconSlot open={selected} drawKey={drawKey}>
+            {leading}
+          </IconSlot>
         ) : null}
         {hasLabel ? <span>{text}</span> : null}
         {hasTrailingIcon ? (
-          <IconSlot open={selected}>{trailing}</IconSlot>
+          <IconSlot open={selected} drawKey={drawKey}>
+            {trailing}
+          </IconSlot>
         ) : null}
       </>
     );

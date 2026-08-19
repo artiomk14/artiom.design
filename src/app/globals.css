@@ -75,8 +75,8 @@
   --duration-slow: .5s;
 
   /* Pill outline stroke-draw (read by useStrokeDraw) */
-  --pill-icon-draw-dur: .4s;
-  --pill-icon-draw-stagger: .05s;
+  --pill-icon-draw-dur: .45s;
+  --pill-icon-draw-stagger: .08s;
   --pill-icon-draw-ease: cubic-bezier(0.22, 1, 0.36, 1);
   
   /* Easing */

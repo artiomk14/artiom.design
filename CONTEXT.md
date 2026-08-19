@@ -66,7 +66,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `hero-section` (110:563) + `content_container` (124:583) on Home. Pills use outline icons (diamond / briefcase / pencil / user) with stroke-draw on switch. Gems has three empty `content-item` slots. Copy lives in `src/content/site.ts`. Iterating locally — no PR until owner is happy. Next: real tab content.*
+*Figma `hero-section` (110:563) + `content_container` (124:583) on Home. Iterating pill icons one-by-one (currently Gems = sent gem SVG + stroke-draw). No PR until owner is happy. Next: remaining icons, then real tab content.*
 
 ---
 
@@ -90,7 +90,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header) and `transparent` (ghost fill; darker ink on hover/press) | 2026-08-19 |
-| Pill outline draw | Tab icons are stroke SVGs (gem diamond, briefcase, pencil, user). Selecting a pill draws the outlines; first paint stays fully drawn. Reduced motion skips the draw. | 2026-08-19 |
+| Pill outline draw | Gems uses the sent gem SVG (silhouette + inner facet). Selecting a pill stroke-draws the outlines; first paint stays fully drawn. Reduced motion skips the draw. Iterating icons one-by-one. | 2026-08-19 |
 
 ---
 

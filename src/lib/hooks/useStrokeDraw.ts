@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, type RefObject } from 'react';
 
-const DRAW_DUR_FALLBACK_MS = 400;
-const STAGGER_FALLBACK_MS = 50;
+const DRAW_DUR_FALLBACK_MS = 450;
+const STAGGER_FALLBACK_MS = 80;
 const DRAW_EASE_FALLBACK = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const MIN_PATH_DUR_MS = 180;
 const SHAPE_SELECTOR = 'path, circle, ellipse, line, polyline, polygon, rect';
 
 function readTimeMs(raw: string, fallback: number): number {
@@ -49,17 +50,24 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+function durationForPath(length: number, maxMs: number): number {
+  return Math.min(maxMs, Math.max(MIN_PATH_DUR_MS, length * 10));
+}
+
 /**
- * Stroke-draws outline SVG paths when `open` flips from false → true.
+ * Stroke-draws outline SVG paths when `open` flips from false → true,
+ * or when `replayKey` changes while open.
  * Skips the first mount so the default selected pill is fully drawn.
  * Unselect resets instantly (no reverse-draw while the slot collapses).
  */
 export function useStrokeDraw(
   containerRef: RefObject<HTMLElement | null>,
-  open: boolean
+  open: boolean,
+  replayKey = 0
 ) {
   const didMount = useRef(false);
   const wasOpen = useRef(open);
+  const lastReplayKey = useRef(replayKey);
 
   useEffect(() => {
     const root = containerRef.current;
@@ -69,6 +77,9 @@ export function useStrokeDraw(
     const isFirstPaint = !didMount.current;
     didMount.current = true;
 
+    const replayed = replayKey !== lastReplayKey.current;
+    lastReplayKey.current = replayKey;
+
     if (!open) {
       wasOpen.current = false;
       clearStrokeDraw(shapes);
@@ -76,7 +87,10 @@ export function useStrokeDraw(
     }
 
     const shouldDraw =
-      !isFirstPaint && !wasOpen.current && !prefersReducedMotion();
+      !prefersReducedMotion() &&
+      !isFirstPaint &&
+      (replayed || !wasOpen.current);
+
     wasOpen.current = true;
 
     if (!shouldDraw) {
@@ -85,19 +99,23 @@ export function useStrokeDraw(
     }
 
     const { durationMs, staggerMs, ease } = motionTokens(root);
+    let settleAt = 0;
 
     shapes.forEach((shape, index) => {
       const length = Math.ceil(shape.getTotalLength()) + 1;
+      const duration = durationForPath(length, durationMs);
+      const delay = index * staggerMs;
+      settleAt = Math.max(settleAt, duration + delay);
+
       shape.style.transition = 'none';
       shape.style.strokeDasharray = String(length);
       shape.style.strokeDashoffset = String(length);
       void shape.getBoundingClientRect();
-      shape.style.transition = `stroke-dashoffset ${durationMs}ms ${ease} ${index * staggerMs}ms`;
+      shape.style.transition = `stroke-dashoffset ${duration}ms ${ease} ${delay}ms`;
       shape.style.strokeDashoffset = '0';
     });
 
-    const settleAt = durationMs + Math.max(0, shapes.length - 1) * staggerMs + 50;
-    const settle = window.setTimeout(() => clearStrokeDraw(shapes), settleAt);
+    const settle = window.setTimeout(() => clearStrokeDraw(shapes), settleAt + 50);
     return () => window.clearTimeout(settle);
-  }, [containerRef, open]);
+  }, [containerRef, open, replayKey]);
 }
