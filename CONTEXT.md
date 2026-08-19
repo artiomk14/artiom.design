@@ -90,7 +90,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header) and `transparent` (ghost fill; darker ink on hover/press) | 2026-08-19 |
-| Pill outline draw | Gems uses the sent gem SVG. Heavy Ones uses the simple 3-path briefcase (rounded body, handle, short latch) with the same stroke-draw. First paint stays fully drawn. Reduced motion skips the draw. | 2026-08-19 |
+| Pill outline draw | Gems uses the sent gem SVG. Heavy Ones uses the sent briefcase (rounded body, handle, full-width seam, square latch) on the same 14×14 slot, with stroke-draw. | 2026-08-19 |
 
 ---
 
