@@ -47,7 +47,7 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
   /app                 # Next.js App Router (`/` is the public site)
   /components
     /layout            # Header, Footer, Navigation
-    /sections          # Homepage canvas / tab shell
+    /sections          # HeroSection + HomeCanvas (tab shell)
     /ui                # Button, Card, Typography
     /motion            # Animation wrappers
   /content             # Site identity, tabs, SEO copy (`site.ts`)
@@ -107,6 +107,7 @@ Also see `PROJECT_STATUS.md` for a structured checklist.
 - Prefer existing UI primitives when they already wrap Lisse (`Button`, `Card`).
 - **Exceptions (plain CSS OK):** true circles (`rounded-full`), 1–2px hairline radii, and non-UI chrome where clip-path cost isn’t worth it.
 - **Focus:** `clip-path` clips rings — use `outline` + `outline-offset` (already in `globals.css`), not box-shadow rings on clipped elements.
+- **Shadows:** CSS `shadow-*` / `box-shadow` on the square Lisse sizing wrapper paints sharp corners. Pass Lisse `shadow` on `SmoothSurface` (site-logo uses `shadow={[...shadow.xlLayers]}` from `/src/styles/tokens/size.ts`).
 - **Overflow:** tooltips/dropdowns must portal or sit outside the clipped surface.
 - Do not add other squircle libraries; stick to `@lisse/react`.
 

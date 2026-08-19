@@ -1,6 +1,6 @@
 # Project Status
 
-> Last updated: August 18, 2026
+> Last updated: August 19, 2026
 
 ---
 
@@ -149,8 +149,8 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `HomeCanvas` — Homepage in-place tabs (Gems / Heavy Ones / Yapping / Who me)
 
 ### Sections
-- `HeroSection` — Figma home hero (portrait, Hello, intro, LSports lockup)
-- `SiteLogo` — 52px squircle portrait
+- `HeroSection` — Figma home hero (portrait, Hello, intro, LSports lockup); divider on the inner column, not full-bleed
+- `SiteLogo` — 52px squircle portrait; elevation via Lisse `shadow`, not CSS `shadow-xl`
 - `CompanyLockup` — LSports mark + name with underline
 
 ### UI
