@@ -33,7 +33,10 @@ export interface PillProps
   hasLeadingIcon?: boolean;
   /** Figma `has trailing-icon`. Default false. Hidden when not selected. */
   hasTrailingIcon?: boolean;
-  /** Figma `leading-icon` instance swap. Defaults to the gem glyph. */
+  /**
+   * Figma `leading-icon` instance swap. Defaults to the gem glyph.
+   * Pass a different node per pill (Gems / Heavy Ones / Yapping / Who Me?).
+   */
   leadingIcon?: ReactNode;
   /** Figma `trailing-icon` instance swap. Defaults to `linkedin-01`. */
   trailingIcon?: ReactNode;
@@ -63,6 +66,26 @@ function IconSlot({ open, children }: IconSlotProps) {
       {children}
     </span>
   );
+}
+
+function surfaceTone(selected: boolean, visualState: PillState): string {
+  if (visualState === 'pressed') {
+    return 'bg-background-hover text-foreground-primary';
+  }
+
+  if (selected) {
+    return 'bg-background-primary text-foreground-secondary';
+  }
+
+  if (visualState === 'hovered') {
+    return 'bg-background-primary text-foreground-tertiary';
+  }
+
+  if (visualState === 'focused') {
+    return 'bg-background-hover text-foreground-tertiary';
+  }
+
+  return 'bg-transparent text-foreground-quiet';
 }
 
 function borderFor(selected: boolean, visualState: PillState) {
@@ -180,26 +203,7 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
       'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
       'transition-[background-color,color,gap] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
       selected ? 'gap-2.5' : 'gap-0',
-      visualState === 'pressed' &&
-        'bg-background-elevated text-foreground-primary',
-      visualState === 'focused' &&
-        selected &&
-        'bg-background-hover text-foreground-secondary',
-      visualState === 'focused' &&
-        !selected &&
-        'bg-background-hover text-foreground-tertiary',
-      visualState === 'hovered' &&
-        selected &&
-        'bg-background-hover text-foreground-secondary',
-      visualState === 'hovered' &&
-        !selected &&
-        'bg-background-hover text-foreground-tertiary',
-      visualState === 'enabled' &&
-        selected &&
-        'bg-background-primary text-foreground-secondary',
-      visualState === 'enabled' &&
-        !selected &&
-        'bg-transparent text-foreground-quiet',
+      surfaceTone(selected, visualState),
       disabled && 'pointer-events-none cursor-not-allowed opacity-50',
       className
     );

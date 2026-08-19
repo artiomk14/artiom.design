@@ -53,6 +53,8 @@
 
   /* Figma `site-logo` 52px + `logo-imagery` crop */
   --size-site-logo: 3.25rem;
+  /* Figma `content-item` 602px */
+  --size-content-item: 37.625rem;
   --site-logo-image-width: 107.14%;
   --site-logo-image-height: 190.48%;
   --site-logo-image-left: -4.76%;

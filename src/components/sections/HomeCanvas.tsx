@@ -8,7 +8,10 @@ import {
   useState,
   type KeyboardEvent,
 } from 'react';
+import { TabLeadingIcon } from '@/components/icons';
+import { ContentItem } from '@/components/sections/ContentItem';
 import { Pill } from '@/components/ui';
+import { gems } from '@/content/gems';
 import {
   DEFAULT_TAB_ID,
   parseTabId,
@@ -36,7 +39,7 @@ function setClientTitle(tab: TabId) {
 }
 
 /**
- * Homepage tabs — Figma `pill` (145:1021) for Gems / Heavy Ones / Yapping / Who me.
+ * Homepage canvas — Figma `content_container` (124:583): pills + tab content.
  */
 export function HomeCanvas({ initialTab }: HomeCanvasProps) {
   const [selected, setSelected] = useState<TabId>(initialTab);
@@ -95,12 +98,12 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
   const active = tabById(selected);
 
   return (
-    <div className="mx-auto flex w-full max-w-[var(--container-max)] flex-col px-[var(--container-padding)]">
-      <div>
+    <div className="mx-auto flex w-full max-w-[var(--container-max)] flex-col px-[var(--container-padding)] pt-12 pb-14">
+      <div className="flex w-full flex-col gap-11">
         <div
           role="tablist"
           aria-label="Site sections"
-          className="flex flex-wrap items-center gap-2"
+          className="flex w-full flex-wrap items-start gap-3 px-0.5"
         >
           {site.tabs.map((tab, index) => {
             const isSelected = tab.id === selected;
@@ -119,6 +122,7 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
                 label={tab.label}
                 hasLeadingIcon
                 hasTrailingIcon={false}
+                leadingIcon={<TabLeadingIcon tabId={tab.id} />}
                 onClick={() => selectTab(tab.id, true)}
                 onKeyDown={(event) => onTabKeyDown(event, index)}
               />
@@ -135,8 +139,13 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
               id={`${idPrefix}-panel-${tab.id}`}
               aria-labelledby={`${idPrefix}-tab-${tab.id}`}
               hidden={!isSelected}
-              className="py-10 transition-opacity duration-[var(--duration-fast)] ease-[var(--ease-out)]"
+              className="flex w-full flex-col gap-6"
             >
+              {isSelected && tab.id === DEFAULT_TAB_ID
+                ? gems.items.map((item) => (
+                    <ContentItem key={item.id} />
+                  ))
+                : null}
               {isSelected ? (
                 <p className="sr-only">{active.description}</p>
               ) : null}

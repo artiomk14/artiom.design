@@ -3,3 +3,7 @@ export { TwitterIcon } from './TwitterIcon';
 export { ChevronDownIcon } from './ChevronDownIcon';
 export { LsportsLogo } from './LsportsLogo';
 export { GemIcon } from './GemIcon';
+export { HeavyOnesIcon } from './HeavyOnesIcon';
+export { YappingIcon } from './YappingIcon';
+export { WhoMeIcon } from './WhoMeIcon';
+export { TabLeadingIcon } from './TabLeadingIcon';

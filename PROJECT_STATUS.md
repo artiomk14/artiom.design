@@ -8,7 +8,7 @@
 
 Portfolio website for **artiom.design** — high-performance, accessible, clean modern design.
 
-**Current reality:** Live on Vercel. Public site is the homepage: header (name + socials) → Figma hero → four tabs (Gems, Heavy Ones, Yapping, Who me). Tab panels are empty. Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
+**Current reality:** Live on Vercel. Public site is the homepage: header (name + socials) → Figma hero → Figma pills + Gems placeholder slots. Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
 
 ---
 
@@ -146,7 +146,8 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `Navigation` — Legacy menu stub
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
-- `HomeCanvas` — Homepage in-place tabs using Figma `pill` (Gems / Heavy Ones / Yapping / Who me)
+- `HomeCanvas` — Homepage canvas: Figma pills + Gems content-item outlines
+- `ContentItem` — Figma `content-item` placeholder (602px, radius/3xl)
 
 ### Sections
 - `HeroSection` — Figma home hero (portrait, Hello, intro, LSports lockup); divider on the inner column, not full-bleed
@@ -155,7 +156,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 ### UI
 - `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
-- `Pill` — Figma navigation pill (selected × state; gem icon only when selected)
+- `Pill` — Figma navigation pill (selected × state; `leadingIcon` instance-swap; icon only when selected)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
 - `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`
 - `Beam` — Opt-in border-beam accent (mono / auto theme by default)
@@ -170,7 +171,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ Homepage: Figma hero + Figma pill tabs (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
+- ✓ Homepage: Figma hero + Figma pills (per-tab icons) + Gems placeholder slots
 - ✓ SEO: person-first metadata, JSON-LD, `/sitemap.xml`, `/robots.txt`
 - ✓ Favicon / Apple / Open Graph images
 - ✓ Responsive layout, light mode, reduced-motion support

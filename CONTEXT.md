@@ -6,7 +6,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Current Phase
 
-**Homepage: Figma hero + navigation pills** — Header, Figma `hero-section`, and four in-place tab pills (Gems, Heavy Ones, Yapping, Who me). Tab panels are empty until design/content. Light mode only.
+**Homepage: Figma hero + content canvas** — Header, Figma `hero-section`, Figma `content_container` (pills + Gems placeholder slots). Light mode only.
 
 ---
 
@@ -46,7 +46,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma 1920px primary button + top bar (`nav-container`)
 - [x] Figma `hero-section` (110:563) on Home — site-logo, Hello, intro, LSports lockup
 - [x] Homepage tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
-- [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed
+- [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed; per-tab leading icons
+- [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
 - [x] Favicon / Apple / Open Graph images from `public/brand/portrait.png`
 
@@ -55,7 +56,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 ## Pending
 
 - [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types) and use in-repo content instead
-- [ ] Real tab content (Gems, Heavy Ones, Yapping, Who me)
+- [ ] Real tab content (Gems, Heavy Ones, Yapping, Who Me?)
 - [ ] Per-item URLs only when a Heavy One or Yapping post needs to rank or be shared
 - [ ] Analytics (only if requested)
 
@@ -63,7 +64,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `hero-section` (110:563) on Home, Figma `pill` tabs (145:1021, default Gems). Copy, identity, and SEO live in `src/content/site.ts`. Leftover `/work` `/about` `/blog` `/contact` `/lab` are noindex. Next: real tab content.*
+*Figma `hero-section` (110:563) + `content_container` (124:583) on Home. Pills use per-tab icons. Gems has three empty `content-item` slots. Copy lives in `src/content/site.ts`. Next: real tab content.*
 
 ---
 
@@ -85,7 +86,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | No headless CMS | Portfolio updates are infrequent; keep content in-repo | 2026-08-14 |
 | Single homepage + four tabs | Content sits under the hero; tab switches must not reload the page | 2026-08-18 |
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
-| Figma pill nav | Homepage tabs use `pill` (145:1021): gem icon only when selected; 40px × px-6; radius/full | 2026-08-19 |
+| Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
 
 ---
 
@@ -111,8 +112,10 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Homepage hero | `/src/components/sections/HeroSection.tsx` |
 | Site logo (squircle portrait) | `/src/components/sections/SiteLogo.tsx` |
 | Homepage canvas | `/src/components/sections/HomeCanvas.tsx` |
+| Content item (placeholder) | `/src/components/sections/ContentItem.tsx` |
 | Navigation pill | `/src/components/ui/Pill.tsx` |
-| Gem icon (pill leading) | `/src/components/icons/GemIcon.tsx` |
+| Tab leading icons | `/src/components/icons/TabLeadingIcon.tsx` |
+| Gems placeholders | `/src/content/gems.ts` |
 | Brand portrait (favicon / OG source) | `/public/brand/portrait.png` |
 | Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
 
@@ -180,4 +183,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-19 (Figma navigation pills on homepage tabs)*
+*Last updated: 2026-08-19 (pill color retune, per-tab icons, content_container outlines)*

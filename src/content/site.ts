@@ -56,7 +56,7 @@ export const site = {
     },
     {
       id: 'who-me',
-      label: 'Who me',
+      label: 'Who Me?',
       description: 'A bit of background.',
     },
   ],

@@ -1,3 +1,9 @@
+import {
+  GemIcon,
+  HeavyOnesIcon,
+  WhoMeIcon,
+  YappingIcon,
+} from '@/components/icons';
 import { Button, Pill } from '@/components/ui';
 import { legacyPageMetadata } from '@/lib/seo';
 
@@ -134,14 +140,42 @@ export default function LabPage() {
           Pill · interactive
         </h2>
         <p className="text-sm text-foreground-muted">
-          Hover, tab to focus, and press. Selected shows the gem; unselected
-          hides it.
+          Hover, tab to focus, and press. Each pill swaps its own leading icon;
+          the icon hides when unselected.
         </p>
-        <div className="flex flex-wrap items-center gap-2">
-          <Pill selected label="Gems" />
-          <Pill selected={false} label="Heavy Ones" />
-          <Pill selected={false} label="Yapping" />
-          <Pill selected={false} label="Who me" />
+        <div className="flex flex-wrap items-center gap-3">
+          <Pill selected label="Gems" leadingIcon={<GemIcon />} />
+          <Pill
+            selected={false}
+            label="Heavy Ones"
+            leadingIcon={<HeavyOnesIcon />}
+          />
+          <Pill
+            selected={false}
+            label="Yapping"
+            leadingIcon={<YappingIcon />}
+          />
+          <Pill
+            selected={false}
+            label="Who Me?"
+            leadingIcon={<WhoMeIcon />}
+          />
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <h2 className="text-sm font-semibold text-foreground-tertiary">
+          Pill · icon instance swap
+        </h2>
+        <p className="text-sm text-foreground-muted">
+          Selected, so the leading icon is visible. Pass `leadingIcon` to swap
+          the glyph.
+        </p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Pill selected label="Gems" leadingIcon={<GemIcon />} />
+          <Pill selected label="Heavy Ones" leadingIcon={<HeavyOnesIcon />} />
+          <Pill selected label="Yapping" leadingIcon={<YappingIcon />} />
+          <Pill selected label="Who Me?" leadingIcon={<WhoMeIcon />} />
         </div>
       </section>
     </div>

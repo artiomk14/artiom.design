@@ -7,6 +7,8 @@
 /** Figma `site-logo` — 52px outer frame. */
 export const size = {
   siteLogo: '3.25rem',
+  /** Figma `content-item` — 602px placeholder slot. */
+  contentItem: '37.625rem',
 } as const;
 
 /**
