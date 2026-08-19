@@ -83,6 +83,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | pnpm package manager | Fastest, disk efficient | 2026-03-31 |
 | No headless CMS | Portfolio updates are infrequent; keep content in-repo | 2026-08-14 |
 | Single homepage + four tabs | Content sits under the hero; tab switches must not reload the page | 2026-08-18 |
+| Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
 
 ---
 
@@ -105,6 +106,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Type definitions | `/src/types/` |
 | Site identity / tabs / SEO copy | `/src/content/site.ts` |
 | Metadata + JSON-LD helpers | `/src/lib/seo.ts` |
+| Homepage hero | `/src/components/sections/HeroSection.tsx` |
+| Site logo (squircle portrait) | `/src/components/sections/SiteLogo.tsx` |
 | Homepage canvas | `/src/components/sections/HomeCanvas.tsx` |
 | Brand portrait (favicon / OG source) | `/public/brand/portrait.png` |
 | Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
@@ -173,4 +176,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-18 (Figma hero-section merged with homepage tabs)*
+*Last updated: 2026-08-19 (site-logo Lisse shadow + hero divider on inner column)*
