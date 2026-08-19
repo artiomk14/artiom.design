@@ -66,7 +66,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `hero-section` (110:563) + `content_container` (124:583) on Home. Iterating pill icons one-by-one (Gems accepted; Heavy Ones paused; Yapping pencil geometry + two-sided outline draw). No PR until owner is happy.*
+*Figma `hero-section` (110:563) + `content_container` (124:583) on Home. Iterating pill icons one-by-one (Gems accepted; Heavy Ones paused; Yapping pencil in review; Who Me? user-circle). No PR until owner is happy.*
 
 ---
 

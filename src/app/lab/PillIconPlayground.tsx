@@ -28,7 +28,7 @@ export function PillIconPlayground() {
         Pill · tab switch (outline draw)
       </h2>
       <p className="text-sm text-foreground-muted">
-        Click Yapping to sketch the pencil. Click a selected pill again to
+        Click a tab to sketch its outline. Click a selected pill again to
         replay the draw.
       </p>
       <div className="flex flex-wrap items-center gap-3">
