@@ -155,7 +155,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `CompanyLockup` — LSports mark + name with underline
 
 ### UI
-- `Button` — Primary, secondary, ghost, link variants (Lisse squircle except link)
+- `Button` — Figma `button` 1920px; `variant` `primary` | `transparent` (Lisse squircle)
 - `Pill` — Figma navigation pill (selected × state; `leadingIcon` instance-swap; icon only when selected)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
 - `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`

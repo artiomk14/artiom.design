@@ -35,7 +35,7 @@
   /* Figma `Bitter Lemon/100` */
   --brand-bitter-lemon: #e4ff38;
 
-  /* Figma `background/*` + `foreground/*` used by button class=primary */
+  /* Figma `background/*` + `foreground/*` used by button class=primary | transparent */
   --background-primary: #f4f4f5;
   --background-hover: #e4e4e7;
   --background-elevated: #d4d4d8;
