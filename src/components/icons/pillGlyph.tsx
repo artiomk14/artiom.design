@@ -6,25 +6,14 @@ export const PILL_ICON_SLOT = 14;
 
 interface PillGlyphProps {
   className?: string;
-  /** Exported leaf width in px. */
-  width: number;
-  /** Exported leaf height in px. */
-  height: number;
   children: ReactNode;
 }
 
 /**
- * 14×14 clip slot with the Figma leaf centered (outer box vs inner glyph).
+ * 14×14 outline slot. Stroke is inherited so pill icons stay a single weight
+ * and can be stroke-drawn on select.
  */
-export function PillGlyph({
-  className,
-  width,
-  height,
-  children,
-}: PillGlyphProps) {
-  const x = (PILL_ICON_SLOT - width) / 2;
-  const y = (PILL_ICON_SLOT - height) / 2;
-
+export function PillGlyph({ className, children }: PillGlyphProps) {
   return (
     <svg
       width={PILL_ICON_SLOT}
@@ -33,9 +22,14 @@ export function PillGlyph({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      className={cn('size-3.5 shrink-0', className)}
+      overflow="visible"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={cn('pill-outline-icon size-3.5 shrink-0 overflow-visible', className)}
     >
-      <g transform={`translate(${x} ${y})`}>{children}</g>
+      {children}
     </svg>
   );
 }

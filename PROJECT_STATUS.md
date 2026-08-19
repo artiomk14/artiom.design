@@ -156,7 +156,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 ### UI
 - `Button` — Figma `button` 1920px; `variant` `primary` | `transparent` (Lisse squircle)
-- `Pill` — Figma navigation pill (selected × state; `leadingIcon` instance-swap; icon only when selected)
+- `Pill` — Figma navigation pill (selected × state; outline icons stroke-draw on select)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
 - `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`
 - `Beam` — Opt-in border-beam accent (mono / auto theme by default)
@@ -171,7 +171,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ Homepage: Figma hero + Figma pills (per-tab icons) + Gems placeholder slots
+- ✓ Homepage: Figma hero + Figma pills (outline icons + stroke-draw) + Gems placeholder slots
 - ✓ SEO: person-first metadata, JSON-LD, `/sitemap.xml`, `/robots.txt`
 - ✓ Favicon / Apple / Open Graph images
 - ✓ Responsive layout, light mode, reduced-motion support

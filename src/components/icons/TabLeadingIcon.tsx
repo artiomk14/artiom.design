@@ -18,7 +18,7 @@ const tabIcons: Record<TabId, (className?: string) => ReactNode> = {
 };
 
 /**
- * Instance-swap map for homepage pills — each tab has its own Figma glyph.
+ * Instance-swap map for homepage pills — diamond, briefcase, pencil, user.
  */
 export function TabLeadingIcon({ tabId, className }: TabLeadingIconProps) {
   return tabIcons[tabId](className);

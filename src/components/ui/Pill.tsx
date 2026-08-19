@@ -2,6 +2,7 @@
 
 import {
   forwardRef,
+  useRef,
   useState,
   type FocusEvent,
   type PointerEvent,
@@ -10,6 +11,7 @@ import {
 import { SmoothCorners } from '@lisse/react';
 import { GemIcon } from '@/components/icons/GemIcon';
 import { LinkedIn01Icon } from '@/components/icons/LinkedIn01Icon';
+import { useStrokeDraw } from '@/lib/hooks';
 import { cn } from '@/lib/utils';
 import { colors, cornersFor } from '@/styles/tokens';
 
@@ -19,7 +21,8 @@ export type PillState = 'enabled' | 'hovered' | 'focused' | 'pressed';
  * Figma `pill` (145:1021) — selected × state variants.
  *
  * Selected pills show the leading icon and a 10px gap; unselected pills
- * collapse the icon to 0 width. Variants: enabled, hovered, focused, pressed.
+ * collapse the icon to 0 width. Switching onto a pill stroke-draws the
+ * outline icon. Variants: enabled, hovered, focused, pressed.
  * Booleans: hasLabel, hasLeadingIcon, hasTrailingIcon.
  */
 export interface PillProps
@@ -54,8 +57,12 @@ interface IconSlotProps {
 }
 
 function IconSlot({ open, children }: IconSlotProps) {
+  const slotRef = useRef<HTMLSpanElement>(null);
+  useStrokeDraw(slotRef, open);
+
   return (
     <span
+      ref={slotRef}
       className={cn(
         'flex items-center overflow-hidden',
         'transition-[width,opacity] duration-[var(--duration-fast)] ease-[var(--ease-out)]',

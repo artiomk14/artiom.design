@@ -6,6 +6,7 @@ import {
 } from '@/components/icons';
 import { Button, Pill } from '@/components/ui';
 import { legacyPageMetadata } from '@/lib/seo';
+import { PillIconPlayground } from './PillIconPlayground';
 
 export const metadata = legacyPageMetadata('Lab');
 
@@ -163,33 +164,7 @@ export default function LabPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold text-foreground-tertiary">
-          Pill · interactive
-        </h2>
-        <p className="text-sm text-foreground-muted">
-          Hover, tab to focus, and press. Each pill swaps its own leading icon;
-          the icon hides when unselected.
-        </p>
-        <div className="flex flex-wrap items-center gap-3">
-          <Pill selected label="Gems" leadingIcon={<GemIcon />} />
-          <Pill
-            selected={false}
-            label="Heavy Ones"
-            leadingIcon={<HeavyOnesIcon />}
-          />
-          <Pill
-            selected={false}
-            label="Yapping"
-            leadingIcon={<YappingIcon />}
-          />
-          <Pill
-            selected={false}
-            label="Who Me?"
-            leadingIcon={<WhoMeIcon />}
-          />
-        </div>
-      </section>
+      <PillIconPlayground />
 
       <section className="flex flex-col gap-4">
         <h2 className="text-sm font-semibold text-foreground-tertiary">
