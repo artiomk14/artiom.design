@@ -50,7 +50,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed; per-tab leading icons
 - [x] Pill outline icons (diamond / briefcase / pencil / user) with stroke-draw on tab switch
 - [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
-- [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card
+- [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card + complete state
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
 - [x] Favicon / Apple / Open Graph images from `public/brand/portrait.png`
 
@@ -67,7 +67,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `content-item` (124:655) holds each gem, centered. First gem is the WC26 walkthrough. Remaining slots stay empty. Next: more Gems.*
+*Figma `content-item` (124:655) holds each gem (20px sides, 128px top, 144px bottom; height follows the gem’s max). First gem is the WC26 walkthrough with a complete step. Remaining slots stay empty. Next: more Gems. Run Again is later.*
 
 ---
 
@@ -94,6 +94,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
 | Gems walkthrough template | First Gems card is Figma `wc26-walktrough`: image, copy, 1/3 counter, 32px transparent prev/next. More Gems reuse this. | 2026-08-19 |
 | Gems sit in content-item | Gray `content-item` (124:655) is the holder; the gem is centered inside. | 2026-08-19 |
+| Walkthrough elevation-xl | Figma `elevation-xl` on the gem card (Lisse layers). Distinct from site-logo `shadow/xl`. | 2026-08-20 |
+| Walkthrough complete | Last-step check enters Figma `step-04` (178:1724). Gray holder keeps max gem height. | 2026-08-20 |
 
 ---
 
@@ -193,4 +195,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-19 (first Gems walkthrough card)*
+*Last updated: 2026-08-20 (walkthrough complete step + content-item padding)*

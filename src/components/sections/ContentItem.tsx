@@ -9,15 +9,18 @@ interface ContentItemProps {
 }
 
 /**
- * Figma `content-item` (124:655) — 602px gray holder. Gems (walkthrough
- * cards, later pieces) sit in the center.
+ * Figma `content-item` (124:655) — gray holder. Width fills the parent.
+ * Padding is `spacing/5` (20px) on the sides, `spacing/32` (128px) top,
+ * `spacing/36` (144px) bottom. Height follows the gem; empty slots keep
+ * the 602px min-height so they still read as holders.
  */
 export function ContentItem({ className, children }: ContentItemProps) {
   return (
     <SmoothSurface
       radius="3xl"
       className={cn(
-        'flex h-[var(--size-content-item)] w-full items-center justify-center overflow-hidden bg-background-primary px-2.5',
+        'flex w-full items-center justify-center overflow-hidden bg-background-primary px-5 pt-32 pb-36',
+        !children && 'min-h-[var(--size-content-item)]',
         className
       )}
     >

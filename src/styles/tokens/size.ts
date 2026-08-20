@@ -7,7 +7,7 @@
 /** Figma `site-logo` — 52px outer frame. */
 export const size = {
   siteLogo: '3.25rem',
-  /** Figma `content-item` — 602px placeholder slot. */
+  /** Empty `content-item` min-height (602px). Filled slots size to the gem. */
   contentItem: '37.625rem',
   /** Figma `wc26-walktrough` step card — 420px. */
   gemWalkthrough: '26.25rem',
@@ -41,7 +41,47 @@ export const companyGlyph = {
  * shadow follows the squircle instead of a square box.
  */
 export const shadow = {
-  /** Figma `elevation/md-elevation` — gem walkthrough card. */
+  /**
+   * Figma `elevation-xl` — gem walkthrough card.
+   * Skip the 0-opacity 209px layer; it does not paint.
+   */
+  elevationXl:
+    '0 8px 18px 0 rgb(148 148 148 / 0.1), 0 33px 33px 0 rgb(148 148 148 / 0.09), 0 75px 45px 0 rgb(148 148 148 / 0.05), 0 134px 53px 0 rgb(148 148 148 / 0.01)',
+  elevationXlLayers: [
+    {
+      offsetX: 0,
+      offsetY: 8,
+      blur: 18,
+      spread: 0,
+      color: '#949494',
+      opacity: 0.1,
+    },
+    {
+      offsetX: 0,
+      offsetY: 33,
+      blur: 33,
+      spread: 0,
+      color: '#949494',
+      opacity: 0.09,
+    },
+    {
+      offsetX: 0,
+      offsetY: 75,
+      blur: 45,
+      spread: 0,
+      color: '#949494',
+      opacity: 0.05,
+    },
+    {
+      offsetX: 0,
+      offsetY: 134,
+      blur: 53,
+      spread: 0,
+      color: '#949494',
+      opacity: 0.01,
+    },
+  ],
+  /** Figma `elevation/md-elevation`. */
   mdElevation:
     '0 1px 2px 0 rgb(120 120 120 / 0.1), 0 4px 4px 0 rgb(120 120 120 / 0.09), 0 9px 6px 0 rgb(120 120 120 / 0.05), 0 17px 7px 0 rgb(120 120 120 / 0.01)',
   mdLayers: [

@@ -49,12 +49,16 @@ export const wc26Walkthrough = {
         'One-click is what you need to get access to all the data that support your management and control.',
       image: {
         src: '/gems/wc26-walkthrough/step-03.png',
-        alt: 'Match lineups view with pitch diagram and starting XI',
+        alt: 'Mexico vs South Africa lineups view with pitch diagram and starting XI',
         width: 848,
         height: 472,
       },
     },
   ] satisfies GemWalkthroughStep[],
+  complete: {
+    title: 'Ready to go!',
+    description: 'All ready for you to explore and complete tasks',
+  },
 } as const;
 
 /**

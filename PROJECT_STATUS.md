@@ -1,6 +1,6 @@
 # Project Status
 
-> Last updated: August 19, 2026
+> Last updated: August 20, 2026
 
 ---
 
@@ -8,7 +8,7 @@
 
 Portfolio website for **artiom.design** — high-performance, accessible, clean modern design.
 
-**Current reality:** Live on Vercel. Public site is the homepage: header (name + socials) → Figma hero → Figma pills + Gems placeholder slots. Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
+**Current reality:** Live on Vercel. Public site is the homepage: header (name + socials) → Figma hero → Figma pills + Gems walkthrough (plus empty slots). Light mode only. Owner decided **not to use Sanity**; content will live in the codebase.
 
 ---
 
@@ -147,7 +147,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
 - `HomeCanvas` — Homepage canvas: Figma pills + first Gems walkthrough
-- `ContentItem` — Figma `content-item` (124:655): 602px gray holder; gems sit centered inside
+- `ContentItem` — Figma `content-item` (124:655): gray holder (20/128/144 padding); filled slots size to the gem
 - `GemWalkthrough` — Figma `wc26-walktrough` (156:1658): image, copy, 1/3 pager
 
 ### Sections
@@ -172,7 +172,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 - ✓ Live at `https://artiom.design` (Vercel)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
-- ✓ Homepage: Figma hero + Figma pills + first Gems walkthrough + placeholder slots
+- ✓ Homepage: Figma hero + Figma pills + first Gems walkthrough (complete step) + placeholder slots
 - ✓ SEO: person-first metadata, JSON-LD, `/sitemap.xml`, `/robots.txt`
 - ✓ Favicon / Apple / Open Graph images
 - ✓ Responsive layout, light mode, reduced-motion support

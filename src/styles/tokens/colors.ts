@@ -39,10 +39,17 @@ export const colors = {
     strong: '#71717b',
     /** Figma `border/border-subtle` — hero divider + site-logo stroke. */
     subtle: '#e4e4e7',
-    /** Figma `border/border-secondary` — company lockup underline. */
+    /** Figma `border/border-secondary` — walkthrough card + company lockup. */
     secondary: '#d4d4d8',
-    /** Figma `border/border_primary` — gem walkthrough card stroke. */
+    /** Figma `border/border_primary`. */
     primary: '#eeeeee',
+  },
+  /**
+   * Figma `color/green/*` — walkthrough complete pill + tick.
+   */
+  green: {
+    50: '#f0fdf4',
+    700: '#008236',
   },
   /**
    * Figma `Bitter Lemon/100` — LSports mark background.
