@@ -29,6 +29,7 @@ type SurfaceTone = ButtonState | 'interactive';
  * Same layout, radius, focus ring, and pressed inner shadow on both classes.
  * Color tokens shift with `variant`. States: enabled, hovered, focused, pressed.
  * Booleans: hasLabel, hasLeadingIcon, hasTrailingIcon.
+ * Icon-only (`hasLabel={false}`) is square: 40×40 at `default`, 32×32 at `icon`.
  */
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
@@ -51,7 +52,7 @@ export interface ButtonProps
   state?: ButtonState;
   /** Figma `class`. Default `primary`. */
   variant?: ButtonVariant;
-  /** Figma 32px icon control when `icon`; default is the 40px header button. */
+  /** Figma 32px icon control when `icon`; default is the 40px header button (square when icon-only). */
   size?: ButtonSize;
   /** When set, renders as a link (`<a>`) instead of a button. */
   href?: string;
@@ -173,6 +174,7 @@ export const Button = forwardRef<
     };
 
     const isIcon = size === 'icon';
+    const isIconOnly = !hasLabel;
 
     const content = (
       <>
@@ -186,8 +188,12 @@ export const Button = forwardRef<
       'ui-button',
       'inline-flex cursor-pointer items-center justify-center',
       isIcon
-        ? 'size-8 gap-0 px-0 py-0'
-        : 'h-10 gap-2.5 px-5',
+        ? 'size-8 shrink-0 gap-0 px-0 py-0'
+        : isIconOnly
+          ? 'size-10 shrink-0 gap-0 px-0 py-0'
+          : hasTrailingIcon && !hasLeadingIcon
+            ? 'h-10 gap-3.5 pl-5 pr-4'
+            : 'h-10 gap-2.5 px-5',
       'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
       'transition-[background-color,color] duration-150 ease-out',
       'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',

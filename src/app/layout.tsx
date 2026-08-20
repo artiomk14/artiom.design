@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Alkatra, Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Grand_Hotel } from 'next/font/google';
 import { Header } from '@/components/layout';
 import { jsonLd, siteMetadata } from '@/lib/seo';
 import './globals.css';
@@ -16,10 +16,10 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
-const alkatra = Alkatra({
-  variable: '--font-alkatra',
+const grandHotel = Grand_Hotel({
+  variable: '--font-grand-hotel',
   subsets: ['latin'],
-  weight: '700',
+  weight: '400',
   display: 'swap',
 });
 
@@ -40,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${alkatra.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${grandHotel.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background text-foreground">

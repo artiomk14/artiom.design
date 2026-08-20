@@ -7,7 +7,7 @@ interface HeroSectionProps {
 }
 
 /**
- * Figma `hero-section` (110:563) — portrait, Hello greeting, intro, company lockup.
+ * Figma `hero-section` (110:563) — portrait, Grand Hotel “hello,” intro, company lockup.
  */
 export function HeroSection({ className }: HeroSectionProps) {
   const { greeting, intro, rolePrefix, roleSuffix } = site.hero;
@@ -21,8 +21,8 @@ export function HeroSection({ className }: HeroSectionProps) {
 
         <SiteLogo />
 
-        <div className="flex w-full flex-col items-start gap-3">
-          <p className="font-display text-3xl font-bold leading-8 tracking-[var(--tracking-display)] text-foreground-light">
+        <div className="flex w-full flex-col items-start gap-4">
+          <p className="font-display text-5xl font-normal leading-9 tracking-[var(--tracking-display)] text-foreground-light">
             {greeting}
           </p>
 
@@ -32,7 +32,10 @@ export function HeroSection({ className }: HeroSectionProps) {
             </p>
             <p className="flex flex-wrap items-start gap-2.5 text-base font-normal leading-6 tracking-normal text-foreground-primary">
               <span>{rolePrefix}</span>
-              <CompanyLockup />
+              <span className="inline-flex items-start gap-0.5 pl-0.5">
+                <CompanyLockup />
+                <span>’s</span>
+              </span>
               <span>{roleSuffix}</span>
             </p>
           </div>

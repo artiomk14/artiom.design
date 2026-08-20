@@ -9,7 +9,8 @@ interface HeaderProps {
 }
 
 /**
- * Figma `nav-container` (109:562) — name as logo, contact actions on the right.
+ * Figma `nav-container` (109:562) — name as logo (`logo-container` 122:26),
+ * contact actions on the right (`contact-actions` 124:657).
  */
 export function Header({ className }: HeaderProps) {
   return (
@@ -17,7 +18,7 @@ export function Header({ className }: HeaderProps) {
       <div className="mx-auto grid w-full max-w-[var(--container-max)] grid-cols-2 items-center px-[var(--container-padding)] pt-9">
         <Link
           href="/"
-          className="justify-self-start text-base font-medium leading-6 tracking-normal text-foreground-primary"
+          className="justify-self-start text-sm font-medium leading-5 tracking-normal text-foreground-primary"
         >
           {site.name}
         </Link>
@@ -31,7 +32,7 @@ export function Header({ className }: HeaderProps) {
             hasLabel={false}
             hasLeadingIcon
             leadingIcon={<TwitterIcon />}
-            aria-label="Twitter"
+            aria-label="X"
           />
           <Button
             href={site.links.linkedin}

@@ -5,8 +5,8 @@ interface IconProps {
 }
 
 /**
- * Figma Twitter bird (instance on nav `button` 124:659).
- * Path from the 14×14 export; flipped to match the canvas orientation.
+ * Figma X glyph on nav `button` 124:659.
+ * Leaf is 11.67×10.5 inside the 14×14 icon slot (inset 8.33% / 12.5%).
  */
 export function TwitterIcon({ className }: IconProps) {
   return (
@@ -17,14 +17,12 @@ export function TwitterIcon({ className }: IconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      className={cn('size-3.5 shrink-0 -scale-y-100', className)}
+      className={cn('size-3.5 shrink-0', className)}
     >
       <path
-        d="M0.75005 1.625C1.77966 1.0294 2.97504 0.75 4.25005 0.75C8.03052 0.75 11.111 3.74687 11.2455 7.49452L12.4167 9.79167L10.4601 9.5C10.0488 9.86305 9.50848 10.0833 8.91672 10.0833C7.41616 10.0833 6.29212 8.61489 6.65393 7.17831C4.58129 7.04459 2.70344 8.32091 1.61743 10.022C0.89674 7.57392 1.56455 4.62561 3.37505 2.80885C3.37505 2.1226 1.62505 1.71319 0.75005 1.625Z"
-        transform="translate(0.42 1.58)"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
+        d="M3.46484 0.454102L5.87793 3.62988L6.21484 4.07324L6.58203 3.65527L9.39355 0.454102H9.97363L6.72754 4.14746L6.48242 4.42676L6.70703 4.72266L10.751 10.0459H8.29102L5.60742 6.55273L5.27051 6.11426L4.90527 6.5293L1.81445 10.0459H1.23438L4.75195 6.04297L4.99902 5.76172L4.77148 5.46582L0.921875 0.454102H3.46484ZM1.72852 1.28711L8.2002 9.71094L8.33594 9.88867H10.4678L9.91309 9.15918L3.51465 0.735352L3.37793 0.555664H1.16699L1.72852 1.28711Z"
+        transform="translate(1.16665 1.75)"
+        fill="currentColor"
       />
     </svg>
   );

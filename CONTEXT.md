@@ -52,7 +52,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
 - [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card + complete state
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
-- [x] Favicon / Apple / Open Graph images from `public/brand/portrait.png`
+- [x] Favicon / Apple / Open Graph images (OG still from `public/brand/portrait.png`; tab icon is the memoji avatar)
 
 ---
 
@@ -79,7 +79,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | CSS custom properties for tokens | Single source of truth for theming | 2026-03-31 |
 | Light mode only | Fresh canvas; no system dark-mode override | 2026-08-15 |
 | Figma-aligned breakpoints & containers | Match artiom.design Library `breakpoint/*` + `container/*`; site max-width = `container/3xl` (768px) | 2026-08-15 |
-| Alkatra for the Hello greeting | Figma `hero-section` uses Alkatra Bold 30/32; loaded via next/font as `--font-display` | 2026-08-18 |
+| Grand Hotel for the Hello greeting | Figma `hero-section` (110:564) uses Grand Hotel Regular 48/36; loaded via next/font as `--font-display` | 2026-08-20 |
 | Lisse squircles for radii | Figma/iOS continuous corners instead of CSS border-radius on UI surfaces | 2026-08-14 |
 | Border Beam (opt-in) | Animated border accent via `border-beam` / `Beam`; mono + modest strength by default | 2026-08-14 |
 | bendc frontend guidelines | Adopt HTML/CSS/JS practices from bendc/frontend-guidelines (adapted in AGENTS.md) | 2026-08-14 |
@@ -91,6 +91,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header) and `transparent` (ghost fill; darker ink on hover/press) | 2026-08-19 |
+| Icon-only buttons are square | Header X/LinkedIn controls are 40×40 (`size-10`); walkthrough prev/next stay 32×32 (`size="icon"`) | 2026-08-20 |
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
 | Gems walkthrough template | First Gems card is Figma `wc26-walktrough`: image, copy, 1/3 counter, 32px transparent prev/next. More Gems reuse this. | 2026-08-19 |
 | Gems sit in content-item | Gray `content-item` (124:655) is the holder; the gem is centered inside. | 2026-08-19 |
@@ -128,7 +129,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Button (primary / transparent) | `/src/components/ui/Button.tsx` |
 | Tab leading icons | `/src/components/icons/TabLeadingIcon.tsx` |
 | Gems placeholders | `/src/content/gems.ts` |
-| Brand portrait (favicon / OG source) | `/public/brand/portrait.png` |
+| Brand portrait (OG source) | `/public/brand/portrait.png` |
+| Favicon / Apple icon | `/src/app/icon.png`, `apple-icon.png`, `favicon.ico` |
 | Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
 
 ---
@@ -195,4 +197,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-20 (walkthrough complete step + content-item padding)*
+*Last updated: 2026-08-20 (header/hero Figma polish, Grand Hotel, X icon; walkthrough complete step)*

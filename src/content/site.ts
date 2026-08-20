@@ -18,14 +18,14 @@ export const site = {
     'Product designer. Gems, heavier case studies, writing, and a bit about me.',
   url: siteUrl,
   locale: 'en_US',
-  twitterHandle: '@artiomkot14',
+  twitterHandle: '@artiom_ko',
   links: {
-    twitter: 'https://x.com/artiomkot14',
+    twitter: 'https://x.com/artiom_ko',
     linkedin: 'https://www.linkedin.com/in/artiom-kotlovski-437640270',
     email: 'artiomkot14@gmail.com',
   },
   hero: {
-    greeting: 'Hello,',
+    greeting: 'hello,',
     intro:
       'I’m a designer dedicated of solving complexity, adopting modern UI, and interface interactions.',
     rolePrefix: 'Currently the product designer of',

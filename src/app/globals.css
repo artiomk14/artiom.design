@@ -79,7 +79,7 @@
   --size-company-glyph-inset: 8.82%;
   --aspect-company-glyph: 26 / 28;
 
-  /* Figma `font/tracking/tight` at size/3xl */
+  /* Figma `font/tracking/tight` at size/5xl */
   --tracking-display: -0.4px;
   
   /* Animation Durations (seconds — prefer s over ms in custom CSS) */
@@ -194,7 +194,7 @@
   /* Typography */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-alkatra);
+  --font-display: var(--font-grand-hotel);
 
   /* Breakpoints — Figma `breakpoint/*` (extends defaults with xs + 3xl) */
   --breakpoint-xs: 390px;
