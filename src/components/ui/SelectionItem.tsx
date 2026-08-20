@@ -186,10 +186,9 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           as="button"
           type={type}
           disabled={disabled}
-          role={hasCheckbox ? 'menuitemcheckbox' : 'menuitem'}
-          aria-checked={hasCheckbox ? checked : undefined}
+          aria-pressed={hasCheckbox ? checked : undefined}
           aria-label={ariaLabel}
-          data-state={tone}
+          data-item-state={tone}
           autoEffects={false}
           corners={cornersFor('2xl')}
           innerBorder={borderFor(tone)}
@@ -204,8 +203,8 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           onPointerLeave={handlePointerLeave}
           className={cn(
             'ui-selection-item',
-            'flex w-full cursor-pointer items-center gap-5 p-3',
-            'text-left text-sm font-medium leading-5 tracking-normal',
+            'flex w-full cursor-pointer items-center gap-5 p-3 leading-none',
+            'text-left',
             surfaceFill(tone),
             labelTone(tone),
             disabled && 'pointer-events-none cursor-not-allowed opacity-50',
@@ -220,23 +219,26 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
               selected={checked}
               state="enabled"
               interactive={false}
+              className="shrink-0"
             />
           ) : null}
-          <span className="flex min-w-px flex-1 items-center gap-3.5">
+          <span className="flex min-w-px flex-[1_0_0] items-center gap-3.5">
             {hasLeadingIcon ? (
-              <span className={cn('shrink-0', leadingTone(tone))}>
+              <span className={cn('shrink-0 leading-none', leadingTone(tone))}>
                 {leading}
               </span>
             ) : null}
-            <span className="min-w-px flex-1 break-words">{text}</span>
+            <span className="min-w-px flex-[1_0_0] break-words text-sm font-medium leading-5 tracking-normal">
+              {text}
+            </span>
             {hasTrailingIcon ? (
-              <span className="shrink-0 text-foreground-subtle">
+              <span className="shrink-0 leading-none text-foreground-subtle">
                 {trailing}
               </span>
             ) : null}
           </span>
           {hasNested ? (
-            <ArrowRight01SharpIcon className="text-foreground-quiet" />
+            <ArrowRight01SharpIcon className="leading-none text-foreground-quiet" />
           ) : null}
         </SmoothCorners>
       </span>

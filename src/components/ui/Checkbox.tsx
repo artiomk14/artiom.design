@@ -245,7 +245,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
 
     if (!interactive) {
       return (
-        <span className="inline-flex" aria-hidden="true">
+        <span className={cn('inline-flex leading-none', spec.box, '[&>div]:size-full')} aria-hidden="true">
           <SmoothCorners
             ref={ref as Ref<HTMLSpanElement>}
             as="span"
@@ -262,7 +262,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
     }
 
     return (
-      <span className="inline-flex">
+      <span className={cn('inline-flex leading-none', spec.box, '[&>div]:size-full')}>
         <SmoothCorners
           ref={ref}
           as="button"

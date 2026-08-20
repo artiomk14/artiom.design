@@ -73,11 +73,13 @@ export function SelectionItemPlayground() {
         Hover, tab to focus, press. Click toggles the checkbox when that slot
         is on.
       </p>
-      <div className="w-[280px]">
-        <SelectionItem
-          checked={checked}
-          onClick={() => setChecked((value) => !value)}
-        />
+      <div className="w-[320px] bg-background-muted p-5">
+        <div className="w-[280px]">
+          <SelectionItem
+            checked={checked}
+            onClick={() => setChecked((value) => !value)}
+          />
+        </div>
       </div>
     </section>
   );
@@ -93,9 +95,9 @@ export function SelectionItemShapeGrid() {
         Figma booleans: `has checkbox`, `has leading-icon`, `has trailing-icon`,
         `has nested`.
       </p>
-      <ul className="flex flex-col gap-3">
+      <ul className="flex w-fit flex-col gap-5 bg-background-muted p-5">
         {SHAPES.map((shape) => (
-          <li key={shape.id} className="flex flex-col gap-1">
+          <li key={shape.id} className="flex items-center gap-3">
             <div className="w-[280px]">
               <SelectionItem label={shape.label} {...shape.props} />
             </div>
@@ -117,9 +119,9 @@ export function SelectionItemStateGrid() {
         Figma `selection-item` (177:1271). States are forced so they can be
         compared without hovering. Frame width is 280px.
       </p>
-      <ul className="flex flex-col gap-3">
+      <ul className="flex w-fit flex-col gap-5 bg-background-muted p-5">
         {STATES.map((itemState) => (
-          <li key={itemState} className="flex flex-col gap-1">
+          <li key={itemState} className="flex items-center gap-3">
             <div className="w-[280px]">
               <SelectionItem state={itemState} />
             </div>
