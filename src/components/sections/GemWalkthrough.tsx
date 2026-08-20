@@ -27,7 +27,7 @@ interface GemWalkthroughProps {
 }
 
 /** One lap around the card, then the success beam fades out. */
-const GEM_SUCCESS_BEAM_S = 1.8;
+const GEM_SUCCESS_BEAM_S = 2.6;
 const GEM_SUCCESS_BEAM_MS = GEM_SUCCESS_BEAM_S * 1000;
 
 interface SwapTextProps {
@@ -175,7 +175,7 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
           <Beam
             colorVariant="sunset"
             theme="light"
-            strength={0.9}
+            strength={0.62}
             duration={GEM_SUCCESS_BEAM_S}
             hueRange={10}
             radius="3xl"
