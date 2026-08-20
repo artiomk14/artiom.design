@@ -13,6 +13,8 @@ export const colors = {
     subtle: '#fafafa',
     /** Figma `background/background-surface` — site-logo frame. */
     surface: '#fafafa',
+    /** Figma `background/background-inverse` — selected checkbox fill. */
+    inverse: '#18181b',
   },
   foreground: {
     DEFAULT: '#171717',
@@ -27,6 +29,8 @@ export const colors = {
      * Distinct from `--foreground-muted` (#737373).
      */
     quiet: '#9f9fa9',
+    /** Figma `foreground/foreground-inverse` — selected checkbox tick. */
+    inverse: '#fafafa',
   },
   accent: {
     DEFAULT: '#0a0a0a',
@@ -43,6 +47,11 @@ export const colors = {
     secondary: '#d4d4d8',
     /** Figma `border/border_primary`. */
     primary: '#eeeeee',
+    /**
+     * Figma `border/border-primary` — checkbox hover / pressed stroke.
+     * Distinct from `border/border_primary` (`primary` / `--border-primary`).
+     */
+    quiet: '#9f9fa9',
   },
   /**
    * Figma `color/green/*` — walkthrough complete pill + tick.

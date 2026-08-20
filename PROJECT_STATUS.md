@@ -157,6 +157,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 
 ### UI
 - `Button` — Figma `button`; `variant` `primary` | `transparent` | `neutral`; sizes 1920px / 390px / 32px icon (Lisse squircle)
+- `Checkbox` — Figma `checkbox` (177:322); sizes lg/md/sm/x-sm × selected × state
 - `Pill` — Figma navigation pill (selected × state; outline icons stroke-draw on select)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
 - `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`
