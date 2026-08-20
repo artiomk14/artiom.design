@@ -13,6 +13,7 @@
   --background-muted: #f5f5f5;
   --background-subtle: #fafafa;
   --background-surface: #fafafa;
+  --background-inverse: #18181b;
   
   --foreground: #171717;
   --foreground-primary: #18181b;
@@ -21,6 +22,7 @@
   --foreground-light: #d4d4d8;
   /* Figma `foreground/foreground-muted` — unselected pill label */
   --foreground-quiet: #9f9fa9;
+  --foreground-inverse: #fafafa;
   
   --accent: #0a0a0a;
   --accent-hover: #262626;
@@ -32,6 +34,8 @@
   --border-subtle: #e4e4e7;
   --border-secondary: #d4d4d8;
   --border-primary: #eeeeee;
+  /* Figma `border/border-primary` — not `border/border_primary` */
+  --border-quiet: #9f9fa9;
   --border-width: 1px;
 
   /* Figma `color/green/50` + `color/green/700` — walkthrough complete */
@@ -51,6 +55,10 @@
 
   /* Figma `inner-shadow/sm` */
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  /* Figma `inner-shadow/xs` — selected checkbox pressed */
+  --shadow-inner-xs: inset 0 1px 1px 0 rgb(0 0 0 / 0.05);
+  /* Figma `shadow/2xs` — unchecked checkbox */
+  --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
 
   /* Figma `elevation-xl` — gem walkthrough card */
   --shadow-elevation-xl: 0 8px 18px 0 rgb(148 148 148 / 0.1), 0 33px 33px 0 rgb(148 148 148 / 0.09), 0 75px 45px 0 rgb(148 148 148 / 0.05), 0 134px 53px 0 rgb(148 148 148 / 0.01);
@@ -146,6 +154,7 @@
   --color-background-muted: var(--background-muted);
   --color-background-subtle: var(--background-subtle);
   --color-background-surface: var(--background-surface);
+  --color-background-inverse: var(--background-inverse);
   
   --color-foreground: var(--foreground);
   --color-foreground-primary: var(--foreground-primary);
@@ -153,6 +162,7 @@
   --color-foreground-subtle: var(--foreground-subtle);
   --color-foreground-light: var(--foreground-light);
   --color-foreground-quiet: var(--foreground-quiet);
+  --color-foreground-inverse: var(--foreground-inverse);
   
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
@@ -164,6 +174,7 @@
   --color-border-subtle: var(--border-subtle);
   --color-border-secondary: var(--border-secondary);
   --color-border-primary: var(--border-primary);
+  --color-border-quiet: var(--border-quiet);
 
   --color-green-50: var(--green-50);
   --color-green-700: var(--green-700);
@@ -179,6 +190,10 @@
 
   /* Figma `inner-shadow/sm` */
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  /* Figma `inner-shadow/xs` */
+  --shadow-inner-xs: inset 0 1px 1px 0 rgb(0 0 0 / 0.05);
+  /* Figma `shadow/2xs` */
+  --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
 
   /* Figma `elevation-xl` */
   --shadow-elevation-xl: 0 8px 18px 0 rgb(148 148 148 / 0.1), 0 33px 33px 0 rgb(148 148 148 / 0.09), 0 75px 45px 0 rgb(148 148 148 / 0.05), 0 134px 53px 0 rgb(148 148 148 / 0.01);

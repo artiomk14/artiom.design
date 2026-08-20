@@ -4,8 +4,9 @@ import {
   WhoMeIcon,
   YappingIcon,
 } from '@/components/icons';
-import { Button, Pill } from '@/components/ui';
+import { Button, Checkbox, Pill } from '@/components/ui';
 import { legacyPageMetadata } from '@/lib/seo';
+import { CheckboxPlayground } from './CheckboxPlayground';
 import { PillIconPlayground } from './PillIconPlayground';
 
 export const metadata = legacyPageMetadata('Lab');
@@ -163,6 +164,53 @@ export default function LabPage() {
           ])}
         </div>
       </section>
+
+      <section className="flex flex-col gap-4">
+        <h2 className="text-sm font-semibold text-foreground-tertiary">
+          Checkbox · size × selected × state
+        </h2>
+        <p className="text-sm text-foreground-muted">
+          Figma `checkbox` (177:322). States are forced so they can be compared
+          without hovering.
+        </p>
+        <div className="grid grid-cols-4 gap-x-8 gap-y-6">
+          {(['lg', 'md', 'sm', 'x-sm'] as const).map((size) => (
+            <p key={size} className="text-xs text-foreground-muted">
+              {size}
+            </p>
+          ))}
+          {(
+            ['enabled', 'hovered', 'pressed', 'disabled'] as const
+          ).flatMap((checkboxState) =>
+            (['lg', 'md', 'sm', 'x-sm'] as const).map((size) => (
+              <div
+                key={`${size}-${checkboxState}`}
+                className="flex flex-col gap-2"
+              >
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    size={size}
+                    selected={false}
+                    state={checkboxState}
+                    aria-label={`${size} ${checkboxState} unchecked`}
+                  />
+                  <Checkbox
+                    size={size}
+                    selected
+                    state={checkboxState}
+                    aria-label={`${size} ${checkboxState} checked`}
+                  />
+                </div>
+                <span className="text-xs text-foreground-muted">
+                  {checkboxState}
+                </span>
+              </div>
+            ))
+          )}
+        </div>
+      </section>
+
+      <CheckboxPlayground />
 
       <PillIconPlayground />
 
