@@ -42,6 +42,21 @@ export const companyGlyph = {
  */
 export const shadow = {
   /**
+   * Figma `shadow/2xs` — button class=neutral (enabled / hovered / focused).
+   * 1px y-offset, no blur. Lisse layer so it follows the squircle.
+   */
+  twoXs: '0 1px 0 0 rgb(0 0 0 / 0.05)',
+  twoXsLayers: [
+    {
+      offsetX: 0,
+      offsetY: 1,
+      blur: 0,
+      spread: 0,
+      color: '#000000',
+      opacity: 0.05,
+    },
+  ],
+  /**
    * Figma `elevation-xl` — gem walkthrough card.
    * Skip the 0-opacity 209px layer; it does not paint.
    */

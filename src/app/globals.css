@@ -41,7 +41,7 @@
   /* Figma `Bitter Lemon/100` */
   --brand-bitter-lemon: #e4ff38;
 
-  /* Figma `background/*` + `foreground/*` used by button class=primary | transparent */
+  /* Figma `background/*` + `foreground/*` used by button class=primary | transparent | neutral */
   --background-primary: #f4f4f5;
   --background-hover: #e4e4e7;
   --background-elevated: #d4d4d8;
@@ -51,6 +51,8 @@
 
   /* Figma `inner-shadow/sm` */
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  /* Figma `shadow/2xs` — button class=neutral */
+  --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
 
   /* Figma `elevation-xl` — gem walkthrough card */
   --shadow-elevation-xl: 0 8px 18px 0 rgb(148 148 148 / 0.1), 0 33px 33px 0 rgb(148 148 148 / 0.09), 0 75px 45px 0 rgb(148 148 148 / 0.05), 0 134px 53px 0 rgb(148 148 148 / 0.01);
@@ -179,6 +181,8 @@
 
   /* Figma `inner-shadow/sm` */
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  /* Figma `shadow/2xs` — button class=neutral */
+  --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
 
   /* Figma `elevation-xl` */
   --shadow-elevation-xl: 0 8px 18px 0 rgb(148 148 148 / 0.1), 0 33px 33px 0 rgb(148 148 148 / 0.09), 0 75px 45px 0 rgb(148 148 148 / 0.05), 0 134px 53px 0 rgb(148 148 148 / 0.01);
