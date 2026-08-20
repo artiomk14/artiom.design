@@ -69,6 +69,71 @@ export default function LabPage() {
 
       <section className="flex flex-col gap-4">
         <h2 className="text-sm font-semibold text-foreground-tertiary">
+          Button · 1920px · neutral
+        </h2>
+        <p className="text-sm text-foreground-muted">
+          Figma `class=neutral`: surface fill, 1px stroke, `shadow/2xs`. Pressed
+          drops the outer shadow and uses `inner-shadow/sm`.
+        </p>
+        <ul className="flex flex-wrap items-center gap-4">
+          <li className="flex flex-col gap-2">
+            <Button variant="neutral" state="enabled" />
+            <span className="text-xs text-foreground-muted">enabled</span>
+          </li>
+          <li className="flex flex-col gap-2">
+            <Button variant="neutral" state="hovered" />
+            <span className="text-xs text-foreground-muted">hovered</span>
+          </li>
+          <li className="flex flex-col gap-2">
+            <Button variant="neutral" state="focused" />
+            <span className="text-xs text-foreground-muted">focused</span>
+          </li>
+          <li className="flex flex-col gap-2">
+            <Button variant="neutral" state="pressed" />
+            <span className="text-xs text-foreground-muted">pressed</span>
+          </li>
+        </ul>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <h2 className="text-sm font-semibold text-foreground-tertiary">
+          Button · 390px · neutral
+        </h2>
+        <p className="text-sm text-foreground-muted">
+          Same tokens as 1920px; height 36px, `text-xs`, 12px icons (`size="sm"`).
+        </p>
+        <ul className="flex flex-wrap items-center gap-4">
+          <li className="flex flex-col gap-2">
+            <Button variant="neutral" size="sm" state="enabled" />
+            <span className="text-xs text-foreground-muted">enabled</span>
+          </li>
+          <li className="flex flex-col gap-2">
+            <Button variant="neutral" size="sm" state="hovered" />
+            <span className="text-xs text-foreground-muted">hovered</span>
+          </li>
+          <li className="flex flex-col gap-2">
+            <Button variant="neutral" size="sm" state="focused" />
+            <span className="text-xs text-foreground-muted">focused</span>
+          </li>
+          <li className="flex flex-col gap-2">
+            <Button variant="neutral" size="sm" state="pressed" />
+            <span className="text-xs text-foreground-muted">pressed</span>
+          </li>
+          <li className="flex flex-col gap-2">
+            <Button
+              variant="neutral"
+              size="sm"
+              state="enabled"
+              hasLabel={false}
+              aria-label="LinkedIn"
+            />
+            <span className="text-xs text-foreground-muted">icon only</span>
+          </li>
+        </ul>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <h2 className="text-sm font-semibold text-foreground-tertiary">
           Interactive
         </h2>
         <p className="text-sm text-foreground-muted">
@@ -78,6 +143,8 @@ export default function LabPage() {
         <div className="flex flex-wrap items-center gap-4">
           <Button />
           <Button variant="transparent" />
+          <Button variant="neutral" />
+          <Button variant="neutral" size="sm" />
         </div>
       </section>
 
