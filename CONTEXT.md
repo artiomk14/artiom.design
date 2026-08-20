@@ -94,7 +94,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
 | Gems walkthrough template | First Gems card is Figma `wc26-walktrough`: image, copy, 1/3 counter, 32px transparent prev/next. More Gems reuse this. | 2026-08-19 |
 | Gems sit in content-item | Gray `content-item` (124:655) is the holder; the gem is centered inside. | 2026-08-19 |
-| Walkthrough elevation-xl | Figma `elevation-xl` on the gem card (Lisse layers). Distinct from site-logo `shadow/xl`. | 2026-08-20 |
+| Walkthrough card chrome | CSS `rounded-3xl` + `border-secondary` + `elevation-xl` box-shadow so stroke and shadow paint immediately. Lisse clip-path was hiding both and hitching the complete resize. | 2026-08-20 |
 | Walkthrough complete | Last-step check enters Figma `step-04` (178:1724). Gray holder keeps max gem height. | 2026-08-20 |
 
 ---

@@ -19,7 +19,7 @@ export function ContentItem({ className, children }: ContentItemProps) {
     <SmoothSurface
       radius="3xl"
       className={cn(
-        'flex w-full items-center justify-center overflow-hidden bg-background-primary px-5 pt-32 pb-36',
+        'flex w-full items-center justify-center overflow-visible bg-background-primary px-5 pt-32 pb-36',
         !children && 'min-h-[var(--size-content-item)]',
         className
       )}

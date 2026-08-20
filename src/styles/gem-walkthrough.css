@@ -124,20 +124,11 @@
 }
 
 .t-gem-media {
-  display: grid;
-  grid-template-rows: 1fr;
   opacity: 1;
-  transition:
-    grid-template-rows var(--resize-dur) var(--resize-ease),
-    opacity var(--resize-dur) var(--resize-ease);
+  transition: opacity var(--resize-dur) var(--resize-ease);
 }
 .t-gem-media.is-collapsed {
-  grid-template-rows: 0fr;
   opacity: 0;
-}
-.t-gem-media-inner {
-  min-height: 0;
-  overflow: hidden;
 }
 
 .t-success-check {
