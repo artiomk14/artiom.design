@@ -100,7 +100,7 @@ export default function LabPage() {
           Button · 390px · neutral
         </h2>
         <p className="text-sm text-foreground-muted">
-          Same tokens as 1920px; height 36px, `text-xs`, 12px icons (`size="sm"`).
+          Same tokens as 1920px; height 36px, `text-xs`, 12px icons (`size=sm`).
         </p>
         <ul className="flex flex-wrap items-center gap-4">
           <li className="flex flex-col gap-2">
