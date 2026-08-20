@@ -143,6 +143,16 @@ export const shadow = {
     color: '#000000',
     opacity: 0.05,
   },
+  /** Figma `inner-shadow/2xs` — selection-item pressed. */
+  innerTwoXs: 'inset 0 1px 0 0 rgb(0 0 0 / 0.05)',
+  innerTwoXsLayer: {
+    offsetX: 0,
+    offsetY: 1,
+    blur: 0,
+    spread: 0,
+    color: '#000000',
+    opacity: 0.05,
+  },
   xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04)',
   xlLayers: [
     {

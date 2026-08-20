@@ -57,6 +57,8 @@
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
   /* Figma `inner-shadow/xs` — selected checkbox pressed */
   --shadow-inner-xs: inset 0 1px 1px 0 rgb(0 0 0 / 0.05);
+  /* Figma `inner-shadow/2xs` — selection-item pressed */
+  --shadow-inner-2xs: inset 0 1px 0 0 rgb(0 0 0 / 0.05);
   /* Figma `shadow/2xs` — unchecked checkbox + button class=neutral */
   --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
 
@@ -192,6 +194,8 @@
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
   /* Figma `inner-shadow/xs` */
   --shadow-inner-xs: inset 0 1px 1px 0 rgb(0 0 0 / 0.05);
+  /* Figma `inner-shadow/2xs` */
+  --shadow-inner-2xs: inset 0 1px 0 0 rgb(0 0 0 / 0.05);
   /* Figma `shadow/2xs` — checkbox + button class=neutral */
   --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
 
@@ -267,9 +271,10 @@ body {
   outline-offset: 2px;
 }
 
-/* Figma button / pill paint their own inside-stroke focus ring. */
+/* Figma button / pill / selection-item paint their own inside-stroke focus ring. */
 .ui-button:focus-visible,
-.ui-pill:focus-visible {
+.ui-pill:focus-visible,
+.ui-selection-item:focus-visible {
   outline: none;
   outline-offset: 0;
 }

@@ -8,6 +8,11 @@ import { Button, Checkbox, Pill } from '@/components/ui';
 import { legacyPageMetadata } from '@/lib/seo';
 import { CheckboxPlayground } from './CheckboxPlayground';
 import { PillIconPlayground } from './PillIconPlayground';
+import {
+  SelectionItemPlayground,
+  SelectionItemShapeGrid,
+  SelectionItemStateGrid,
+} from './SelectionItemPlayground';
 
 export const metadata = legacyPageMetadata('Lab');
 
@@ -278,6 +283,10 @@ export default function LabPage() {
       </section>
 
       <CheckboxPlayground />
+
+      <SelectionItemStateGrid />
+      <SelectionItemShapeGrid />
+      <SelectionItemPlayground />
 
       <PillIconPlayground />
 

@@ -1,0 +1,132 @@
+'use client';
+
+import { useState } from 'react';
+import { SelectionItem } from '@/components/ui';
+
+const STATES = ['enabled', 'hovered', 'focused', 'pressed'] as const;
+
+const SHAPES = [
+  {
+    id: 'all',
+    label: 'all slots',
+    props: {},
+  },
+  {
+    id: 'no-checkbox',
+    label: 'no checkbox',
+    props: { hasCheckbox: false },
+  },
+  {
+    id: 'no-leading',
+    label: 'no leading',
+    props: { hasLeadingIcon: false },
+  },
+  {
+    id: 'no-trailing',
+    label: 'no trailing',
+    props: { hasTrailingIcon: false },
+  },
+  {
+    id: 'no-nested',
+    label: 'no nested',
+    props: { hasNested: false },
+  },
+  {
+    id: 'checkbox-label',
+    label: 'checkbox + label',
+    props: {
+      hasLeadingIcon: false,
+      hasTrailingIcon: false,
+      hasNested: false,
+    },
+  },
+  {
+    id: 'label-nested',
+    label: 'label + nested',
+    props: {
+      hasCheckbox: false,
+      hasLeadingIcon: false,
+      hasTrailingIcon: false,
+    },
+  },
+  {
+    id: 'label-only',
+    label: 'label only',
+    props: {
+      hasCheckbox: false,
+      hasLeadingIcon: false,
+      hasTrailingIcon: false,
+      hasNested: false,
+    },
+  },
+] as const;
+
+export function SelectionItemPlayground() {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <section className="flex flex-col gap-4">
+      <h2 className="text-sm font-semibold text-foreground-tertiary">
+        Selection item · interactive
+      </h2>
+      <p className="text-sm text-foreground-muted">
+        Hover, tab to focus, press. Click toggles the checkbox when that slot
+        is on.
+      </p>
+      <div className="w-[280px]">
+        <SelectionItem
+          checked={checked}
+          onClick={() => setChecked((value) => !value)}
+        />
+      </div>
+    </section>
+  );
+}
+
+export function SelectionItemShapeGrid() {
+  return (
+    <section className="flex flex-col gap-4">
+      <h2 className="text-sm font-semibold text-foreground-tertiary">
+        Selection item · shapes
+      </h2>
+      <p className="text-sm text-foreground-muted">
+        Figma booleans: `has checkbox`, `has leading-icon`, `has trailing-icon`,
+        `has nested`.
+      </p>
+      <ul className="flex flex-col gap-3">
+        {SHAPES.map((shape) => (
+          <li key={shape.id} className="flex flex-col gap-1">
+            <div className="w-[280px]">
+              <SelectionItem label={shape.label} {...shape.props} />
+            </div>
+            <span className="text-xs text-foreground-muted">{shape.label}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+export function SelectionItemStateGrid() {
+  return (
+    <section className="flex flex-col gap-4">
+      <h2 className="text-sm font-semibold text-foreground-tertiary">
+        Selection item · state
+      </h2>
+      <p className="text-sm text-foreground-muted">
+        Figma `selection-item` (177:1271). States are forced so they can be
+        compared without hovering. Frame width is 280px.
+      </p>
+      <ul className="flex flex-col gap-3">
+        {STATES.map((itemState) => (
+          <li key={itemState} className="flex flex-col gap-1">
+            <div className="w-[280px]">
+              <SelectionItem state={itemState} />
+            </div>
+            <span className="text-xs text-foreground-muted">{itemState}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}

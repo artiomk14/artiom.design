@@ -4,6 +4,8 @@ export { CheckIcon } from './CheckIcon';
 export { TickIcon } from './TickIcon';
 export { CheckboxTickIcon } from './CheckboxTickIcon';
 export type { CheckboxTickSize } from './CheckboxTickIcon';
+export { Touchpad04Icon } from './Touchpad04Icon';
+export { ArrowRight01SharpIcon } from './ArrowRight01SharpIcon';
 export { LinkedIn01Icon } from './LinkedIn01Icon';
 export { TwitterIcon } from './TwitterIcon';
 export { ChevronDownIcon } from './ChevronDownIcon';
