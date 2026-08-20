@@ -14,6 +14,7 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   CheckIcon,
+  RefreshIcon,
   TickIcon,
 } from '@/components/icons';
 import { Beam, Button } from '@/components/ui';
@@ -68,13 +69,17 @@ function TourSizer() {
 /**
  * Figma `wc26-walktrough` (156:1659) — image, copy, step counter,
  * transparent 32px previous / next. Complete state is `step-04` (178:1724).
+ * Reset (`178:1818`, `class=neutral`) sits in the gray `content-item` once
+ * the tour ends.
  *
  * CSS radius / border / shadow (not Lisse) so the stroke and elevation-xl
  * paint on first paint, and height can tween without clip-path recasts.
  */
 export function GemWalkthrough({ className }: GemWalkthroughProps) {
   const labelId = useId();
+  const articleRef = useRef<HTMLElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const resetRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const fromHeightRef = useRef(0);
   const beamHideRef = useRef(0);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -93,8 +98,7 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
   useLayoutEffect(() => {
     const card = cardRef.current;
     const from = fromHeightRef.current;
-    if (!complete || !card || from <= 0) return;
-
+    if (!card || from <= 0) return;
     const to = card.offsetHeight;
     if (from === to) return;
 
@@ -120,6 +124,11 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
   useEffect(() => {
     return () => window.clearTimeout(beamHideRef.current);
   }, []);
+
+  useEffect(() => {
+    if (!complete) return;
+    resetRef.current?.focus();
+  }, [complete]);
 
   if (!step) return null;
 
@@ -150,19 +159,34 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
     setIndex((current) => Math.min(total - 1, current + 1));
   };
 
+  const resetTour = () => {
+    if (!prefersReducedMotion && cardRef.current) {
+      fromHeightRef.current = cardRef.current.offsetHeight;
+    }
+    window.clearTimeout(beamHideRef.current);
+    setBeamActive(false);
+    articleRef.current?.focus();
+    setComplete(false);
+    setIndex(0);
+    setStepMotion(false);
+  };
+
   const onCardTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
     if (event.propertyName !== 'height') return;
     event.currentTarget.style.removeProperty('height');
   };
 
   return (
-    <article
-      aria-labelledby={labelId}
-      className={cn(
-        'relative w-full max-w-[var(--size-gem-walkthrough)]',
-        className
-      )}
-    >
+    <>
+      <article
+        ref={articleRef}
+        tabIndex={-1}
+        aria-labelledby={labelId}
+        className={cn(
+          'relative w-full max-w-[var(--size-gem-walkthrough)] outline-none',
+          className
+        )}
+      >
       <h2 id={labelId} className="sr-only">
         {wc26Walkthrough.label}
       </h2>
@@ -336,6 +360,20 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
           </Beam>
         </div>
       </div>
-    </article>
+      </article>
+      {complete ? (
+        <div className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2">
+          <Button
+            ref={resetRef}
+            type="button"
+            variant="neutral"
+            label={wc26Walkthrough.resetLabel}
+            hasTrailingIcon={false}
+            leadingIcon={<RefreshIcon />}
+            onClick={resetTour}
+          />
+        </div>
+      ) : null}
+    </>
   );
 }
