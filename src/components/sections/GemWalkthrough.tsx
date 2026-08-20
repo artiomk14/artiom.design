@@ -95,12 +95,19 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
     card.style.height = `${from}px`;
     void card.offsetHeight;
 
-    const frame = requestAnimationFrame(() => {
-      card.style.removeProperty('transition');
-      card.style.height = `${to}px`;
+    let innerFrame = 0;
+    const outerFrame = requestAnimationFrame(() => {
+      innerFrame = requestAnimationFrame(() => {
+        if (!card.isConnected) return;
+        card.style.removeProperty('transition');
+        card.style.height = `${to}px`;
+      });
     });
 
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(outerFrame);
+      cancelAnimationFrame(innerFrame);
+    };
   }, [complete]);
 
   if (!step) return null;
