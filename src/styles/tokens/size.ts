@@ -42,6 +42,21 @@ export const companyGlyph = {
  */
 export const shadow = {
   /**
+   * Figma `shadow/2xs` — button class=neutral and unchecked checkbox lift.
+   * 1px y-offset, no blur. Lisse layer so it follows the squircle.
+   */
+  twoXs: '0 1px 0 0 rgb(0 0 0 / 0.05)',
+  twoXsLayers: [
+    {
+      offsetX: 0,
+      offsetY: 1,
+      blur: 0,
+      spread: 0,
+      color: '#000000',
+      opacity: 0.05,
+    },
+  ],
+  /**
    * Figma `elevation-xl` — gem walkthrough card.
    * Skip the 0-opacity 209px layer; it does not paint.
    */
@@ -116,21 +131,6 @@ export const shadow = {
       spread: 0,
       color: '#787878',
       opacity: 0.01,
-    },
-  ],
-  /**
-   * Figma `shadow/2xs` — unchecked checkbox lift.
-   * 0 1px 0 rgb(0 0 0 / 0.05); blur 0 so it reads as a hairline edge.
-   */
-  twoXs: '0 1px 0 0 rgb(0 0 0 / 0.05)',
-  twoXsLayers: [
-    {
-      offsetX: 0,
-      offsetY: 1,
-      blur: 0,
-      spread: 0,
-      color: '#000000',
-      opacity: 0.05,
     },
   ],
   /** Figma `inner-shadow/xs` — selected checkbox pressed. */

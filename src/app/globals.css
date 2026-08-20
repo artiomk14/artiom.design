@@ -45,7 +45,7 @@
   /* Figma `Bitter Lemon/100` */
   --brand-bitter-lemon: #e4ff38;
 
-  /* Figma `background/*` + `foreground/*` used by button class=primary | transparent */
+  /* Figma `background/*` + `foreground/*` used by button class=primary | transparent | neutral */
   --background-primary: #f4f4f5;
   --background-hover: #e4e4e7;
   --background-elevated: #d4d4d8;
@@ -57,7 +57,7 @@
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
   /* Figma `inner-shadow/xs` — selected checkbox pressed */
   --shadow-inner-xs: inset 0 1px 1px 0 rgb(0 0 0 / 0.05);
-  /* Figma `shadow/2xs` — unchecked checkbox */
+  /* Figma `shadow/2xs` — unchecked checkbox + button class=neutral */
   --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
 
   /* Figma `elevation-xl` — gem walkthrough card */
@@ -192,7 +192,7 @@
   --shadow-inner-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
   /* Figma `inner-shadow/xs` */
   --shadow-inner-xs: inset 0 1px 1px 0 rgb(0 0 0 / 0.05);
-  /* Figma `shadow/2xs` */
+  /* Figma `shadow/2xs` — checkbox + button class=neutral */
   --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
 
   /* Figma `elevation-xl` */

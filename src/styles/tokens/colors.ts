@@ -68,7 +68,8 @@ export const colors = {
   },
   /**
    * Figma artiom.design Library — used by `button` class=primary | transparent
-   * (1920px). Names match the Figma variables: background/*, foreground/*.
+   * | neutral (1920px / 390px). Names match the Figma variables:
+   * background/*, foreground/*, border/*.
    */
   surface: {
     primary: '#f4f4f5',
