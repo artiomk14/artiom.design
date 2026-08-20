@@ -52,7 +52,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
 - [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card + complete state
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
-- [x] Favicon / Apple / Open Graph images (OG still from `public/brand/portrait.png`; tab icon is the memoji avatar)
+- [x] Favicon / Apple icons from Figma `new-favicon` (179:1837); OG still from `public/brand/portrait.png`
 
 ---
 
@@ -130,6 +130,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Tab leading icons | `/src/components/icons/TabLeadingIcon.tsx` |
 | Gems placeholders | `/src/content/gems.ts` |
 | Brand portrait (OG source) | `/public/brand/portrait.png` |
+| Favicon source (Figma `new-favicon` 179:1837) | `/public/brand/favicon.png` |
 | Favicon / Apple icon | `/src/app/icon.png`, `apple-icon.png`, `favicon.ico` |
 | Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
 
