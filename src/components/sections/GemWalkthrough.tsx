@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  useEffect,
   useId,
   useLayoutEffect,
   useRef,
@@ -24,6 +25,10 @@ import { shadow } from '@/styles/tokens';
 interface GemWalkthroughProps {
   className?: string;
 }
+
+/** One lap around the card, then the success beam fades out. */
+const GEM_SUCCESS_BEAM_S = 1.8;
+const GEM_SUCCESS_BEAM_MS = GEM_SUCCESS_BEAM_S * 1000;
 
 interface SwapTextProps {
   value: string;
@@ -71,11 +76,13 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
   const labelId = useId();
   const cardRef = useRef<HTMLDivElement>(null);
   const fromHeightRef = useRef(0);
+  const beamHideRef = useRef(0);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
   const [digitDir, setDigitDir] = useState(1);
   const [stepMotion, setStepMotion] = useState(false);
   const [complete, setComplete] = useState(false);
+  const [beamActive, setBeamActive] = useState(false);
 
   const steps = wc26Walkthrough.steps;
   const total = steps.length;
@@ -110,6 +117,10 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
     };
   }, [complete]);
 
+  useEffect(() => {
+    return () => window.clearTimeout(beamHideRef.current);
+  }, []);
+
   if (!step) return null;
 
   const goPrevious = () => {
@@ -124,6 +135,13 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
         fromHeightRef.current = cardRef.current.offsetHeight;
       }
       setComplete(true);
+      if (!prefersReducedMotion) {
+        window.clearTimeout(beamHideRef.current);
+        setBeamActive(true);
+        beamHideRef.current = window.setTimeout(() => {
+          setBeamActive(false);
+        }, GEM_SUCCESS_BEAM_MS);
+      }
       return;
     }
 
@@ -155,12 +173,14 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
           style={{ boxShadow: shadow.elevationXl }}
         >
           <Beam
-            colorVariant="mono"
+            colorVariant="sunset"
             theme="light"
-            strength={0.45}
+            strength={0.9}
+            duration={GEM_SUCCESS_BEAM_S}
+            hueRange={10}
             radius="3xl"
-            active={complete}
-            className="w-full rounded-3xl"
+            active={beamActive}
+            className="t-gem-success-beam w-full rounded-3xl"
           >
             <div
               ref={cardRef}
