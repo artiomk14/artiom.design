@@ -7,6 +7,7 @@ export type { CheckboxTickSize } from './CheckboxTickIcon';
 export { LinkedIn01Icon } from './LinkedIn01Icon';
 export { TwitterIcon } from './TwitterIcon';
 export { ChevronDownIcon } from './ChevronDownIcon';
+export { RefreshIcon } from './RefreshIcon';
 export { LsportsLogo } from './LsportsLogo';
 export { GemIcon } from './GemIcon';
 export { HeavyOnesIcon } from './HeavyOnesIcon';
