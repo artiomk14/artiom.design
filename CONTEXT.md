@@ -51,7 +51,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed; per-tab leading icons
 - [x] Pill outline icons (diamond / briefcase / pencil / user) with stroke-draw on tab switch
 - [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
-- [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card + complete state
+- [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card + complete state + Reset
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
 - [x] Figma `checkbox` atom (177:322) — lg/md/sm/x-sm × selected × enabled/hovered/pressed/disabled
 - [x] Figma `selection-item` (177:1271) — state × selected × checkbox/leading/trailing/nested booleans
@@ -70,7 +70,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `content-item` (124:655) holds each gem (20px sides, 128px top, 144px bottom; height follows the gem’s max). First gem is the WC26 walkthrough with a complete step. Remaining slots stay empty. Next: more Gems. Run Again is later.*
+*Figma `content-item` (124:655) holds each gem (20px sides, 128px top, 144px bottom; height follows the gem’s max). First gem is the WC26 walkthrough: complete step, then Reset (`class=neutral`) in the gray holder. Remaining slots stay empty. Next: more Gems.*
 
 ---
 
@@ -92,6 +92,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | No headless CMS | Portfolio updates are infrequent; keep content in-repo | 2026-08-14 |
 | Single homepage + four tabs | Content sits under the hero; tab switches must not reload the page | 2026-08-18 |
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
+| Site-logo stroke | `border-subtle` is Lisse `innerBorder` on the 52px white frame (same surface as `shadow.xlLayers`). CSS `border` is clip-path-cut / square; `outerBorder` would sit in the drop-shadow. | 2026-08-23 |
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header), `transparent` (ghost fill; darker ink on hover/press), `neutral` (surface fill + stroke + `shadow/2xs`) | 2026-08-20 |
 | Icon-only buttons are square | Header X/LinkedIn controls are 40×40 (`size-10`); walkthrough prev/next stay 32×32 (`size="icon"`) | 2026-08-20 |
@@ -99,6 +100,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Gems walkthrough template | First Gems card is Figma `wc26-walktrough`: image, copy, 1/3 counter, 32px transparent prev/next. More Gems reuse this. | 2026-08-19 |
 | Gems sit in content-item | Gray `content-item` (124:655) is the holder; the gem is centered inside. | 2026-08-19 |
 | Walkthrough card chrome | CSS `rounded-3xl` + `border-secondary` + `elevation-xl` box-shadow so stroke and shadow paint immediately. Lisse clip-path was hiding both and hitching the complete resize. | 2026-08-20 |
+| Walkthrough complete | Last-step check enters Figma `step-04` (178:1724). Gray holder keeps max gem height. Reset (`178:1818`, `class=neutral`) appears at the bottom of the holder. | 2026-08-20 |
 | Figma checkbox atom | `Checkbox` maps Figma `checkbox` (177:322): sizes 20/16/14/12, radius md/sm, `tick-02` leaf, Lisse squircle + `shadow/2xs` | 2026-08-20 |
 | Figma selection item | `SelectionItem` maps Figma `selection-item` (177:1271): 12px pad, 16px radius, 20/14 gaps; checkbox lg; `touchpad-04` + `arrow-right-01-sharp`; `selected` shifts fill + label to primary | 2026-08-23 |
 | Figma selection list | `SelectionList` maps Figma `selection-list` (177:1401): 240px, 8px pad, 4px gap, 24px radius, `background-surface`, `border-secondary`, `elevation-lg`. Holds `SelectionItem` for menus, single/multi listboxes, and comboboxes. `SelectionMenu` adds trigger + dropdown motion. | 2026-08-23 |
@@ -137,6 +139,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Selection item | `/src/components/ui/SelectionItem.tsx` |
 | Selection list | `/src/components/ui/SelectionList.tsx` |
 | Tab leading icons | `/src/components/icons/TabLeadingIcon.tsx` |
+| Refresh (Gems Reset) | `/src/components/icons/RefreshIcon.tsx` |
 | Gems placeholders | `/src/content/gems.ts` |
 | Brand portrait (OG source) | `/public/brand/portrait.png` |
 | Favicon source (Figma `new-favicon` 179:1837) | `/public/brand/favicon.png` |
@@ -207,4 +210,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-23 (Figma selection-list)*
+*Last updated: 2026-08-23 (Figma selection-list; site-logo `border-subtle` via Lisse `innerBorder`)*

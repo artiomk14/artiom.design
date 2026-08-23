@@ -59,6 +59,7 @@ export const wc26Walkthrough = {
     title: 'Ready to go!',
     description: 'All ready for you to explore and complete tasks',
   },
+  resetLabel: 'Reset',
 } as const;
 
 /**

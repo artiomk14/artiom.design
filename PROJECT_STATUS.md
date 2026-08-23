@@ -147,8 +147,8 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 - `PageWrapper` — Main content wrapper
 - `Section` — Reusable section container
 - `HomeCanvas` — Homepage canvas: Figma pills + first Gems walkthrough
-- `ContentItem` — Figma `content-item` (124:655): gray holder (20/128/144 padding); filled slots size to the gem
-- `GemWalkthrough` — Figma `wc26-walktrough` (156:1658): image, copy, 1/3 pager
+- `ContentItem` — Figma `content-item` (124:655): gray holder (20/128/144 padding); filled slots size to the gem; Reset sits at the bottom after the tour
+- `GemWalkthrough` — Figma `wc26-walktrough` (156:1658): image, copy, 1/3 pager, complete, Reset
 
 ### Sections
 - `HeroSection` — Figma home hero (portrait, Hello, intro, LSports lockup); divider on the inner column, not full-bleed

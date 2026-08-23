@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { SmoothSurface } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { site } from '@/content/site';
-import { shadow } from '@/styles/tokens';
+import { colors, shadow } from '@/styles/tokens';
 
 interface SiteLogoProps {
   className?: string;
@@ -10,8 +10,11 @@ interface SiteLogoProps {
 
 /**
  * Figma `site-logo` (111:616) — 52px squircle frame, 44px cropped portrait.
- * Elevation is a Lisse SVG shadow on the squircle (not CSS box-shadow on
+ * Elevation is a Lisse SVG `shadow` on the squircle (not CSS box-shadow on
  * the square sizing wrapper, which painted sharp white corners).
+ * Stroke is Lisse `innerBorder` on this same outer surface — CSS `border`
+ * is clipped by clip-path and paints a square; `outerBorder` would sit in
+ * the drop-shadow. innerBorder hugs the white frame from inside.
  */
 export function SiteLogo({ className }: SiteLogoProps) {
   return (
@@ -24,8 +27,14 @@ export function SiteLogo({ className }: SiteLogoProps) {
     >
       <SmoothSurface
         radius="xl"
+        autoEffects={false}
         shadow={[...shadow.xlLayers]}
-        className="flex size-full items-center justify-center overflow-hidden border border-border-subtle bg-background-surface p-1"
+        innerBorder={{
+          width: 1,
+          color: colors.border.subtle,
+          opacity: 1,
+        }}
+        className="flex size-full items-center justify-center overflow-hidden bg-background-surface p-1"
       >
         <SmoothSurface
           radius="lg"
