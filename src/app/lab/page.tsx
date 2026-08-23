@@ -13,6 +13,7 @@ import {
   SelectionItemShapeGrid,
   SelectionItemStateGrid,
 } from './SelectionItemPlayground';
+import { SelectionListPlayground } from './SelectionListPlayground';
 
 export const metadata = legacyPageMetadata('Lab');
 
@@ -287,6 +288,8 @@ export default function LabPage() {
       <SelectionItemStateGrid />
       <SelectionItemShapeGrid />
       <SelectionItemPlayground />
+
+      <SelectionListPlayground />
 
       <PillIconPlayground />
 

@@ -57,6 +57,46 @@ export const shadow = {
     },
   ],
   /**
+   * Figma `elevation-lg` — selection-list.
+   * Skip the 0-opacity 79px layer; it does not paint.
+   */
+  elevationLg:
+    '0 3px 7px 0 rgb(148 148 148 / 0.1), 0 13px 13px 0 rgb(148 148 148 / 0.09), 0 29px 17px 0 rgb(148 148 148 / 0.05), 0 51px 20px 0 rgb(148 148 148 / 0.01)',
+  elevationLgLayers: [
+    {
+      offsetX: 0,
+      offsetY: 3,
+      blur: 7,
+      spread: 0,
+      color: '#949494',
+      opacity: 0.1,
+    },
+    {
+      offsetX: 0,
+      offsetY: 13,
+      blur: 13,
+      spread: 0,
+      color: '#949494',
+      opacity: 0.09,
+    },
+    {
+      offsetX: 0,
+      offsetY: 29,
+      blur: 17,
+      spread: 0,
+      color: '#949494',
+      opacity: 0.05,
+    },
+    {
+      offsetX: 0,
+      offsetY: 51,
+      blur: 20,
+      spread: 0,
+      color: '#949494',
+      opacity: 0.01,
+    },
+  ],
+  /**
    * Figma `elevation-xl` — gem walkthrough card.
    * Skip the 0-opacity 209px layer; it does not paint.
    */

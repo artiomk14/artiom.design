@@ -4,6 +4,7 @@ import {
   forwardRef,
   useState,
   type FocusEvent,
+  type MouseEvent,
   type PointerEvent,
   type ReactNode,
 } from 'react';
@@ -13,6 +14,7 @@ import { Touchpad04Icon } from '@/components/icons/Touchpad04Icon';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { cn } from '@/lib/utils';
 import { colors, cornersFor, shadow } from '@/styles/tokens';
+import { useSelectionListContext } from './selectionListContext';
 
 export type SelectionItemState = 'enabled' | 'hovered' | 'focused' | 'pressed';
 
@@ -152,16 +154,35 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       onPointerDown,
       onPointerEnter,
       onPointerLeave,
+      onClick,
+      value,
+      role,
+      tabIndex,
       ...props
     },
     ref
   ) => {
+    const list = useSelectionListContext();
     const text = children ?? label ?? 'Selection Item';
     const leading = leadingIcon ?? <Touchpad04Icon />;
     const trailing = trailingIcon ?? <Touchpad04Icon />;
-    const isSelected = selected ?? checked ?? false;
+    const itemValue =
+      value !== undefined && String(value) !== '' ? String(value) : undefined;
+    const selectedFromList =
+      list && itemValue ? list.isSelected(itemValue) : undefined;
+    const isSelected = selected ?? checked ?? selectedFromList ?? false;
     const forced = state !== undefined;
     const { 'aria-label': ariaLabel, ...rest } = props;
+
+    const itemRole =
+      role ??
+      (list
+        ? list.mode === 'menu'
+          ? hasCheckbox
+            ? 'menuitemcheckbox'
+            : 'menuitem'
+          : 'option'
+        : undefined);
 
     const [isFocusVisible, setIsFocusVisible] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
@@ -169,9 +190,16 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
 
     const tone = visualState(state, isPressed, isFocusVisible, isHovered);
 
+    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+      onClick?.(event);
+      if (event.defaultPrevented || disabled) return;
+      if (list && itemValue) list.select(itemValue);
+    };
+
     const handleFocus = (event: FocusEvent<HTMLButtonElement>) => {
       onFocus?.(event);
       setIsFocusVisible(event.currentTarget.matches(':focus-visible'));
+      if (list && itemValue) list.setActiveValue(itemValue);
     };
 
     const handleBlur = (event: FocusEvent<HTMLButtonElement>) => {
@@ -209,10 +237,24 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           as="button"
           type={type}
           disabled={disabled}
-          aria-pressed={hasCheckbox ? isSelected : undefined}
+          role={itemRole}
+          tabIndex={
+            tabIndex ??
+            (list
+              ? itemValue &&
+                (list.activeValue === itemValue || list.activeValue === null)
+                ? 0
+                : -1
+              : undefined)
+          }
+          value={itemValue}
+          aria-pressed={!list && hasCheckbox ? isSelected : undefined}
+          aria-checked={itemRole === 'menuitemcheckbox' ? isSelected : undefined}
+          aria-selected={itemRole === 'option' ? isSelected : undefined}
           aria-label={ariaLabel}
           data-item-state={tone}
           data-selected={isSelected}
+          data-value={itemValue}
           autoEffects={false}
           corners={cornersFor('2xl')}
           innerBorder={borderFor(tone)}
@@ -220,11 +262,6 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
             ...shadow.innerTwoXsLayer,
             opacity: tone === 'pressed' ? 0.05 : 0,
           }}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onPointerDown={handlePointerDown}
-          onPointerEnter={handlePointerEnter}
-          onPointerLeave={handlePointerLeave}
           className={cn(
             'ui-selection-item',
             'flex w-full cursor-pointer items-center gap-5 p-3 leading-none',
@@ -236,6 +273,12 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
             className
           )}
           {...rest}
+          onClick={handleClick}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onPointerDown={handlePointerDown}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
         >
           {hasCheckbox ? (
             <Checkbox
