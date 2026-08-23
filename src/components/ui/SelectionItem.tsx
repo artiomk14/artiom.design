@@ -17,11 +17,14 @@ import { colors, cornersFor, shadow } from '@/styles/tokens';
 export type SelectionItemState = 'enabled' | 'hovered' | 'focused' | 'pressed';
 
 /**
- * Figma `selection-item` (177:1271) — state × icon booleans.
+ * Figma `selection-item` (177:1271) — state × selected × icon booleans.
  *
  * Layout: 12px padding, 16px radius, 20px gap to the checkbox, 14px gap
  * inside the content cluster. Nested chevron is 14px and sits outside
  * the content cluster. Width is fluid; the Figma frame is 280px.
+ *
+ * `selected` only changes fill and label ink. Leading icon still follows
+ * interaction state; trailing stays subtle; nested stays quiet.
  */
 export interface SelectionItemProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
@@ -44,7 +47,11 @@ export interface SelectionItemProps
    * Force a Figma `state` variant. Omit to follow hover / focus-visible / active.
    */
   state?: SelectionItemState;
-  /** Checkbox `selected`. Only paints when `hasCheckbox`. */
+  /**
+   * Figma `selected`. Row chrome + nested checkbox. `checked` is an alias.
+   */
+  selected?: boolean;
+  /** Alias of `selected`. */
   checked?: boolean;
 }
 
@@ -61,7 +68,19 @@ function visualState(
   return 'enabled';
 }
 
-function surfaceFill(tone: SelectionItemState): string {
+function surfaceFill(tone: SelectionItemState, selected: boolean): string {
+  if (selected) {
+    switch (tone) {
+      case 'hovered':
+      case 'focused':
+        return 'bg-background-hover';
+      case 'pressed':
+        return 'bg-background-elevated';
+      default:
+        return 'bg-background-primary';
+    }
+  }
+
   switch (tone) {
     case 'hovered':
     case 'focused':
@@ -73,7 +92,9 @@ function surfaceFill(tone: SelectionItemState): string {
   }
 }
 
-function labelTone(tone: SelectionItemState): string {
+function labelTone(tone: SelectionItemState, selected: boolean): string {
+  if (selected) return 'text-foreground-primary';
+
   switch (tone) {
     case 'hovered':
     case 'focused':
@@ -124,7 +145,8 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       leadingIcon,
       trailingIcon,
       state,
-      checked = false,
+      selected,
+      checked,
       onFocus,
       onBlur,
       onPointerDown,
@@ -137,6 +159,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
     const text = children ?? label ?? 'Selection Item';
     const leading = leadingIcon ?? <Touchpad04Icon />;
     const trailing = trailingIcon ?? <Touchpad04Icon />;
+    const isSelected = selected ?? checked ?? false;
     const forced = state !== undefined;
     const { 'aria-label': ariaLabel, ...rest } = props;
 
@@ -186,9 +209,10 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           as="button"
           type={type}
           disabled={disabled}
-          aria-pressed={hasCheckbox ? checked : undefined}
+          aria-pressed={hasCheckbox ? isSelected : undefined}
           aria-label={ariaLabel}
           data-item-state={tone}
+          data-selected={isSelected}
           autoEffects={false}
           corners={cornersFor('2xl')}
           innerBorder={borderFor(tone)}
@@ -205,8 +229,8 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
             'ui-selection-item',
             'flex w-full cursor-pointer items-center gap-5 p-3 leading-none',
             'text-left',
-            surfaceFill(tone),
-            labelTone(tone),
+            surfaceFill(tone, isSelected),
+            labelTone(tone, isSelected),
             disabled && 'pointer-events-none cursor-not-allowed opacity-50',
             'transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
             className
@@ -216,7 +240,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           {hasCheckbox ? (
             <Checkbox
               size="lg"
-              selected={checked}
+              selected={isSelected}
               state="enabled"
               interactive={false}
               className="shrink-0"

@@ -54,7 +54,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card + complete state
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
 - [x] Figma `checkbox` atom (177:322) — lg/md/sm/x-sm × selected × enabled/hovered/pressed/disabled
-- [x] Figma `selection-item` (177:1271) — state × checkbox/leading/trailing/nested booleans
+- [x] Figma `selection-item` (177:1271) — state × selected × checkbox/leading/trailing/nested booleans
 
 ---
 
@@ -99,7 +99,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Gems sit in content-item | Gray `content-item` (124:655) is the holder; the gem is centered inside. | 2026-08-19 |
 | Walkthrough card chrome | CSS `rounded-3xl` + `border-secondary` + `elevation-xl` box-shadow so stroke and shadow paint immediately. Lisse clip-path was hiding both and hitching the complete resize. | 2026-08-20 |
 | Figma checkbox atom | `Checkbox` maps Figma `checkbox` (177:322): sizes 20/16/14/12, radius md/sm, `tick-02` leaf, Lisse squircle + `shadow/2xs` | 2026-08-20 |
-| Figma selection item | `SelectionItem` maps Figma `selection-item` (177:1271): 12px pad, 16px radius, 20/14 gaps; checkbox lg; `touchpad-04` + `arrow-right-01-sharp` | 2026-08-20 |
+| Figma selection item | `SelectionItem` maps Figma `selection-item` (177:1271): 12px pad, 16px radius, 20/14 gaps; checkbox lg; `touchpad-04` + `arrow-right-01-sharp`; `selected` shifts fill + label to primary | 2026-08-23 |
 
 ---
 
@@ -204,4 +204,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-20 (Figma selection-item)*
+*Last updated: 2026-08-23 (Figma selection-item selected=true)*

@@ -70,13 +70,13 @@ export function SelectionItemPlayground() {
         Selection item · interactive
       </h2>
       <p className="text-sm text-foreground-muted">
-        Hover, tab to focus, press. Click toggles the checkbox when that slot
-        is on.
+        Hover, tab to focus, press. Click toggles Figma `selected` (row chrome
+        + checkbox) when that slot is on.
       </p>
       <div className="w-[320px] bg-background-muted p-5">
         <div className="w-[280px]">
           <SelectionItem
-            checked={checked}
+            selected={checked}
             onClick={() => setChecked((value) => !value)}
           />
         </div>
@@ -116,19 +116,30 @@ export function SelectionItemStateGrid() {
         Selection item · state
       </h2>
       <p className="text-sm text-foreground-muted">
-        Figma `selection-item` (177:1271). States are forced so they can be
-        compared without hovering. Frame width is 280px.
+        Figma `selection-item` (177:1271). States × `selected` are forced so
+        they can be compared without hovering. Frame width is 280px.
       </p>
-      <ul className="flex w-fit flex-col gap-5 bg-background-muted p-5">
+      <div className="flex w-fit flex-col gap-5 bg-background-muted p-5">
+        <div className="flex gap-5">
+          <span className="w-[280px] text-xs text-foreground-muted">
+            selected=false
+          </span>
+          <span className="w-[280px] text-xs text-foreground-muted">
+            selected=true
+          </span>
+        </div>
         {STATES.map((itemState) => (
-          <li key={itemState} className="flex items-center gap-3">
+          <div key={itemState} className="flex items-center gap-5">
             <div className="w-[280px]">
-              <SelectionItem state={itemState} />
+              <SelectionItem state={itemState} selected={false} />
+            </div>
+            <div className="w-[280px]">
+              <SelectionItem state={itemState} selected />
             </div>
             <span className="text-xs text-foreground-muted">{itemState}</span>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </section>
   );
 }
