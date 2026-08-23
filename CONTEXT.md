@@ -90,6 +90,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | No headless CMS | Portfolio updates are infrequent; keep content in-repo | 2026-08-14 |
 | Single homepage + four tabs | Content sits under the hero; tab switches must not reload the page | 2026-08-18 |
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
+| Site-logo stroke | `border-subtle` is Lisse `innerBorder` on the 52px white frame (same surface as `shadow.xlLayers`). CSS `border` is clip-path-cut / square; `outerBorder` would sit in the drop-shadow. | 2026-08-23 |
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header), `transparent` (ghost fill; darker ink on hover/press), `neutral` (surface fill + stroke + `shadow/2xs`) | 2026-08-20 |
 | Icon-only buttons are square | Header X/LinkedIn controls are 40×40 (`size-10`); walkthrough prev/next stay 32×32 (`size="icon"`) | 2026-08-20 |
@@ -203,4 +204,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-20 (Gems Reset in content-item after walkthrough complete)*
+*Last updated: 2026-08-23 (site-logo `border-subtle` via Lisse `innerBorder`)*
