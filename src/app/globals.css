@@ -312,13 +312,14 @@ body {
    ========================================================================== */
 
 .t-dropdown {
+  --_dropdown-dur: var(--dropdown-close-dur);
   transform-origin: top left;
   transform: scale(var(--dropdown-pre-scale));
   opacity: 0;
   pointer-events: none;
   transition:
-    transform var(--dropdown-close-dur) var(--dropdown-ease),
-    opacity var(--dropdown-close-dur) var(--dropdown-ease);
+    transform var(--_dropdown-dur) var(--dropdown-ease),
+    opacity var(--_dropdown-dur) var(--dropdown-ease);
 }
 
 .t-dropdown[data-origin='top-right'] {
@@ -342,12 +343,10 @@ body {
 }
 
 .t-dropdown.is-open {
+  --_dropdown-dur: var(--dropdown-open-dur);
   transform: scale(1);
   opacity: 1;
   pointer-events: auto;
-  transition:
-    transform var(--dropdown-open-dur) var(--dropdown-ease),
-    opacity var(--dropdown-open-dur) var(--dropdown-ease);
 }
 
 .t-dropdown.is-closing {
