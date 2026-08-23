@@ -6,6 +6,7 @@ import {
   type FocusEvent,
   type MouseEvent,
   type PointerEvent,
+  type Ref,
 } from 'react';
 import { SmoothCorners } from '@lisse/react';
 import { CheckboxTickIcon } from '@/components/icons/CheckboxTickIcon';
@@ -37,6 +38,11 @@ export interface CheckboxProps
   state?: CheckboxState;
   /** Called when `selected` toggles (interactive use). */
   onSelectedChange?: (selected: boolean) => void;
+  /**
+   * When false, renders a static surface (no button semantics).
+   * Used inside `SelectionItem` so the row stays a single control.
+   */
+  interactive?: boolean;
 }
 
 const SIZE = {
@@ -133,6 +139,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
       size = 'lg',
       state,
       onSelectedChange,
+      interactive = true,
       onClick,
       onFocus,
       onBlur,
@@ -205,8 +212,57 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
       onSelectedChange?.(next);
     };
 
+    const tick = selected ? (
+      <CheckboxTickIcon
+        size={spec.tick}
+        className={tickTone(visualState)}
+      />
+    ) : null;
+
+    const surfaceClassName = cn(
+      'ui-checkbox',
+      'inline-flex shrink-0 items-center justify-center',
+      spec.box,
+      surfaceFill(selected, visualState),
+      !interactive || looksDisabled
+        ? 'pointer-events-none'
+        : 'cursor-pointer',
+      looksDisabled && interactive && 'cursor-not-allowed',
+      'transition-[background-color] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
+      className
+    );
+
+    const effects = {
+      autoEffects: false as const,
+      corners: cornersFor(spec.radius),
+      innerBorder: borderFor(selected, visualState),
+      innerShadow: {
+        ...shadow.innerXsLayer,
+        opacity: showPressedInset ? 0.05 : 0,
+      },
+      shadow: showDropShadow ? [...shadow.twoXsLayers] : undefined,
+    };
+
+    if (!interactive) {
+      return (
+        <span className={cn('inline-flex leading-none', spec.box, '[&>div]:size-full')} aria-hidden="true">
+          <SmoothCorners
+            ref={ref as Ref<HTMLSpanElement>}
+            as="span"
+            {...effects}
+            data-selected={selected}
+            data-state={visualState}
+            data-size={size}
+            className={surfaceClassName}
+          >
+            {tick}
+          </SmoothCorners>
+        </span>
+      );
+    }
+
     return (
-      <span className="inline-flex">
+      <span className={cn('inline-flex leading-none', spec.box, '[&>div]:size-full')}>
         <SmoothCorners
           ref={ref}
           as="button"
@@ -219,37 +275,17 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
           data-selected={selected}
           data-state={visualState}
           data-size={size}
-          autoEffects={false}
-          corners={cornersFor(spec.radius)}
-          innerBorder={borderFor(selected, visualState)}
-          innerShadow={{
-            ...shadow.innerXsLayer,
-            opacity: showPressedInset ? 0.05 : 0,
-          }}
-          shadow={showDropShadow ? [...shadow.twoXsLayers] : undefined}
+          {...effects}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onPointerDown={handlePointerDown}
           onPointerEnter={handlePointerEnter}
           onPointerLeave={handlePointerLeave}
           onClick={handleClick}
-          className={cn(
-            'ui-checkbox',
-            'inline-flex shrink-0 items-center justify-center',
-            spec.box,
-            surfaceFill(selected, visualState),
-            looksDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
-            'transition-[background-color] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-            className
-          )}
+          className={surfaceClassName}
           {...rest}
         >
-          {selected ? (
-            <CheckboxTickIcon
-              size={spec.tick}
-              className={tickTone(visualState)}
-            />
-          ) : null}
+          {tick}
         </SmoothCorners>
       </span>
     );
