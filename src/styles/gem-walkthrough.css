@@ -174,24 +174,17 @@
 }
 
 /* Gems rest at 0.85; the gray `content-item` hover/focus grows them to 1.
-   Hover media so touch keeps the designed size (sticky :hover is a trap).
    Duration follows the destination state: fast in, slower out. */
 .t-gem-scale {
-  transform: scale(1);
+  transform: scale(var(--gem-rest-scale));
   transform-origin: center;
   transition: transform var(--gem-scale-out-dur) var(--gem-scale-ease);
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .t-gem-scale {
-    transform: scale(var(--gem-rest-scale));
-  }
-
-  .content-item:hover .t-gem-scale,
-  .content-item:focus-within .t-gem-scale {
-    transform: scale(1);
-    transition-duration: var(--gem-scale-in-dur);
-  }
+.content-item:hover .t-gem-scale,
+.content-item:focus-within .t-gem-scale {
+  transform: scale(1);
+  transition-duration: var(--gem-scale-in-dur);
 }
 
 @keyframes t-check-fade { from { opacity: 0; } to { opacity: 1; } }

@@ -100,7 +100,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
 | Gems walkthrough template | First Gems card is Figma `wc26-walktrough`: image, copy, 1/3 counter, 32px transparent prev/next. More Gems reuse this. | 2026-08-19 |
 | Gems sit in content-item | Gray `content-item` (124:655) is the holder; the gem is centered inside. | 2026-08-19 |
-| Gems rest at 0.85 scale | Walkthrough (and later gems) sit at `scale(0.85)` in the holder; hover or focus-within the `content-item` returns them to `1`. Transform only; touch / reduced-motion stay at full size. | 2026-08-24 |
+| Gems rest at 0.85 scale | Walkthrough (and later gems) sit at `scale(0.85)` in the holder; hover or focus-within the `content-item` returns them to `1`. Transform only; reduced-motion stays at full size. | 2026-08-24 |
 | Walkthrough card chrome | CSS `rounded-3xl` + `border-secondary` + `elevation-xl` box-shadow so stroke and shadow paint immediately. Lisse clip-path was hiding both and hitching the complete resize. | 2026-08-20 |
 | Walkthrough complete | Last-step check enters Figma `step-04` (178:1724). Gray holder keeps max gem height. Reset (`178:1818`, `class=neutral`) appears at the bottom of the holder. | 2026-08-20 |
 | Figma checkbox atom | `Checkbox` maps Figma `checkbox` (177:322): sizes 20/16/14/12, radius md/sm, `tick-02` leaf, Lisse squircle + `shadow/2xs` | 2026-08-20 |
