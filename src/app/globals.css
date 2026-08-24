@@ -401,6 +401,7 @@ body {
   transition: opacity var(--duration-normal) var(--ease-out);
 }
 
+.overflow-fade.is-visible,
 .overflow-fade[data-visible='true'] {
   opacity: 1;
 }

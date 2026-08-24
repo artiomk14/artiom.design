@@ -6,6 +6,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { cn } from '@/lib/utils';
 
 interface OverflowFadeProps {
   children: ReactNode;
@@ -72,7 +73,10 @@ export function OverflowFade({ children, className }: OverflowFadeProps) {
       <div
         aria-hidden
         data-visible={visible ? 'true' : 'false'}
-        className="overflow-fade pointer-events-none fixed inset-x-0 bottom-0 z-10"
+        className={cn(
+          'overflow-fade pointer-events-none fixed inset-x-0 bottom-0 z-10',
+          visible && 'is-visible'
+        )}
       />
     </div>
   );
