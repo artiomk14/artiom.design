@@ -20,6 +20,8 @@ import { cn } from '@/lib/utils';
 import { colors, cornersFor, shadow } from '@/styles/tokens';
 import {
   SelectionListContext,
+  useSelectionFlyoutContext,
+  useSelectionListContext,
   type SelectionListMode,
 } from './selectionListContext';
 
@@ -61,7 +63,9 @@ function toArray(value: SelectionListValue | undefined): string[] {
 
 function itemButtons(root: HTMLElement | null): HTMLButtonElement[] {
   if (!root) return [];
-  return Array.from(root.querySelectorAll<HTMLButtonElement>(ITEM_SELECTOR));
+  return Array.from(
+    root.querySelectorAll<HTMLButtonElement>(ITEM_SELECTOR)
+  ).filter((button) => button.closest('.ui-selection-list') === root);
 }
 
 function itemValue(button: HTMLButtonElement): string | undefined {
@@ -96,6 +100,9 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
   ) => {
     const generatedId = useId();
     const listId = id ?? generatedId;
+    const flyout = useSelectionFlyoutContext();
+    const parentList = useSelectionListContext();
+    const depth = (parentList?.depth ?? -1) + 1;
     const shouldClose = closeOnSelect ?? mode !== 'multiple';
     const isControlled = value !== undefined;
 
@@ -106,7 +113,24 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
     const [activeValue, setActiveValue] = useState<string | null>(
       () => selected[0] ?? null
     );
+    const [openNestedValue, setOpenNestedValue] = useState<string | null>(null);
+    const [nestedOpenMode, setNestedOpenMode] = useState<
+      'pointer' | 'keyboard'
+    >('pointer');
     const nodeRef = useRef<HTMLDivElement>(null);
+
+    const openNested = useCallback(
+      (next: string | null, options?: { focus?: boolean }) => {
+        setOpenNestedValue((current) => (current === next ? current : next));
+        if (next == null) return;
+        setNestedOpenMode(options?.focus ? 'keyboard' : 'pointer');
+      },
+      []
+    );
+
+    const requestClose = useCallback(() => {
+      onRequestClose?.();
+    }, [onRequestClose]);
 
     const setNodeRef = useCallback(
       (node: HTMLDivElement | null) => {
@@ -141,9 +165,13 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
         }
         onValueChange?.(next);
         setActiveValue(item);
-        if (shouldClose) onRequestClose?.();
+        if (shouldClose) {
+          onRequestClose?.();
+          flyout?.closeTree();
+        }
       },
       [
+        flyout,
         isControlled,
         mode,
         onRequestClose,
@@ -157,12 +185,28 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
       () => ({
         mode,
         listId,
+        depth,
         isSelected,
         select,
         activeValue,
         setActiveValue,
+        openNestedValue,
+        openNested,
+        nestedOpenMode,
+        requestClose,
       }),
-      [activeValue, isSelected, listId, mode, select]
+      [
+        activeValue,
+        depth,
+        isSelected,
+        listId,
+        mode,
+        nestedOpenMode,
+        openNested,
+        openNestedValue,
+        requestClose,
+        select,
+      ]
     );
 
     const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
@@ -212,8 +256,26 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
           event.preventDefault();
           focusAt(buttons.length - 1);
           break;
+        case 'ArrowRight': {
+          const focused = currentIndex === -1 ? null : buttons[currentIndex];
+          if (focused?.getAttribute('aria-haspopup')) {
+            event.preventDefault();
+            const nextValue = itemValue(focused);
+            if (nextValue) openNested(nextValue, { focus: true });
+          }
+          break;
+        }
+        case 'ArrowLeft':
+          if (flyout) {
+            event.preventDefault();
+            flyout.close({ restoreFocus: true });
+          }
+          break;
         case 'Escape':
-          if (onRequestClose) {
+          if (flyout) {
+            event.preventDefault();
+            flyout.close({ restoreFocus: true });
+          } else if (onRequestClose) {
             event.preventDefault();
             onRequestClose();
           }
@@ -307,11 +369,18 @@ export function SelectionMenu({
       const target = event.target;
       if (!(target instanceof Node)) return;
       if (rootRef.current?.contains(target)) return;
+      if (
+        target instanceof Element &&
+        target.closest('[data-selection-submenu]')
+      ) {
+        return;
+      }
       close();
     };
 
     const onDocumentKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (event.key === 'Escape') close();
+      if (event.key !== 'Escape' || event.defaultPrevented) return;
+      close();
     };
 
     document.addEventListener('mousedown', onPointerDown);

@@ -214,4 +214,15 @@ export const shadow = {
   ],
 } as const;
 
+/**
+ * Figma nested `selection-list` (246:449) — position relative to the
+ * hovered `selection-item`, not the parent list frame.
+ */
+export const nestedList = {
+  /** 8px above the hovered item. */
+  offsetY: 8,
+  /** 2px overlap on the hovered item’s open side. */
+  overlapX: 2,
+} as const;
+
 export type SizeToken = typeof size;

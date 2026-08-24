@@ -158,8 +158,8 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 ### UI
 - `Button` — Figma `button`; `variant` `primary` | `transparent` | `neutral`; sizes 1920px / 390px / 32px icon (Lisse squircle)
 - `Checkbox` — Figma `checkbox` (177:322); sizes lg/md/sm/x-sm × selected × state
-- `SelectionItem` — Figma `selection-item` (177:1271); state × selected × checkbox/leading/trailing/nested slots
-- `SelectionList` / `SelectionMenu` — Figma `selection-list` (177:1401); menu, single, multiple, combobox; dropdown motion
+- `SelectionItem` — Figma `selection-item` (177:1271); state × selected × checkbox/leading/trailing/nested slots; `nested` flyout on hover
+- `SelectionList` / `SelectionMenu` — Figma `selection-list` (177:1401); menu, single, multiple, combobox; dropdown motion; nested lists (246:449)
 - `Pill` — Figma navigation pill (selected × state; outline icons stroke-draw on select)
 - `Card` / `CardContent` — Content cards (Lisse squircle)
 - `SmoothSurface` — Generic Lisse surface; prefer over `rounded-*`

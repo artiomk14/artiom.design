@@ -1,12 +1,21 @@
 'use client';
 
 import {
+  cloneElement,
   forwardRef,
+  isValidElement,
+  useCallback,
+  useId,
+  useMemo,
+  useRef,
   useState,
   type FocusEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent,
   type PointerEvent,
+  type ReactElement,
   type ReactNode,
+  type Ref,
 } from 'react';
 import { SmoothCorners } from '@lisse/react';
 import { ArrowRight01SharpIcon } from '@/components/icons/ArrowRight01SharpIcon';
@@ -14,7 +23,13 @@ import { Touchpad04Icon } from '@/components/icons/Touchpad04Icon';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { cn } from '@/lib/utils';
 import { colors, cornersFor, shadow } from '@/styles/tokens';
-import { useSelectionListContext } from './selectionListContext';
+import { SelectionSubmenu } from './SelectionSubmenu';
+import {
+  SelectionFlyoutContext,
+  useSelectionFlyoutContext,
+  useSelectionListContext,
+  type SelectionFlyoutContextValue,
+} from './selectionListContext';
 
 export type SelectionItemState = 'enabled' | 'hovered' | 'focused' | 'pressed';
 
@@ -27,6 +42,9 @@ export type SelectionItemState = 'enabled' | 'hovered' | 'focused' | 'pressed';
  *
  * `selected` only changes fill and label ink. Leading icon still follows
  * interaction state; trailing stays subtle; nested stays quiet.
+ *
+ * Pass `nested` (a `SelectionList`) to open a flyout on hover. Figma
+ * nested lists (246:449) sit 8px above the item and overlap it by 2px.
  */
 export interface SelectionItemProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
@@ -41,6 +59,11 @@ export interface SelectionItemProps
   hasTrailingIcon?: boolean;
   /** Figma `has nested` — right chevron. Default true. */
   hasNested?: boolean;
+  /**
+   * Nested `SelectionList` shown on hover / ArrowRight. Implies the
+   * chevron even when `hasNested` is false.
+   */
+  nested?: ReactNode;
   /** Figma `leading-icon` instance swap. Defaults to `touchpad-04`. */
   leadingIcon?: ReactNode;
   /** Figma `trailing-icon` instance swap. Defaults to `touchpad-04`. */
@@ -132,6 +155,18 @@ function borderFor(tone: SelectionItemState) {
   return { width: 1, color: colors.border.subtle, opacity: 0 };
 }
 
+function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
+  if (typeof ref === 'function') ref(value);
+  else if (ref) ref.current = value;
+}
+
+function withNestedListId(node: ReactNode, id: string): ReactNode {
+  if (!isValidElement(node)) return node;
+  const props = node.props as { id?: string };
+  if (props.id) return node;
+  return cloneElement(node as ReactElement<{ id?: string }>, { id });
+}
+
 export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
   (
     {
@@ -144,6 +179,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       hasLeadingIcon = true,
       hasTrailingIcon = true,
       hasNested = true,
+      nested,
       leadingIcon,
       trailingIcon,
       state,
@@ -155,6 +191,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       onPointerEnter,
       onPointerLeave,
       onClick,
+      onKeyDown,
       value,
       role,
       tabIndex,
@@ -163,15 +200,21 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
     ref
   ) => {
     const list = useSelectionListContext();
+    const parentFlyout = useSelectionFlyoutContext();
+    const generatedId = useId();
+    const nestedListId = useId();
     const text = children ?? label ?? 'Selection Item';
     const leading = leadingIcon ?? <Touchpad04Icon />;
     const trailing = trailingIcon ?? <Touchpad04Icon />;
     const itemValue =
       value !== undefined && String(value) !== '' ? String(value) : undefined;
+    const flyoutKey = itemValue ?? generatedId;
     const selectedFromList =
       list && itemValue ? list.isSelected(itemValue) : undefined;
     const isSelected = selected ?? checked ?? selectedFromList ?? false;
     const forced = state !== undefined;
+    const hasFlyout = nested != null;
+    const showChevron = hasFlyout || hasNested;
     const { 'aria-label': ariaLabel, ...rest } = props;
 
     const itemRole =
@@ -187,12 +230,80 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
     const [isFocusVisible, setIsFocusVisible] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const [localOpen, setLocalOpen] = useState(false);
+    const [localOpenMode, setLocalOpenMode] = useState<'pointer' | 'keyboard'>(
+      'pointer'
+    );
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const [triggerNode, setTriggerNode] = useState<HTMLButtonElement | null>(
+      null
+    );
 
-    const tone = visualState(state, isPressed, isFocusVisible, isHovered);
+    const isOpen = hasFlyout
+      ? list
+        ? list.openNestedValue === flyoutKey
+        : localOpen
+      : false;
+    const openMode = list ? list.nestedOpenMode : localOpenMode;
+    const tone = visualState(
+      state,
+      isPressed,
+      isFocusVisible,
+      isHovered || isOpen
+    );
+
+    const setTriggerRef = useCallback(
+      (node: HTMLButtonElement | null) => {
+        triggerRef.current = node;
+        setTriggerNode(node);
+        assignRef(ref, node);
+      },
+      [ref]
+    );
+
+    const openFlyout = useCallback(
+      (options?: { focus?: boolean }) => {
+        if (!hasFlyout || disabled) return;
+        if (list) {
+          list.openNested(flyoutKey, options);
+          return;
+        }
+        setLocalOpenMode(options?.focus ? 'keyboard' : 'pointer');
+        setLocalOpen(true);
+      },
+      [disabled, flyoutKey, hasFlyout, list]
+    );
+
+    const closeFlyout = useCallback(() => {
+      if (list) {
+        if (list.openNestedValue === flyoutKey) list.openNested(null);
+        return;
+      }
+      setLocalOpen(false);
+    }, [flyoutKey, list]);
+
+    const flyoutContext = useMemo<SelectionFlyoutContextValue>(
+      () => ({
+        close: (options) => {
+          closeFlyout();
+          if (options?.restoreFocus) triggerRef.current?.focus();
+        },
+        closeTree: () => {
+          closeFlyout();
+          if (parentFlyout) parentFlyout.closeTree();
+          else list?.requestClose();
+        },
+      }),
+      [closeFlyout, list, parentFlyout]
+    );
 
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
       onClick?.(event);
       if (event.defaultPrevented || disabled) return;
+      if (hasFlyout) {
+        openFlyout();
+        return;
+      }
       if (list && itemValue) list.select(itemValue);
     };
 
@@ -223,6 +334,8 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
     const handlePointerEnter = (event: PointerEvent<HTMLButtonElement>) => {
       onPointerEnter?.(event);
       if (!forced && !disabled) setIsHovered(true);
+      if (hasFlyout) openFlyout();
+      else if (event.pointerType !== 'touch') list?.openNested(null);
     };
 
     const handlePointerLeave = (event: PointerEvent<HTMLButtonElement>) => {
@@ -230,10 +343,30 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       if (!forced) setIsHovered(false);
     };
 
+    const handleKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>) => {
+      onKeyDown?.(event);
+      if (event.defaultPrevented || disabled || !hasFlyout) return;
+
+      if (
+        event.key === 'ArrowRight' ||
+        event.key === 'Enter' ||
+        event.key === ' '
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        openFlyout({ focus: true });
+      }
+    };
+
+    const popup =
+      list?.mode === 'single' || list?.mode === 'multiple'
+        ? 'listbox'
+        : 'menu';
+
     return (
       <span className="flex w-full [&>div]:w-full">
         <SmoothCorners
-          ref={ref}
+          ref={setTriggerRef}
           as="button"
           type={type}
           disabled={disabled}
@@ -251,10 +384,14 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           aria-pressed={!list && hasCheckbox ? isSelected : undefined}
           aria-checked={itemRole === 'menuitemcheckbox' ? isSelected : undefined}
           aria-selected={itemRole === 'option' ? isSelected : undefined}
+          aria-haspopup={hasFlyout ? popup : undefined}
+          aria-expanded={hasFlyout ? isOpen : undefined}
+          aria-controls={hasFlyout ? nestedListId : undefined}
           aria-label={ariaLabel}
           data-item-state={tone}
           data-selected={isSelected}
           data-value={itemValue}
+          data-has-nested={showChevron}
           autoEffects={false}
           corners={cornersFor('2xl')}
           innerBorder={borderFor(tone)}
@@ -279,6 +416,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           onPointerDown={handlePointerDown}
           onPointerEnter={handlePointerEnter}
           onPointerLeave={handlePointerLeave}
+          onKeyDown={handleKeyDown}
         >
           {hasCheckbox ? (
             <Checkbox
@@ -304,10 +442,24 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
               </span>
             ) : null}
           </span>
-          {hasNested ? (
+          {showChevron ? (
             <ArrowRight01SharpIcon className="leading-none text-foreground-quiet" />
           ) : null}
         </SmoothCorners>
+        {hasFlyout ? (
+          <SelectionFlyoutContext.Provider value={flyoutContext}>
+            <SelectionSubmenu
+              open={isOpen}
+              trigger={triggerNode}
+              autoFocus={isOpen && openMode === 'keyboard'}
+              zIndex={50 + (list?.depth ?? 0) * 2}
+              onKeepOpen={() => openFlyout()}
+              onRequestClose={closeFlyout}
+            >
+              {withNestedListId(nested, nestedListId)}
+            </SelectionSubmenu>
+          </SelectionFlyoutContext.Provider>
+        ) : null}
       </span>
     );
   }
