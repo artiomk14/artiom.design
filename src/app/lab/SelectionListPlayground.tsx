@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { Button, SelectionItem, SelectionList, SelectionMenu } from '@/components/ui';
 
 const FIGMA_ITEMS = [
@@ -11,6 +11,35 @@ const FIGMA_ITEMS = [
   { value: 'export-to', label: 'Export to', hasNested: true },
 ] as const;
 
+const OPEN_WITH = [
+  { value: 'gmail', label: 'Gmail' },
+  { value: 'outlook', label: 'Outlook' },
+  { value: 'notion-mail', label: 'Notion Mail' },
+  { value: 'superhuman', label: 'Superhuman' },
+] as const;
+
+const EDIT_WITH = [
+  { value: 'cursor', label: 'Cursor' },
+  { value: 'vscode', label: 'VS Code' },
+] as const;
+
+const SAVE_AS = [
+  { value: 'png', label: 'PNG' },
+  { value: 'svg', label: 'SVG' },
+] as const;
+
+const EXPORT_TO = [
+  { value: 'figma', label: 'Figma' },
+  { value: 'notion', label: 'Notion' },
+] as const;
+
+const NESTED_BY_VALUE: Record<string, readonly { value: string; label: string }[]> = {
+  'open-with': OPEN_WITH,
+  'edit-with': EDIT_WITH,
+  'save-as': SAVE_AS,
+  'export-to': EXPORT_TO,
+};
+
 const FRUIT = [
   { value: 'apple', label: 'Apple' },
   { value: 'banana', label: 'Banana' },
@@ -18,6 +47,35 @@ const FRUIT = [
   { value: 'date', label: 'Date' },
   { value: 'fig', label: 'Fig' },
 ] as const;
+
+function NestedList({
+  items,
+  label,
+}: {
+  items: readonly { value: string; label: string }[];
+  label: string;
+}) {
+  return (
+    <SelectionList aria-label={label}>
+      {items.map((item) => (
+        <SelectionItem
+          key={item.value}
+          value={item.value}
+          label={item.label}
+          hasCheckbox={false}
+          hasTrailingIcon={false}
+          hasNested={false}
+        />
+      ))}
+    </SelectionList>
+  );
+}
+
+function nestedFor(value: string, label: string): ReactNode {
+  const items = NESTED_BY_VALUE[value];
+  if (!items) return null;
+  return <NestedList items={items} label={label} />;
+}
 
 function FigmaItems({
   hasCheckbox = false,
@@ -34,6 +92,7 @@ function FigmaItems({
           hasCheckbox={hasCheckbox}
           hasTrailingIcon={false}
           hasNested={item.hasNested}
+          nested={item.hasNested ? nestedFor(item.value, item.label) : undefined}
         />
       ))}
     </>
@@ -56,6 +115,38 @@ export function SelectionListPlayground() {
     <>
       <section className="flex flex-col gap-4">
         <h2 className="text-sm font-semibold text-foreground-tertiary">
+          Selection list · nested
+        </h2>
+        <p className="text-sm text-foreground-muted">
+          Figma nested `selection-list` (246:449). Hover <span className="text-foreground-secondary">Open with</span> —
+          the same list component opens 8px above the item and overlaps it by
+          2px. A safe triangle keeps the flyout open while the pointer travels
+          into it. ArrowRight opens; ArrowLeft / Escape close one level.
+        </p>
+        <div className="min-h-80 w-fit bg-background-muted p-8 pr-80">
+          <SelectionList id="selection-list-nested" aria-label="Actions">
+            <SelectionItem
+              value="copy-email"
+              label="Copy E-mail"
+              hasCheckbox={false}
+              hasTrailingIcon={false}
+              hasNested={false}
+            />
+            <SelectionItem
+              value="open-with"
+              label="Open with"
+              hasCheckbox={false}
+              hasTrailingIcon={false}
+              nested={
+                <NestedList items={OPEN_WITH} label="Open with" />
+              }
+            />
+          </SelectionList>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <h2 className="text-sm font-semibold text-foreground-tertiary">
           Selection list · Figma replica
         </h2>
         <p className="text-sm text-foreground-muted">
@@ -63,7 +154,7 @@ export function SelectionListPlayground() {
           gap, 24px radius, `elevation-lg`. Items match the file: leading icon
           + label, nested chevron on every row except the first.
         </p>
-        <div className="w-fit bg-background-muted p-8">
+        <div className="min-h-80 w-fit bg-background-muted p-8 pr-80">
           <SelectionList id="selection-list-figma" aria-label="Actions">
             <FigmaItems />
           </SelectionList>
@@ -76,7 +167,8 @@ export function SelectionListPlayground() {
         </h2>
         <p className="text-sm text-foreground-muted">
           `SelectionMenu` anchors the list to a trigger. Open/close uses the
-          menu-dropdown motion. Escape and outside click close it.
+          menu-dropdown motion. Escape and outside click close it. Nested
+          flyouts stay available from chevron rows.
         </p>
         <div className="min-h-80 bg-background-muted p-8">
           <SelectionMenu
