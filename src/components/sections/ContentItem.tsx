@@ -14,13 +14,15 @@ interface ContentItemProps {
  * `spacing/36` (144px) bottom. Height follows the gem; empty slots keep
  * the 602px min-height so they still read as holders. Positioned so the
  * walkthrough Reset can sit `bottom-10` (40px) from the holder edge.
+ * `.content-item` is the hover/focus target that scales a nested gem
+ * from 0.85 to 1 (`t-gem-scale` in gem-walkthrough.css).
  */
 export function ContentItem({ className, children }: ContentItemProps) {
   return (
     <SmoothSurface
       radius="3xl"
       className={cn(
-        'relative flex w-full items-center justify-center overflow-visible bg-background-primary px-5 pt-32 pb-36',
+        'content-item relative flex w-full items-center justify-center overflow-visible bg-background-primary px-5 pt-32 pb-36',
         !children && 'min-h-[var(--size-content-item)]',
         className
       )}
