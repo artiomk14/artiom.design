@@ -5,6 +5,44 @@ import { createContext, useContext } from 'react';
 /** How a `SelectionList` interprets item activation. */
 export type SelectionListMode = 'menu' | 'single' | 'multiple';
 
+export type NestedOpenMode = 'pointer' | 'keyboard';
+
+/**
+ * External store for which nested flyout is open. Items subscribe with
+ * `useSyncExternalStore` so only the previous/next trigger re-renders —
+ * not every row in the list.
+ */
+export interface NestedOpenStore {
+  subscribe: (onStoreChange: () => void) => () => void;
+  get: () => string | null;
+  getMode: () => NestedOpenMode;
+  set: (value: string | null, options?: { focus?: boolean }) => void;
+}
+
+export function createNestedOpenStore(): NestedOpenStore {
+  let value: string | null = null;
+  let mode: NestedOpenMode = 'pointer';
+  const listeners = new Set<() => void>();
+
+  return {
+    subscribe(onStoreChange) {
+      listeners.add(onStoreChange);
+      return () => {
+        listeners.delete(onStoreChange);
+      };
+    },
+    get: () => value,
+    getMode: () => mode,
+    set(next, options) {
+      const nextMode: NestedOpenMode = options?.focus ? 'keyboard' : 'pointer';
+      if (value === next && (next === null || mode === nextMode)) return;
+      value = next;
+      if (next !== null) mode = nextMode;
+      listeners.forEach((listener) => listener());
+    },
+  };
+}
+
 export interface SelectionListContextValue {
   mode: SelectionListMode;
   listId: string;
@@ -13,9 +51,7 @@ export interface SelectionListContextValue {
   select: (value: string) => void;
   activeValue: string | null;
   setActiveValue: (value: string | null) => void;
-  openNestedValue: string | null;
-  openNested: (value: string | null, options?: { focus?: boolean }) => void;
-  nestedOpenMode: 'pointer' | 'keyboard';
+  nestedOpen: NestedOpenStore;
   requestClose: () => void;
 }
 
