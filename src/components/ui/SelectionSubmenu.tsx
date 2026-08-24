@@ -13,13 +13,16 @@ import { cn } from '@/lib/utils';
 import { duration, nestedList } from '@/styles/tokens';
 import type { SelectionListOrigin } from './SelectionList';
 import {
-  isMovingToward,
+  cursorTriangle,
+  gracePolygon,
   pointInRect,
   pointInTriangle,
+  type NestedListSide,
   type Point,
 } from './nestedListGeometry';
+import { useSelectionListContext } from './selectionListContext';
 
-export type NestedListSide = 'left' | 'right';
+export type { NestedListSide };
 
 interface SubmenuPosition {
   left: number;
@@ -87,23 +90,14 @@ function submenuRect(position: SubmenuPosition): DOMRect {
   );
 }
 
-function triangleFromApex(
-  apex: Point,
-  box: DOMRect,
-  side: NestedListSide
-): [Point, Point, Point] {
-  const x = side === 'right' ? box.left : box.right;
-  return [apex, { x, y: box.top }, { x, y: box.bottom }];
-}
-
 /**
  * Portaled nested `SelectionList`. Figma 246:449 places it 8px above the
  * hovered item and overlapping it by 2px.
  *
- * The safe triangle is math-only: the last point inside the trigger is
- * frozen as the apex, then later pointer samples are tested against that
- * cone. Nothing is hit-tested over the trigger, so the cursor and hover
- * state stay with the row.
+ * Safe path to the flyout is a cursor-following triangle (Amazon / Floating
+ * UI) plus ray intent. The triangle is math-only — it does not steal hits
+ * from the trigger row. Sibling rows read the same grace from the list store
+ * and refuse to open while the pointer is heading at this panel (Radix).
  */
 export function SelectionSubmenu({
   open,
@@ -114,16 +108,21 @@ export function SelectionSubmenu({
   onRequestClose,
 }: SelectionSubmenuProps) {
   const isClient = useIsClient();
+  const list = useSelectionListContext();
   const panelRef = useRef<HTMLDivElement>(null);
   const positionRef = useRef<SubmenuPosition | null>(null);
   const apexRef = useRef<Point | null>(null);
-  const previousPointRef = useRef<Point | null>(null);
   const closeTimerRef = useRef<number | null>(null);
   const onRequestCloseRef = useRef(onRequestClose);
+  const listRef = useRef(list);
 
   useEffect(() => {
     onRequestCloseRef.current = onRequestClose;
   }, [onRequestClose]);
+
+  useEffect(() => {
+    listRef.current = list;
+  }, [list]);
 
   const cancelClose = useCallback(() => {
     if (closeTimerRef.current != null) {
@@ -172,6 +171,12 @@ export function SelectionSubmenu({
   useEffect(() => () => cancelClose(), [cancelClose]);
 
   useEffect(() => {
+    if (!open) {
+      list?.nestedOpen.setGrace(null);
+    }
+  }, [list, open]);
+
+  useEffect(() => {
     if (!open || !trigger) return;
     const dropdown = trigger.closest('.t-dropdown');
     if (!dropdown) return;
@@ -198,6 +203,8 @@ export function SelectionSubmenu({
   useEffect(() => {
     if (!open || !trigger) return;
 
+    const parentList = trigger.closest('.ui-selection-list');
+
     const inTriggerOrPanel = (point: Point, target: EventTarget | null) => {
       if (target instanceof Node) {
         if (trigger.contains(target)) return true;
@@ -209,42 +216,90 @@ export function SelectionSubmenu({
       return false;
     };
 
-    const inFrozenTriangle = (point: Point) => {
-      const apex = apexRef.current;
+    const publishGrace = (point: Point, intent?: boolean) => {
       const next = positionRef.current;
-      if (!apex || !next) return false;
-      const [a, b, c] = triangleFromApex(apex, submenuRect(next), next.side);
-      return pointInTriangle(point, a, b, c);
+      const store = listRef.current?.nestedOpen;
+      if (!next || !store) return;
+      const box = submenuRect(next);
+      store.setGrace(
+        {
+          side: next.side,
+          area: gracePolygon(point, box, next.side),
+          target: box,
+        },
+        intent ? { intent: true } : undefined
+      );
+    };
+
+    const adoptItemUnderPointer = (point: Point) => {
+      const store = listRef.current?.nestedOpen;
+      if (!store) {
+        scheduleClose();
+        return;
+      }
+
+      const under = document.elementFromPoint(point.x, point.y);
+      const item =
+        under instanceof Element
+          ? under.closest<HTMLElement>('.ui-selection-item')
+          : null;
+      if (
+        !item ||
+        trigger.contains(item) ||
+        (parentList && item.closest('.ui-selection-list') !== parentList)
+      ) {
+        scheduleClose();
+        return;
+      }
+
+      if (panelRef.current?.contains(item)) {
+        cancelClose();
+        return;
+      }
+
+      const value = item.getAttribute('data-value') || item.getAttribute('value');
+      if (item.getAttribute('aria-haspopup') && value) {
+        store.set(value);
+        return;
+      }
+      store.set(null);
     };
 
     const onPointerMove = (event: PointerEvent) => {
       const point = { x: event.clientX, y: event.clientY };
-      const previous = previousPointRef.current;
-      previousPointRef.current = point;
+      const store = listRef.current?.nestedOpen;
+      store?.notePointer(point);
 
       if (inTriggerOrPanel(point, event.target)) {
         apexRef.current = point;
+        publishGrace(point, true);
+        cancelClose();
+        return;
+      }
+
+      if (store?.isMovingToSubmenu(point)) {
+        apexRef.current = point;
+        publishGrace(point);
         cancelClose();
         return;
       }
 
       const next = positionRef.current;
-      if (
-        previous &&
+      const frozen =
+        apexRef.current &&
         next &&
-        isMovingToward(previous, point, submenuRect(next))
-      ) {
+        pointInTriangle(
+          point,
+          ...cursorTriangle(apexRef.current, submenuRect(next), next.side)
+        );
+      if (frozen) {
         cancelClose();
         return;
       }
 
-      if (inFrozenTriangle(point)) {
-        cancelClose();
-        return;
-      }
-
+      store?.setGrace(null);
       if (event.pointerType === 'touch') return;
-      scheduleClose();
+      adoptItemUnderPointer(point);
     };
 
     const onPointerDown = (event: PointerEvent) => {
@@ -260,6 +315,7 @@ export function SelectionSubmenu({
     return () => {
       document.removeEventListener('pointermove', onPointerMove);
       document.removeEventListener('pointerdown', onPointerDown);
+      listRef.current?.nestedOpen.setGrace(null);
       cancelClose();
     };
   }, [cancelClose, open, scheduleClose, trigger]);

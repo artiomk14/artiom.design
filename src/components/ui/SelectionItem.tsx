@@ -199,6 +199,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       onPointerDown,
       onPointerEnter,
       onPointerLeave,
+      onPointerMove,
       onClick,
       onKeyDown,
       value,
@@ -342,11 +343,30 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       window.addEventListener('pointercancel', release);
     };
 
-    const handlePointerEnter = (event: PointerEvent<HTMLButtonElement>) => {
-      onPointerEnter?.(event);
+    const hoverFlyout = (event: PointerEvent<HTMLButtonElement>) => {
+      if (event.pointerType === 'touch') return;
+      const point = { x: event.clientX, y: event.clientY };
+      list?.nestedOpen.notePointer(point);
+      if (
+        list &&
+        list.nestedOpen.isMovingToSubmenu(point) &&
+        list.nestedOpen.get() !== flyoutKey
+      ) {
+        return;
+      }
       if (!forced && !disabled) setIsHovered(true);
       if (hasFlyout) openFlyout();
-      else if (event.pointerType !== 'touch') list?.nestedOpen.set(null);
+      else list?.nestedOpen.set(null);
+    };
+
+    const handlePointerEnter = (event: PointerEvent<HTMLButtonElement>) => {
+      onPointerEnter?.(event);
+      hoverFlyout(event);
+    };
+
+    const handlePointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+      onPointerMove?.(event);
+      hoverFlyout(event);
     };
 
     const handlePointerLeave = (event: PointerEvent<HTMLButtonElement>) => {
@@ -426,6 +446,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           onBlur={handleBlur}
           onPointerDown={handlePointerDown}
           onPointerEnter={handlePointerEnter}
+          onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
           onKeyDown={handleKeyDown}
         >
