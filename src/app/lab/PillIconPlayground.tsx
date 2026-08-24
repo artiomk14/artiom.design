@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { SmoothCorners } from '@lisse/react';
 import {
   GemIcon,
   HeavyOnesIcon,
@@ -8,6 +9,8 @@ import {
   YappingIcon,
 } from '@/components/icons';
 import { Pill } from '@/components/ui';
+import { useSlidingTabPill } from '@/lib/hooks';
+import { cornersFor } from '@/styles/tokens';
 
 const TABS = [
   { id: 'gems', label: 'Gems', icon: <GemIcon /> },
@@ -21,6 +24,19 @@ type TabId = (typeof TABS)[number]['id'];
 export function PillIconPlayground() {
   const [selected, setSelected] = useState<TabId>('gems');
   const [drawKey, setDrawKey] = useState(0);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const tabPillRef = useRef<HTMLSpanElement>(null);
+
+  useSlidingTabPill({
+    barRef: tabListRef,
+    pillRef: tabPillRef,
+    getActiveTab: () => {
+      const index = TABS.findIndex((tab) => tab.id === selected);
+      return tabRefs.current[index] ?? null;
+    },
+    selected,
+  });
 
   return (
     <section className="flex flex-col gap-4">
@@ -28,14 +44,29 @@ export function PillIconPlayground() {
         Pill · tab switch (outline draw)
       </h2>
       <p className="text-sm text-foreground-muted">
-        Click a tab to sketch its outline. Click a selected pill again to
-        replay the draw.
+        Click a tab to slide the selected fill and sketch its outline. Click a
+        selected pill again to replay the draw.
       </p>
-      <div className="flex flex-wrap items-center gap-3">
-        {TABS.map((tab) => (
+      <div
+        ref={tabListRef}
+        className="t-tabs flex flex-wrap items-center gap-3"
+      >
+        <SmoothCorners
+          ref={tabPillRef}
+          as="span"
+          aria-hidden="true"
+          autoEffects={false}
+          corners={cornersFor('full')}
+          className="t-tabs-pill"
+        />
+        {TABS.map((tab, index) => (
           <Pill
             key={tab.id}
+            ref={(node) => {
+              tabRefs.current[index] = node;
+            }}
             selected={selected === tab.id}
+            slidingFill
             label={tab.label}
             leadingIcon={tab.icon}
             drawKey={selected === tab.id ? drawKey : 0}

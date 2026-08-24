@@ -53,15 +53,27 @@ export interface PillProps
    * Bump while selected to replay the outline draw (used on /lab).
    */
   drawKey?: number;
+  /**
+   * Selected fill comes from a sliding `.t-tabs-pill` behind this control.
+   * Layout (icon slot + gap) snaps so the fill can measure the target box.
+   */
+  slidingFill?: boolean;
 }
 
 interface IconSlotProps {
   open: boolean;
   drawKey?: number;
+  /** Skip width tween so a sliding fill can measure the settled box. */
+  instantLayout?: boolean;
   children: ReactNode;
 }
 
-function IconSlot({ open, drawKey = 0, children }: IconSlotProps) {
+function IconSlot({
+  open,
+  drawKey = 0,
+  instantLayout = false,
+  children,
+}: IconSlotProps) {
   const slotRef = useRef<HTMLSpanElement>(null);
   useStrokeDraw(slotRef, open, drawKey);
 
@@ -69,10 +81,12 @@ function IconSlot({ open, drawKey = 0, children }: IconSlotProps) {
     <span
       ref={slotRef}
       className={cn(
-        'flex items-center overflow-hidden',
-        open
-          ? 'w-3.5 opacity-100 transition-opacity duration-[var(--duration-fast)] ease-[var(--ease-out)]'
-          : 'w-0 opacity-0 transition-[width,opacity] duration-[var(--duration-fast)] ease-[var(--ease-out)]'
+        'ui-pill-icon flex items-center overflow-hidden',
+        open ? 'w-3.5 opacity-100' : 'w-0 opacity-0',
+        !instantLayout &&
+          (open
+            ? 'transition-opacity duration-[var(--duration-fast)] ease-[var(--ease-out)]'
+            : 'transition-[width,opacity] duration-[var(--duration-fast)] ease-[var(--ease-out)]')
       )}
       aria-hidden={!open}
     >
@@ -137,6 +151,7 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
       selected = false,
       state,
       drawKey = 0,
+      slidingFill = false,
       onFocus,
       onBlur,
       onPointerDown,
@@ -202,13 +217,21 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
     const content = (
       <>
         {hasLeadingIcon ? (
-          <IconSlot open={selected} drawKey={drawKey}>
+          <IconSlot
+            open={selected}
+            drawKey={drawKey}
+            instantLayout={slidingFill}
+          >
             {leading}
           </IconSlot>
         ) : null}
         {hasLabel ? <span>{text}</span> : null}
         {hasTrailingIcon ? (
-          <IconSlot open={selected} drawKey={drawKey}>
+          <IconSlot
+            open={selected}
+            drawKey={drawKey}
+            instantLayout={slidingFill}
+          >
             {trailing}
           </IconSlot>
         ) : null}
@@ -217,9 +240,12 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
 
     const surfaceClassName = cn(
       'ui-pill',
+      slidingFill && 't-tab',
       'inline-flex h-10 cursor-pointer items-center justify-center px-6 py-0',
       'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
-      'transition-[background-color,color,gap] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
+      slidingFill
+        ? 'transition-[background-color,color] duration-[var(--tabs-dur)] ease-[var(--tabs-ease)]'
+        : 'transition-[background-color,color,gap] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
       selected ? 'gap-2.5' : 'gap-0',
       surfaceTone(selected, visualState),
       disabled && 'pointer-events-none cursor-not-allowed opacity-50',

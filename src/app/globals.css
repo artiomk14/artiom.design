@@ -104,6 +104,14 @@
   --pill-icon-draw-stagger: .08s;
   --pill-icon-draw-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /* transitions.dev tabs-sliding — fill under the selected homepage pill */
+  --tabs-dur: 250ms;
+  --tabs-ease: var(--pill-icon-draw-ease);
+  --tabs-text-muted: var(--foreground-quiet);
+  --tabs-text-active: var(--foreground-secondary);
+  --tabs-bar-bg: transparent;
+  --tabs-pill-bg: var(--background-primary);
+
   /* transitions.dev menu-dropdown — mapped onto existing duration / ease tokens */
   --dropdown-open-dur: var(--duration-normal);
   --dropdown-close-dur: var(--duration-fast);
@@ -362,6 +370,54 @@ body {
   .t-dropdown {
     transition: none !important;
   }
+}
+
+/* ==========================================================================
+   Tabs sliding (transitions.dev) — selected pill fill
+   ========================================================================== */
+
+.t-tabs {
+  position: relative;
+}
+
+.t-tabs > :not(.t-tabs-pill) {
+  position: relative;
+  z-index: 1;
+}
+
+.t-tab {
+  position: relative;
+  z-index: 1;
+}
+
+/* The fill: width + transform are written inline by JS so
+   the transition tweens between the previous and next
+   measured positions. */
+.t-tabs-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2.5rem;
+  width: 0;
+  background: var(--tabs-pill-bg);
+  border-radius: 48px;
+  transform: translateX(0);
+  transition:
+    transform var(--tabs-dur) var(--tabs-ease),
+    width     var(--tabs-dur) var(--tabs-ease);
+  will-change: transform, width;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* After the fill is measured, the selected pill's own fill is
+   transparent so only the sliding layer paints the background. */
+.t-tabs.is-ready .ui-pill[data-selected='true']:not([data-state='pressed']) {
+  background-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-tabs-pill, .t-tab { transition: none !important; }
 }
 
 /* ==========================================================================
