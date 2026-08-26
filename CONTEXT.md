@@ -49,6 +49,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `hero-section` (110:563) on Home — site-logo, Hello, intro, LSports lockup
 - [x] Homepage tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
 - [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed; per-tab leading icons
+- [x] Sliding selected-pill fill (transitions.dev tabs-sliding)
 - [x] Pill outline icons (diamond / briefcase / pencil / user) with stroke-draw on tab switch
 - [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
 - [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card + complete state + Reset
@@ -58,6 +59,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `selection-list` (177:1401) — menu / single / multiple / combobox; dropdown motion
 - [x] Figma nested `selection-list` (246:449) — hover flyout, 8px / −2px offsets, safe triangle
 - [x] Header E-mail uses `SelectionMenu` (copy address + Open with nested composers)
+- [x] Vercel Web Analytics (`Analytics` from `@vercel/analytics/next` in the root layout)
 
 ---
 
@@ -66,7 +68,6 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types) and use in-repo content instead
 - [ ] Real tab content (remaining Gems, Heavy Ones, Yapping, Who Me?)
 - [ ] Per-item URLs only when a Heavy One or Yapping post needs to rank or be shared
-- [ ] Analytics (only if requested)
 
 ---
 
@@ -96,6 +97,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
 | Site-logo stroke | `border-subtle` is Lisse `innerBorder` on the 52px white frame (same surface as `shadow.xlLayers`). CSS `border` is clip-path-cut / square; `outerBorder` would sit in the drop-shadow. | 2026-08-23 |
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
+| Sliding pill fill | Selected fill is a `.t-tabs-pill` that tweens `transform` + `width` (transitions.dev tabs-sliding). Layout of icon/gap snaps so the fill can measure the target box. | 2026-08-24 |
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header), `transparent` (ghost fill; darker ink on hover/press), `neutral` (surface fill + stroke + `shadow/2xs`) | 2026-08-20 |
 | Icon-only buttons are square | Header X/LinkedIn controls are 40×40 (`size-10`); walkthrough prev/next stay 32×32 (`size="icon"`) | 2026-08-20 |
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
@@ -130,12 +132,14 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
 | Site identity / tabs / SEO copy | `/src/content/site.ts` |
+| Web Analytics | `/src/app/layout.tsx` (`<Analytics />`) |
 | Metadata + JSON-LD helpers | `/src/lib/seo.ts` |
 | Homepage hero | `/src/components/sections/HeroSection.tsx` |
 | Site logo (squircle portrait) | `/src/components/sections/SiteLogo.tsx` |
 | Homepage canvas | `/src/components/sections/HomeCanvas.tsx` |
 | Content item (placeholder) | `/src/components/sections/ContentItem.tsx` |
 | Navigation pill | `/src/components/ui/Pill.tsx` |
+| Sliding pill fill | `/src/lib/hooks/useSlidingTabPill.ts` |
 | Gem walkthrough | `/src/components/sections/GemWalkthrough.tsx` |
 | Gems content | `/src/content/gems.ts` |
 | Header | `/src/components/layout/Header.tsx` |
@@ -187,6 +191,7 @@ Local secrets belong only in `.env.local` (gitignored). Prefer configuring env v
 - framer-motion
 - @lisse/react
 - border-beam
+- @vercel/analytics
 - clsx, tailwind-merge
 - typescript, tailwindcss, eslint (dev)
 
@@ -219,4 +224,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-26 (Header E-mail selection menu)*
+*Last updated: 2026-08-26 (Header E-mail selection menu; Vercel Web Analytics on main)*
