@@ -20,5 +20,6 @@ export type { PillProps, PillState } from './Pill';
 export { Heading, Text } from './Typography';
 export { Card, CardContent } from './Card';
 export { SmoothSurface } from './SmoothSurface';
+export { OverflowFade } from './OverflowFade';
 export { Beam } from './Beam';
 export type { BeamProps } from './Beam';

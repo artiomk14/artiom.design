@@ -120,8 +120,9 @@ export function SelectionListPlayground() {
         <p className="text-sm text-foreground-muted">
           Figma nested `selection-list` (246:449). Hover <span className="text-foreground-secondary">Open with</span> —
           the same list component opens 8px above the item and overlaps it by
-          2px. A safe triangle keeps the flyout open while the pointer travels
-          into it. ArrowRight opens; ArrowLeft / Escape close one level.
+          2px. A cursor-following safe triangle plus pointer intent keeps the
+          flyout open on the diagonal to Superhuman without sibling rows
+          stealing hover. ArrowRight opens; ArrowLeft / Escape close one level.
         </p>
         <div className="min-h-80 w-fit bg-background-muted p-8 pr-80">
           <SelectionList id="selection-list-nested" aria-label="Actions">
