@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { ChevronDownIcon, LinkedIn01Icon, TwitterIcon } from '@/components/icons';
+import { LinkedIn01Icon, TwitterIcon } from '@/components/icons';
+import { EmailMenu } from '@/components/layout/EmailMenu';
 import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { site } from '@/content/site';
@@ -10,7 +11,8 @@ interface HeaderProps {
 
 /**
  * Figma `nav-container` (109:562) — name as logo (`logo-container` 122:26),
- * contact actions on the right (`contact-actions` 124:657).
+ * contact actions on the right (`contact-actions` 124:657). E-mail opens
+ * nested `selection-list` (246:449) instead of a `mailto:` link.
  */
 export function Header({ className }: HeaderProps) {
   return (
@@ -41,14 +43,7 @@ export function Header({ className }: HeaderProps) {
             leadingIcon={<LinkedIn01Icon />}
             aria-label="LinkedIn"
           />
-          <Button
-            href={`mailto:${site.links.email}`}
-            hasLeadingIcon={false}
-            hasLabel
-            hasTrailingIcon
-            trailingIcon={<ChevronDownIcon />}
-            label="E-mail"
-          />
+          <EmailMenu />
         </nav>
       </div>
     </header>

@@ -143,7 +143,8 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 ## Components Built
 
 ### Layout
-- `Header` — Name as logo, Twitter / LinkedIn / E-mail actions (not section nav)
+- `Header` — Name as logo, Twitter / LinkedIn / E-mail menu (copy + Open with)
+- `EmailMenu` — Figma nested `selection-list` (246:449) on the header E-mail button
 - `Footer` — Site footer stub (not in the live layout)
 - `Navigation` — Legacy menu stub
 - `PageWrapper` — Main content wrapper
