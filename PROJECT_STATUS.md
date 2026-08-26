@@ -1,6 +1,6 @@
 # Project Status
 
-> Last updated: August 20, 2026
+> Last updated: August 26, 2026
 
 ---
 
@@ -24,6 +24,7 @@ Portfolio website for **artiom.design** — high-performance, accessible, clean 
 | Accent beam | Border Beam (`border-beam`) | 1.3.x | ✓ Opt-in via `Beam` |
 | Content | In-repo (no CMS) | — | ○ Tab content pending |
 | Hosting | Vercel | — | ✓ Deployed |
+| Analytics | Vercel Web Analytics (`@vercel/analytics`) | 2.x | ✓ Root layout |
 | Package Manager | pnpm | 10.x | ✓ Active |
 
 **Legend:** ✓ Ready | ⚠ Needs attention | ○ Pending
@@ -49,6 +50,7 @@ Portfolio website for **artiom.design** — high-performance, accessible, clean 
 | Custom domain | ✓ | `artiom.design` / `www.artiom.design` |
 | Vercel URL | ✓ | `artiomdesign.vercel.app` |
 | Env vars | ✓ / light | Prefer `NEXT_PUBLIC_SITE_URL`; no Sanity vars |
+| Web Analytics | ✓ | `@vercel/analytics` in the root layout; enable once in the Vercel project Analytics tab if the dashboard still shows it off |
 
 ---
 
@@ -174,6 +176,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 ## What Works Now
 
 - ✓ Live at `https://artiom.design` (Vercel)
+- ✓ Vercel Web Analytics in the root layout (`@vercel/analytics`)
 - ✓ `pnpm dev` / `pnpm build` / `pnpm lint`
 - ✓ Homepage: Figma hero + Figma pills + first Gems walkthrough (complete step) + placeholder slots
 - ✓ SEO: person-first metadata, JSON-LD, `/sitemap.xml`, `/robots.txt`
@@ -187,7 +190,7 @@ Light mode only (`color-scheme: light`). No system dark-mode override. Breakpoin
 1. **Tab content** — Remaining Gems, then Heavy Ones / Yapping / Who me
 2. **Remove Sanity** — Delete legacy CMS packages and code paths; stop fetching from Sanity
 3. **Per-item URLs** — Only when a Heavy One or Yapping post needs to rank or be shared on its own
-4. **Analytics** — Only if the owner asks
+4. **Web Analytics dashboard** — After this ships, confirm Analytics is enabled on the Vercel project (Project → Analytics → Enable) if data is not appearing
 
 ---
 
