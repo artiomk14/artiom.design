@@ -128,10 +128,6 @@ function borderFor(selected: boolean, visualState: PillState) {
     };
   }
 
-  if (visualState === 'hovered' && selected) {
-    return { width: 1, color: colors.border.secondary, opacity: 1 };
-  }
-
   return { width: 1, color: colors.border.secondary, opacity: 0 };
 }
 
