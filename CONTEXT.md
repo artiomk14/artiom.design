@@ -72,7 +72,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `content-item` (124:655) holds each gem (20px sides, 128px top, 144px bottom; height follows the gem’s max). First gem is the WC26 walkthrough: complete step, then Reset (`class=neutral`) in the gray holder. Remaining slots stay empty. Next: more Gems.*
+*Figma `content-item` (124:655) holds each gem (20px sides, 128px top, 144px bottom; height follows the gem’s max). Gems rest at `scale(0.85)` and return to `1` on holder hover/focus (`t-gem-scale`). First gem is the WC26 walkthrough: complete step, then Reset (`class=neutral`) in the gray holder. Gems (and later tab panels) use `OverflowFade` — a background-tinted fold fade that hints there is more to scroll. Remaining slots stay empty. Next: more Gems.*
 
 ---
 
@@ -102,11 +102,13 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
 | Gems walkthrough template | First Gems card is Figma `wc26-walktrough`: image, copy, 1/3 counter, 32px transparent prev/next. More Gems reuse this. | 2026-08-19 |
 | Gems sit in content-item | Gray `content-item` (124:655) is the holder; the gem is centered inside. | 2026-08-19 |
+| Gems rest at 0.85 scale | Walkthrough (and later gems) sit at `scale(0.85)` in the holder; hover or focus-within the `content-item` returns them to `1`. Transform only; reduced-motion stays at full size. | 2026-08-24 |
 | Walkthrough card chrome | CSS `rounded-3xl` + `border-secondary` + `elevation-xl` box-shadow so stroke and shadow paint immediately. Lisse clip-path was hiding both and hitching the complete resize. | 2026-08-20 |
 | Walkthrough complete | Last-step check enters Figma `step-04` (178:1724). Gray holder keeps max gem height. Reset (`178:1818`, `class=neutral`) appears at the bottom of the holder. | 2026-08-20 |
 | Figma checkbox atom | `Checkbox` maps Figma `checkbox` (177:322): sizes 20/16/14/12, radius md/sm, `tick-02` leaf, Lisse squircle + `shadow/2xs` | 2026-08-20 |
 | Figma selection item | `SelectionItem` maps Figma `selection-item` (177:1271): 12px pad, 16px radius, 20/14 gaps; checkbox lg; `touchpad-04` + `arrow-right-01-sharp`; `selected` shifts fill + label to primary | 2026-08-23 |
-| Figma nested selection list | Hovering a `has nested` item opens another `SelectionList` 8px above the item and overlapping it by 2px (Figma 246:449). A cursor-following safe triangle keeps the flyout open while the pointer travels into it. ArrowRight / ArrowLeft / Escape walk the levels. | 2026-08-24 |
+| Figma nested selection list | Hovering a `has nested` item opens another `SelectionList` 8px above the item and overlapping it by 2px (Figma 246:449). Nested-open is an external store. Pointer grace is a cursor-following triangle (Amazon / Floating UI) plus ray intent; sibling rows refuse to steal hover while the pointer is heading at the flyout (Radix `isPointerMovingToSubmenu`). No hit-tested overlay — that flickered the cursor. ArrowRight / ArrowLeft / Escape walk the levels. | 2026-08-24 |
+| Overflow fade at the fold | Tab content uses `OverflowFade`: a sticky bottom gradient in `--background` (not a dark scrim) that slightly hides content at the viewport fold and drops away once the panel bottom is on-screen. Reuse the same wrapper on later pills. | 2026-08-24 |
 
 ---
 
@@ -122,6 +124,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | UI components | `/src/components/ui/` |
 | Page sections | `/src/components/sections/` |
 | SmoothSurface (Lisse) | `/src/components/ui/SmoothSurface.tsx` |
+| Overflow fade (fold hint) | `/src/components/ui/OverflowFade.tsx` |
 | Beam (border-beam) | `/src/components/ui/Beam.tsx` |
 | Radius / corner tokens | `/src/styles/tokens/radius.ts` |
 | Size / crop / shadow tokens | `/src/styles/tokens/size.ts` |
@@ -215,4 +218,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-24 (sliding pill fill)*
+*Last updated: 2026-08-26 (sliding pill fill; Gems rest at 0.85 on hover; overflow fade at the fold)*

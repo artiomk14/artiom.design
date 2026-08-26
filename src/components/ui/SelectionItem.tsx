@@ -9,6 +9,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
   type FocusEvent,
   type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent,
@@ -167,6 +168,14 @@ function withNestedListId(node: ReactNode, id: string): ReactNode {
   return cloneElement(node as ReactElement<{ id?: string }>, { id });
 }
 
+function subscribeNever(): () => void {
+  return () => {};
+}
+
+function snapshotFalse(): boolean {
+  return false;
+}
+
 export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
   (
     {
@@ -190,6 +199,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       onPointerDown,
       onPointerEnter,
       onPointerLeave,
+      onPointerMove,
       onClick,
       onKeyDown,
       value,
@@ -239,12 +249,14 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       null
     );
 
-    const isOpen = hasFlyout
-      ? list
-        ? list.openNestedValue === flyoutKey
-        : localOpen
-      : false;
-    const openMode = list ? list.nestedOpenMode : localOpenMode;
+    const listedOpen = useSyncExternalStore(
+      list && hasFlyout ? list.nestedOpen.subscribe : subscribeNever,
+      () =>
+        Boolean(list && hasFlyout && list.nestedOpen.get() === flyoutKey),
+      snapshotFalse
+    );
+    const isOpen = Boolean(hasFlyout && (list ? listedOpen : localOpen));
+    const openMode = list ? list.nestedOpen.getMode() : localOpenMode;
     const tone = visualState(
       state,
       isPressed,
@@ -255,7 +267,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
     const setTriggerRef = useCallback(
       (node: HTMLButtonElement | null) => {
         triggerRef.current = node;
-        setTriggerNode(node);
+        setTriggerNode((current) => (current === node ? current : node));
         assignRef(ref, node);
       },
       [ref]
@@ -265,7 +277,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       (options?: { focus?: boolean }) => {
         if (!hasFlyout || disabled) return;
         if (list) {
-          list.openNested(flyoutKey, options);
+          list.nestedOpen.set(flyoutKey, options);
           return;
         }
         setLocalOpenMode(options?.focus ? 'keyboard' : 'pointer');
@@ -276,7 +288,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
 
     const closeFlyout = useCallback(() => {
       if (list) {
-        if (list.openNestedValue === flyoutKey) list.openNested(null);
+        if (list.nestedOpen.get() === flyoutKey) list.nestedOpen.set(null);
         return;
       }
       setLocalOpen(false);
@@ -331,11 +343,30 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
       window.addEventListener('pointercancel', release);
     };
 
-    const handlePointerEnter = (event: PointerEvent<HTMLButtonElement>) => {
-      onPointerEnter?.(event);
+    const hoverFlyout = (event: PointerEvent<HTMLButtonElement>) => {
+      if (event.pointerType === 'touch') return;
+      const point = { x: event.clientX, y: event.clientY };
+      list?.nestedOpen.notePointer(point);
+      if (
+        list &&
+        list.nestedOpen.isMovingToSubmenu(point) &&
+        list.nestedOpen.get() !== flyoutKey
+      ) {
+        return;
+      }
       if (!forced && !disabled) setIsHovered(true);
       if (hasFlyout) openFlyout();
-      else if (event.pointerType !== 'touch') list?.openNested(null);
+      else list?.nestedOpen.set(null);
+    };
+
+    const handlePointerEnter = (event: PointerEvent<HTMLButtonElement>) => {
+      onPointerEnter?.(event);
+      hoverFlyout(event);
+    };
+
+    const handlePointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+      onPointerMove?.(event);
+      hoverFlyout(event);
     };
 
     const handlePointerLeave = (event: PointerEvent<HTMLButtonElement>) => {
@@ -415,6 +446,7 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
           onBlur={handleBlur}
           onPointerDown={handlePointerDown}
           onPointerEnter={handlePointerEnter}
+          onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
           onKeyDown={handleKeyDown}
         >
@@ -453,7 +485,6 @@ export const SelectionItem = forwardRef<HTMLButtonElement, SelectionItemProps>(
               trigger={triggerNode}
               autoFocus={isOpen && openMode === 'keyboard'}
               zIndex={50 + (list?.depth ?? 0) * 2}
-              onKeepOpen={() => openFlyout()}
               onRequestClose={closeFlyout}
             >
               {withNestedListId(nested, nestedListId)}

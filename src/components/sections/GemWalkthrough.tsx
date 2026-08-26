@@ -183,7 +183,7 @@ export function GemWalkthrough({ className }: GemWalkthroughProps) {
         tabIndex={-1}
         aria-labelledby={labelId}
         className={cn(
-          'relative w-full max-w-[var(--size-gem-walkthrough)] outline-none',
+          't-gem-scale relative w-full max-w-[var(--size-gem-walkthrough)] outline-none',
           className
         )}
       >

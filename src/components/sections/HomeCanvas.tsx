@@ -12,7 +12,7 @@ import { SmoothCorners } from '@lisse/react';
 import { TabLeadingIcon } from '@/components/icons';
 import { ContentItem } from '@/components/sections/ContentItem';
 import { GemWalkthrough } from '@/components/sections/GemWalkthrough';
-import { Pill } from '@/components/ui';
+import { OverflowFade, Pill } from '@/components/ui';
 import { gems } from '@/content/gems';
 import {
   DEFAULT_TAB_ID,
@@ -165,20 +165,21 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
               id={`${idPrefix}-panel-${tab.id}`}
               aria-labelledby={`${idPrefix}-tab-${tab.id}`}
               hidden={!isSelected}
-              className="flex w-full flex-col gap-6"
             >
-              {isSelected && tab.id === DEFAULT_TAB_ID ? (
-                <>
-                  <ContentItem>
-                    <GemWalkthrough />
-                  </ContentItem>
-                  {gems.placeholders.map((item) => (
-                    <ContentItem key={item.id} />
-                  ))}
-                </>
-              ) : null}
               {isSelected ? (
-                <p className="sr-only">{active.description}</p>
+                <OverflowFade className="flex w-full flex-col gap-6">
+                  {tab.id === DEFAULT_TAB_ID ? (
+                    <>
+                      <ContentItem>
+                        <GemWalkthrough />
+                      </ContentItem>
+                      {gems.placeholders.map((item) => (
+                        <ContentItem key={item.id} />
+                      ))}
+                    </>
+                  ) : null}
+                  <p className="sr-only">{active.description}</p>
+                </OverflowFade>
               ) : null}
             </div>
           );

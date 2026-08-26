@@ -13,13 +13,16 @@ import { cn } from '@/lib/utils';
 import { duration, nestedList } from '@/styles/tokens';
 import type { SelectionListOrigin } from './SelectionList';
 import {
-  isMovingToward,
+  cursorTriangle,
+  gracePolygon,
   pointInRect,
   pointInTriangle,
+  type NestedListSide,
   type Point,
 } from './nestedListGeometry';
+import { useSelectionListContext } from './selectionListContext';
 
-export type NestedListSide = 'left' | 'right';
+export type { NestedListSide };
 
 interface SubmenuPosition {
   left: number;
@@ -36,7 +39,6 @@ interface SelectionSubmenuProps {
   autoFocus?: boolean;
   zIndex: number;
   children: ReactNode;
-  onKeepOpen: () => void;
   onRequestClose: () => void;
 }
 
@@ -48,19 +50,6 @@ function subscribeNever(): () => void {
 
 function useIsClient(): boolean {
   return useSyncExternalStore(subscribeNever, () => true, () => false);
-}
-
-function triggerFallbackCursor(
-  rect: DOMRectReadOnly,
-  side: NestedListSide
-): Point {
-  return {
-    x:
-      side === 'right'
-        ? rect.right - nestedList.overlapX
-        : rect.left + nestedList.overlapX,
-    y: rect.top + rect.height / 2,
-  };
 }
 
 function measurePosition(
@@ -101,23 +90,14 @@ function submenuRect(position: SubmenuPosition): DOMRect {
   );
 }
 
-function trianglePoints(
-  cursor: Point,
-  box: DOMRect,
-  side: NestedListSide
-): [Point, Point, Point] {
-  const x = side === 'right' ? box.left : box.right;
-  return [cursor, { x, y: box.top }, { x, y: box.bottom }];
-}
-
-function pointsAttr(points: [Point, Point, Point]): string {
-  return points.map((point) => `${point.x},${point.y}`).join(' ');
-}
-
 /**
  * Portaled nested `SelectionList`. Figma 246:449 places it 8px above the
- * hovered item and overlapping that item by 2px. A cursor-following safe
- * triangle keeps the flyout open while the pointer travels into it.
+ * hovered item and overlapping it by 2px.
+ *
+ * Safe path to the flyout is a cursor-following triangle (Amazon / Floating
+ * UI) plus ray intent. The triangle is math-only — it does not steal hits
+ * from the trigger row. Sibling rows read the same grace from the list store
+ * and refuse to open while the pointer is heading at this panel (Radix).
  */
 export function SelectionSubmenu({
   open,
@@ -125,16 +105,24 @@ export function SelectionSubmenu({
   autoFocus = false,
   zIndex,
   children,
-  onKeepOpen,
   onRequestClose,
 }: SelectionSubmenuProps) {
   const isClient = useIsClient();
+  const list = useSelectionListContext();
   const panelRef = useRef<HTMLDivElement>(null);
-  const polygonRef = useRef<SVGPolygonElement>(null);
   const positionRef = useRef<SubmenuPosition | null>(null);
-  const cursorRef = useRef<Point | null>(null);
-  const previousCursorRef = useRef<Point | null>(null);
+  const apexRef = useRef<Point | null>(null);
   const closeTimerRef = useRef<number | null>(null);
+  const onRequestCloseRef = useRef(onRequestClose);
+  const listRef = useRef(list);
+
+  useEffect(() => {
+    onRequestCloseRef.current = onRequestClose;
+  }, [onRequestClose]);
+
+  useEffect(() => {
+    listRef.current = list;
+  }, [list]);
 
   const cancelClose = useCallback(() => {
     if (closeTimerRef.current != null) {
@@ -147,16 +135,8 @@ export function SelectionSubmenu({
     if (closeTimerRef.current != null) return;
     closeTimerRef.current = window.setTimeout(() => {
       closeTimerRef.current = null;
-      onRequestClose();
+      onRequestCloseRef.current();
     }, duration.fast);
-  }, [onRequestClose]);
-
-  const paintTriangle = useCallback((point: Point, next: SubmenuPosition) => {
-    const box = submenuRect(next);
-    polygonRef.current?.setAttribute(
-      'points',
-      pointsAttr(trianglePoints(point, box, next.side))
-    );
   }, []);
 
   const writePosition = useCallback(() => {
@@ -168,10 +148,7 @@ export function SelectionSubmenu({
     panel.style.top = `${next.top}px`;
     panel.style.visibility = 'visible';
     panel.dataset.origin = next.origin;
-    const cursor =
-      cursorRef.current ?? triggerFallbackCursor(trigger.getBoundingClientRect(), next.side);
-    paintTriangle(cursor, next);
-  }, [paintTriangle, trigger]);
+  }, [trigger]);
 
   useLayoutEffect(() => {
     if (!open || !trigger) return;
@@ -194,18 +171,24 @@ export function SelectionSubmenu({
   useEffect(() => () => cancelClose(), [cancelClose]);
 
   useEffect(() => {
+    if (!open) {
+      list?.nestedOpen.setGrace(null);
+    }
+  }, [list, open]);
+
+  useEffect(() => {
     if (!open || !trigger) return;
     const dropdown = trigger.closest('.t-dropdown');
     if (!dropdown) return;
 
     const sync = () => {
-      if (!dropdown.classList.contains('is-open')) onRequestClose();
+      if (!dropdown.classList.contains('is-open')) onRequestCloseRef.current();
     };
     const observer = new MutationObserver(sync);
     observer.observe(dropdown, { attributes: true, attributeFilter: ['class'] });
     sync();
     return () => observer.disconnect();
-  }, [onRequestClose, open, trigger]);
+  }, [open, trigger]);
 
   useEffect(() => {
     if (!open || !autoFocus) return;
@@ -220,79 +203,111 @@ export function SelectionSubmenu({
   useEffect(() => {
     if (!open || !trigger) return;
 
-    const inSafeZone = (point: Point, target: EventTarget | null) => {
-      if (trigger && target instanceof Node && trigger.contains(target)) {
-        return true;
+    const parentList = trigger.closest('.ui-selection-list');
+
+    const inTriggerOrPanel = (point: Point, target: EventTarget | null) => {
+      if (target instanceof Node) {
+        if (trigger.contains(target)) return true;
+        if (panelRef.current?.contains(target)) return true;
       }
-      const panel = panelRef.current;
-      if (panel && target instanceof Node && panel.contains(target)) {
-        return true;
-      }
-      if (trigger && pointInRect(point, trigger.getBoundingClientRect())) {
-        return true;
-      }
+      if (pointInRect(point, trigger.getBoundingClientRect())) return true;
       const next = positionRef.current;
-      if (!next) return false;
-      const box = submenuRect(next);
-      if (pointInRect(point, box)) return true;
-      const [a, b, c] = trianglePoints(
-        cursorRef.current ??
-          triggerFallbackCursor(trigger.getBoundingClientRect(), next.side),
-        box,
-        next.side
-      );
-      if (pointInTriangle(point, a, b, c)) return true;
-      const previous = previousCursorRef.current;
-      if (previous && isMovingToward(previous, point, box)) return true;
+      if (next && pointInRect(point, submenuRect(next))) return true;
       return false;
+    };
+
+    const publishGrace = (point: Point, intent?: boolean) => {
+      const next = positionRef.current;
+      const store = listRef.current?.nestedOpen;
+      if (!next || !store) return;
+      const box = submenuRect(next);
+      store.setGrace(
+        {
+          side: next.side,
+          area: gracePolygon(point, box, next.side),
+          target: box,
+        },
+        intent ? { intent: true } : undefined
+      );
+    };
+
+    const adoptItemUnderPointer = (point: Point) => {
+      const store = listRef.current?.nestedOpen;
+      if (!store) {
+        scheduleClose();
+        return;
+      }
+
+      const under = document.elementFromPoint(point.x, point.y);
+      const item =
+        under instanceof Element
+          ? under.closest<HTMLElement>('.ui-selection-item')
+          : null;
+      if (
+        !item ||
+        trigger.contains(item) ||
+        (parentList && item.closest('.ui-selection-list') !== parentList)
+      ) {
+        scheduleClose();
+        return;
+      }
+
+      if (panelRef.current?.contains(item)) {
+        cancelClose();
+        return;
+      }
+
+      const value = item.getAttribute('data-value') || item.getAttribute('value');
+      if (item.getAttribute('aria-haspopup') && value) {
+        store.set(value);
+        return;
+      }
+      store.set(null);
     };
 
     const onPointerMove = (event: PointerEvent) => {
       const point = { x: event.clientX, y: event.clientY };
-      previousCursorRef.current = cursorRef.current;
-      cursorRef.current = point;
-      const next = positionRef.current;
-      if (next) paintTriangle(point, next);
+      const store = listRef.current?.nestedOpen;
+      store?.notePointer(point);
 
-      const toward =
-        next && previousCursorRef.current
-          ? isMovingToward(previousCursorRef.current, point, submenuRect(next))
-          : false;
-      const otherItem = document
-        .elementsFromPoint(point.x, point.y)
-        .map((node) =>
-          node instanceof Element ? node.closest('.ui-selection-item') : null
-        )
-        .find((item) => item && item !== trigger);
-      if (otherItem && !toward) {
-        polygonRef.current?.style.setProperty('pointer-events', 'none');
-        return;
-      }
-
-      polygonRef.current?.style.removeProperty('pointer-events');
-
-      if (inSafeZone(point, event.target)) {
+      if (inTriggerOrPanel(point, event.target)) {
+        apexRef.current = point;
+        publishGrace(point, true);
         cancelClose();
-        onKeepOpen();
         return;
       }
 
+      if (store?.isMovingToSubmenu(point)) {
+        apexRef.current = point;
+        publishGrace(point);
+        cancelClose();
+        return;
+      }
+
+      const next = positionRef.current;
+      const frozen =
+        apexRef.current &&
+        next &&
+        pointInTriangle(
+          point,
+          ...cursorTriangle(apexRef.current, submenuRect(next), next.side)
+        );
+      if (frozen) {
+        cancelClose();
+        return;
+      }
+
+      store?.setGrace(null);
       if (event.pointerType === 'touch') return;
-      scheduleClose();
+      adoptItemUnderPointer(point);
     };
 
     const onPointerDown = (event: PointerEvent) => {
       const target = event.target;
       if (!(target instanceof Node)) return;
-      if (trigger?.contains(target)) return;
+      if (trigger.contains(target)) return;
       if (panelRef.current?.contains(target)) return;
-      if (
-        target instanceof Element &&
-        target.closest('[data-selection-submenu]')
-      ) {
-        return;
-      }
-      onRequestClose();
+      onRequestCloseRef.current();
     };
 
     document.addEventListener('pointermove', onPointerMove);
@@ -300,43 +315,23 @@ export function SelectionSubmenu({
     return () => {
       document.removeEventListener('pointermove', onPointerMove);
       document.removeEventListener('pointerdown', onPointerDown);
+      listRef.current?.nestedOpen.setGrace(null);
+      cancelClose();
     };
-  }, [
-    cancelClose,
-    onKeepOpen,
-    onRequestClose,
-    open,
-    paintTriangle,
-    scheduleClose,
-    trigger,
-  ]);
+  }, [cancelClose, open, scheduleClose, trigger]);
 
   if (!isClient || !open) return null;
 
   return createPortal(
     <div
+      ref={panelRef}
       data-selection-submenu=""
-      className="pointer-events-none fixed inset-0"
-      style={{ zIndex }}
+      className={cn('t-dropdown is-open fixed')}
+      data-origin="top-left"
+      style={{ visibility: 'hidden', zIndex }}
+      onPointerEnter={cancelClose}
     >
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full"
-        aria-hidden
-      >
-        <polygon
-          ref={polygonRef}
-          className="pointer-events-auto fill-transparent"
-        />
-      </svg>
-      <div
-        ref={panelRef}
-        className={cn('t-dropdown is-open absolute')}
-        data-origin="top-left"
-        style={{ visibility: 'hidden' }}
-        onPointerEnter={onKeepOpen}
-      >
-        {children}
-      </div>
+      {children}
     </div>,
     document.body
   );

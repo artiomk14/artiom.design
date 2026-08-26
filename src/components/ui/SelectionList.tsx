@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { colors, cornersFor, shadow } from '@/styles/tokens';
 import {
   SelectionListContext,
+  createNestedOpenStore,
   useSelectionFlyoutContext,
   useSelectionListContext,
   type SelectionListMode,
@@ -113,20 +114,8 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
     const [activeValue, setActiveValue] = useState<string | null>(
       () => selected[0] ?? null
     );
-    const [openNestedValue, setOpenNestedValue] = useState<string | null>(null);
-    const [nestedOpenMode, setNestedOpenMode] = useState<
-      'pointer' | 'keyboard'
-    >('pointer');
+    const [nestedOpen] = useState(createNestedOpenStore);
     const nodeRef = useRef<HTMLDivElement>(null);
-
-    const openNested = useCallback(
-      (next: string | null, options?: { focus?: boolean }) => {
-        setOpenNestedValue((current) => (current === next ? current : next));
-        if (next == null) return;
-        setNestedOpenMode(options?.focus ? 'keyboard' : 'pointer');
-      },
-      []
-    );
 
     const requestClose = useCallback(() => {
       onRequestClose?.();
@@ -190,9 +179,7 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
         select,
         activeValue,
         setActiveValue,
-        openNestedValue,
-        openNested,
-        nestedOpenMode,
+        nestedOpen,
         requestClose,
       }),
       [
@@ -201,9 +188,7 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
         isSelected,
         listId,
         mode,
-        nestedOpenMode,
-        openNested,
-        openNestedValue,
+        nestedOpen,
         requestClose,
         select,
       ]
@@ -261,7 +246,7 @@ export const SelectionList = forwardRef<HTMLDivElement, SelectionListProps>(
           if (focused?.getAttribute('aria-haspopup')) {
             event.preventDefault();
             const nextValue = itemValue(focused);
-            if (nextValue) openNested(nextValue, { focus: true });
+            if (nextValue) nestedOpen.set(nextValue, { focus: true });
           }
           break;
         }

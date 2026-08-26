@@ -431,6 +431,43 @@ body {
   padding-inline: var(--container-padding);
 }
 
+/*
+  Bottom overflow fade — sits at the fold and eases content into the page
+  background so it reads as “more below”. Uses the same color as the page
+  (not a black scrim) via relative-color syntax so the content actually
+  dissolves instead of going muddy grey.
+*/
+.overflow-fade {
+  --overflow-fade-from: var(--background);
+  --overflow-fade-size: 7rem;
+  height: var(--overflow-fade-size);
+  background-image: linear-gradient(
+    to top,
+    var(--overflow-fade-from),
+    transparent
+  );
+  background-image: linear-gradient(
+    to top,
+    var(--overflow-fade-from) 0%,
+    rgb(from var(--overflow-fade-from) r g b / 0.92) 18%,
+    rgb(from var(--overflow-fade-from) r g b / 0.55) 48%,
+    rgb(from var(--overflow-fade-from) r g b / 0) 100%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.overflow-fade.is-visible,
+.overflow-fade[data-visible='true'] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overflow-fade {
+    transition: none;
+  }
+}
+
 /* Text balance for headings */
 .text-balance {
   text-wrap: balance;
