@@ -49,6 +49,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `hero-section` (110:563) on Home — site-logo, Hello, intro, LSports lockup
 - [x] Homepage tab shell (Gems / Heavy Ones / Yapping / Who me) without full-page navigation
 - [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed; per-tab leading icons
+- [x] Sliding selected-pill fill (transitions.dev tabs-sliding)
 - [x] Pill outline icons (diamond / briefcase / pencil / user) with stroke-draw on tab switch
 - [x] Who Me? pill hover peek — Figma `artiom-vector` (160:2717) jumps from behind the pill
 - [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
@@ -58,6 +59,8 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `selection-item` (177:1271) — state × selected × checkbox/leading/trailing/nested booleans
 - [x] Figma `selection-list` (177:1401) — menu / single / multiple / combobox; dropdown motion
 - [x] Figma nested `selection-list` (246:449) — hover flyout, 8px / −2px offsets, safe triangle
+- [x] Header E-mail uses `SelectionMenu` (copy address + Open with nested composers)
+- [x] Vercel Web Analytics (`Analytics` from `@vercel/analytics/next` in the root layout)
 
 ---
 
@@ -66,7 +69,6 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types) and use in-repo content instead
 - [ ] Real tab content (remaining Gems, Heavy Ones, Yapping, Who Me?)
 - [ ] Per-item URLs only when a Heavy One or Yapping post needs to rank or be shared
-- [ ] Analytics (only if requested)
 
 ---
 
@@ -96,6 +98,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Lisse shadows on squircles | CSS `shadow-*` on the square Lisse wrapper paints sharp corners; site-logo uses Lisse `shadow.xlLayers` | 2026-08-19 |
 | Site-logo stroke | `border-subtle` is Lisse `innerBorder` on the 52px white frame (same surface as `shadow.xlLayers`). CSS `border` is clip-path-cut / square; `outerBorder` would sit in the drop-shadow. | 2026-08-23 |
 | Figma pill nav | Homepage tabs use `pill` (145:1021): icon only when selected; `leadingIcon` instance-swap per tab; hover/focus stay on `background-primary` | 2026-08-19 |
+| Sliding pill fill | Selected fill is a `.t-tabs-pill` that tweens `transform` + `width` (transitions.dev tabs-sliding). Layout of icon/gap snaps so the fill can measure the target box. | 2026-08-24 |
 | Figma button classes | `Button` `variant` maps Figma `class`: `primary` (header), `transparent` (ghost fill; darker ink on hover/press), `neutral` (surface fill + stroke + `shadow/2xs`) | 2026-08-20 |
 | Icon-only buttons are square | Header X/LinkedIn controls are 40×40 (`size-10`); walkthrough prev/next stay 32×32 (`size="icon"`) | 2026-08-20 |
 | Pill outline draw | Selected tab sketches its outline icon (Gems gem, Heavy Ones briefcase, Yapping pencil, Who Me? user-circle). Skip first paint and reduced motion. | 2026-08-19 |
@@ -106,8 +109,9 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Walkthrough complete | Last-step check enters Figma `step-04` (178:1724). Gray holder keeps max gem height. Reset (`178:1818`, `class=neutral`) appears at the bottom of the holder. | 2026-08-20 |
 | Figma checkbox atom | `Checkbox` maps Figma `checkbox` (177:322): sizes 20/16/14/12, radius md/sm, `tick-02` leaf, Lisse squircle + `shadow/2xs` | 2026-08-20 |
 | Figma selection item | `SelectionItem` maps Figma `selection-item` (177:1271): 12px pad, 16px radius, 20/14 gaps; checkbox lg; `touchpad-04` + `arrow-right-01-sharp`; `selected` shifts fill + label to primary | 2026-08-23 |
-| Figma nested selection list | Hovering a `has nested` item opens another `SelectionList` 8px above the item and overlapping it by 2px (Figma 246:449). Nested-open is an external store. Pointer grace is a cursor-following triangle (Amazon / Floating UI) plus ray intent; sibling rows refuse to steal hover while the pointer is heading at the flyout (Radix `isPointerMovingToSubmenu`). No hit-tested overlay — that flickered the cursor. ArrowRight / ArrowLeft / Escape walk the levels. | 2026-08-24 |
+| Figma nested selection list | Hovering a `has nested` item opens another `SelectionList` 8px above the item and overlapping it by 2px (Figma 246:449). Nested-open is an external store. Pointer grace is a cursor-following triangle (Amazon / Floating UI) plus ray intent; sibling rows refuse to steal hover while the pointer is heading at the flyout (Radix `isPointerMovingToSubmenu`). No hit-tested overlay — that flickered the cursor. ArrowRight / ArrowLeft / Escape walk the levels. When neither side of the trigger has room (header E-mail on a 390px viewport), the flyout stacks under the row instead of overlapping it. | 2026-08-24 |
 | Overflow fade at the fold | Tab content uses `OverflowFade`: a sticky bottom gradient in `--background` (not a dark scrim) that slightly hides content at the viewport fold and drops away once the panel bottom is on-screen. Reuse the same wrapper on later pills. | 2026-08-24 |
+| Header E-mail menu | `mailto:` skipped; `SelectionMenu` offers Copy E-mail plus nested Open with (Gmail, Outlook, Notion Mail, Superhuman) from Figma 246:449. | 2026-08-26 |
 | Who Me? peek | Hover/focus/press on the Who Me? pill jumps Figma `artiom-vector` (160:2717) from behind the pill: smaller + bottom-left → rest pose (18.17° tilt, neck clipped by the pill). Bounce in, fast out. Reduced motion snaps. | 2026-08-26 |
 
 ---
@@ -131,6 +135,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
 | Site identity / tabs / SEO copy | `/src/content/site.ts` |
+| Web Analytics | `/src/app/layout.tsx` (`<Analytics />`) |
 | Metadata + JSON-LD helpers | `/src/lib/seo.ts` |
 | Homepage hero | `/src/components/sections/HeroSection.tsx` |
 | Site logo (squircle portrait) | `/src/components/sections/SiteLogo.tsx` |
@@ -138,8 +143,12 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Content item (placeholder) | `/src/components/sections/ContentItem.tsx` |
 | Navigation pill | `/src/components/ui/Pill.tsx` |
 | Who Me? hover peek | `/src/components/ui/WhoMePeek.tsx` |
+| Sliding pill fill | `/src/lib/hooks/useSlidingTabPill.ts` |
 | Gem walkthrough | `/src/components/sections/GemWalkthrough.tsx` |
 | Gems content | `/src/content/gems.ts` |
+| Header | `/src/components/layout/Header.tsx` |
+| Email menu | `/src/components/layout/EmailMenu.tsx` |
+| Mail composers | `/src/content/mail.ts` |
 | Button (primary / transparent / neutral) | `/src/components/ui/Button.tsx` |
 | Checkbox | `/src/components/ui/Checkbox.tsx` |
 | Checkbox tick-02 | `/src/components/icons/CheckboxTickIcon.tsx` |
@@ -187,6 +196,7 @@ Local secrets belong only in `.env.local` (gitignored). Prefer configuring env v
 - framer-motion
 - @lisse/react
 - border-beam
+- @vercel/analytics
 - clsx, tailwind-merge
 - typescript, tailwindcss, eslint (dev)
 
@@ -219,4 +229,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-26 (Who Me? pill hover peek)*
+*Last updated: 2026-08-26 (Who Me? pill hover peek; Header E-mail menu; Web Analytics)*

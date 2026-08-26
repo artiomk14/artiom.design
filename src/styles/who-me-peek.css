@@ -69,6 +69,13 @@
     opacity var(--who-me-opacity-in-dur) var(--ease-out);
 }
 
+/* Selected fill is a sibling `.t-tabs-pill`; the control is otherwise
+   transparent. Restore the surface while peeking so the cartoon stays
+   behind the pill instead of showing through the label. */
+.t-tabs.is-ready .ui-pill-wrap[data-peeking] .ui-pill[data-selected='true'] {
+  background-color: var(--background-primary);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .t-who-me-peek-figure {
     transition: none !important;

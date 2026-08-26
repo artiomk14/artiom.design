@@ -410,7 +410,10 @@ export function SelectionMenu({
       {triggerNode}
       <div
         className={cn(
-          'absolute left-0 top-full z-50 mt-1',
+          'absolute top-full z-50 mt-1',
+          origin === 'top-right' || origin === 'bottom-right'
+            ? 'right-0'
+            : 'left-0',
           't-dropdown',
           isOpen && 'is-open'
         )}

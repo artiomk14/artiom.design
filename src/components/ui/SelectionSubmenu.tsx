@@ -52,6 +52,20 @@ function useIsClient(): boolean {
   return useSyncExternalStore(subscribeNever, () => true, () => false);
 }
 
+function clampLeft(left: number, width: number): number {
+  const maxLeft = window.innerWidth - VIEWPORT_PAD - width;
+  return Math.min(Math.max(left, VIEWPORT_PAD), Math.max(VIEWPORT_PAD, maxLeft));
+}
+
+function clampTop(top: number, height: number): number {
+  let next = top;
+  if (next + height > window.innerHeight - VIEWPORT_PAD) {
+    next = Math.max(VIEWPORT_PAD, window.innerHeight - VIEWPORT_PAD - height);
+  }
+  if (next < VIEWPORT_PAD) next = VIEWPORT_PAD;
+  return next;
+}
+
 function measurePosition(
   trigger: DOMRect,
   panel: HTMLElement
@@ -62,20 +76,26 @@ function measurePosition(
   const leftLeft = trigger.left - width + nestedList.overlapX;
   const rightFits = rightLeft + width <= window.innerWidth - VIEWPORT_PAD;
   const leftFits = leftLeft >= VIEWPORT_PAD;
-  const side: NestedListSide = rightFits || !leftFits ? 'right' : 'left';
-  const left = side === 'right' ? rightLeft : leftLeft;
-  let top = trigger.top - nestedList.offsetY;
 
-  if (top + height > window.innerHeight - VIEWPORT_PAD) {
-    top = Math.max(VIEWPORT_PAD, window.innerHeight - VIEWPORT_PAD - height);
+  if (rightFits || leftFits) {
+    const side: NestedListSide = rightFits ? 'right' : 'left';
+    return {
+      left: side === 'right' ? rightLeft : leftLeft,
+      top: clampTop(trigger.top - nestedList.offsetY, height),
+      side,
+      origin: side === 'right' ? 'top-left' : 'top-right',
+      width,
+      height,
+    };
   }
-  if (top < VIEWPORT_PAD) top = VIEWPORT_PAD;
 
+  // Neither side has a full-width lane (header E-mail on a 390px viewport).
+  // Stack under the trigger so nested labels stay fully readable.
   return {
-    left,
-    top,
-    side,
-    origin: side === 'right' ? 'top-left' : 'top-right',
+    left: clampLeft(trigger.right - width, width),
+    top: clampTop(trigger.bottom + nestedList.overlapX, height),
+    side: 'right',
+    origin: 'top-right',
     width,
     height,
   };

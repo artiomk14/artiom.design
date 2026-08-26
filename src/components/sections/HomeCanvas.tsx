@@ -8,6 +8,7 @@ import {
   useState,
   type KeyboardEvent,
 } from 'react';
+import { SmoothCorners } from '@lisse/react';
 import { TabLeadingIcon } from '@/components/icons';
 import { ContentItem } from '@/components/sections/ContentItem';
 import { GemWalkthrough } from '@/components/sections/GemWalkthrough';
@@ -20,6 +21,8 @@ import {
   tabById,
   type TabId,
 } from '@/content/site';
+import { useSlidingTabPill } from '@/lib/hooks';
+import { cornersFor } from '@/styles/tokens';
 
 interface HomeCanvasProps {
   initialTab: TabId;
@@ -45,7 +48,19 @@ function setClientTitle(tab: TabId) {
 export function HomeCanvas({ initialTab }: HomeCanvasProps) {
   const [selected, setSelected] = useState<TabId>(initialTab);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const tabPillRef = useRef<HTMLSpanElement>(null);
   const idPrefix = useId();
+
+  useSlidingTabPill({
+    barRef: tabListRef,
+    pillRef: tabPillRef,
+    getActiveTab: () => {
+      const index = site.tabs.findIndex((tab) => tab.id === selected);
+      return tabRefs.current[index] ?? null;
+    },
+    selected,
+  });
 
   const selectTab = useCallback((tab: TabId, persistUrl: boolean) => {
     setSelected(tab);
@@ -102,10 +117,19 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
     <div className="mx-auto flex w-full max-w-[var(--container-max)] flex-col px-[var(--container-padding)] pt-12 pb-14">
       <div className="flex w-full flex-col gap-11">
         <div
+          ref={tabListRef}
           role="tablist"
           aria-label="Site sections"
-          className="flex w-full flex-wrap items-start gap-3 overflow-visible px-0.5"
+          className="t-tabs flex w-full flex-wrap items-start gap-3 overflow-visible px-0.5"
         >
+          <SmoothCorners
+            ref={tabPillRef}
+            as="span"
+            aria-hidden="true"
+            autoEffects={false}
+            corners={cornersFor('full')}
+            className="t-tabs-pill"
+          />
           {site.tabs.map((tab, index) => {
             const isSelected = tab.id === selected;
             return (
@@ -120,6 +144,7 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
                 aria-selected={isSelected}
                 tabIndex={isSelected ? 0 : -1}
                 selected={isSelected}
+                slidingFill
                 label={tab.label}
                 hasLeadingIcon
                 hasTrailingIcon={false}
