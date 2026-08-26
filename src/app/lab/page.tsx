@@ -4,7 +4,7 @@ import {
   WhoMeIcon,
   YappingIcon,
 } from '@/components/icons';
-import { Button, Checkbox, Pill } from '@/components/ui';
+import { Button, Checkbox, Pill, WhoMePeek } from '@/components/ui';
 import { legacyPageMetadata } from '@/lib/seo';
 import { CheckboxPlayground } from './CheckboxPlayground';
 import { PillIconPlayground } from './PillIconPlayground';
@@ -299,13 +299,18 @@ export default function LabPage() {
         </h2>
         <p className="text-sm text-foreground-muted">
           Selected, so the leading icon is visible. Pass `leadingIcon` to swap
-          the glyph.
+          the glyph. Who Me? peeks the cartoon (`artiom-vector`) on hover.
         </p>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 pt-16">
           <Pill selected label="Gems" leadingIcon={<GemIcon />} />
           <Pill selected label="Heavy Ones" leadingIcon={<HeavyOnesIcon />} />
           <Pill selected label="Yapping" leadingIcon={<YappingIcon />} />
-          <Pill selected label="Who Me?" leadingIcon={<WhoMeIcon />} />
+          <Pill
+            selected
+            label="Who Me?"
+            leadingIcon={<WhoMeIcon />}
+            peek={<WhoMePeek />}
+          />
         </div>
       </section>
     </div>

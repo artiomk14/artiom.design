@@ -7,7 +7,7 @@ import {
   WhoMeIcon,
   YappingIcon,
 } from '@/components/icons';
-import { Pill } from '@/components/ui';
+import { Pill, WhoMePeek } from '@/components/ui';
 
 const TABS = [
   { id: 'gems', label: 'Gems', icon: <GemIcon /> },
@@ -31,13 +31,14 @@ export function PillIconPlayground() {
         Click a tab to sketch its outline. Click a selected pill again to
         replay the draw.
       </p>
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3 pt-16">
         {TABS.map((tab) => (
           <Pill
             key={tab.id}
             selected={selected === tab.id}
             label={tab.label}
             leadingIcon={tab.icon}
+            peek={tab.id === 'who-me' ? <WhoMePeek /> : undefined}
             drawKey={selected === tab.id ? drawKey : 0}
             onClick={() => {
               if (selected === tab.id) {

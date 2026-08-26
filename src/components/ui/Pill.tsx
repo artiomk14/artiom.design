@@ -53,6 +53,11 @@ export interface PillProps
    * Bump while selected to replay the outline draw (used on /lab).
    */
   drawKey?: number;
+  /**
+   * Decorative figure that sits behind the pill and jumps in on hover,
+   * keyboard focus, or press. Who Me? uses Figma `artiom-vector` (160:2717).
+   */
+  peek?: ReactNode;
 }
 
 interface IconSlotProps {
@@ -137,6 +142,7 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
       selected = false,
       state,
       drawKey = 0,
+      peek,
       onFocus,
       onBlur,
       onPointerDown,
@@ -215,19 +221,30 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
       </>
     );
 
+    const peeking =
+      Boolean(peek) &&
+      (visualState === 'hovered' ||
+        visualState === 'focused' ||
+        visualState === 'pressed');
+
     const surfaceClassName = cn(
       'ui-pill',
       'inline-flex h-10 cursor-pointer items-center justify-center px-6 py-0',
       'text-sm font-semibold leading-5 tracking-normal whitespace-nowrap',
       'transition-[background-color,color,gap] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
       selected ? 'gap-2.5' : 'gap-0',
+      peek && 'relative z-10',
       surfaceTone(selected, visualState),
       disabled && 'pointer-events-none cursor-not-allowed opacity-50',
       className
     );
 
     return (
-      <span className="inline-flex">
+      <span
+        className={cn('inline-flex', peek && 'ui-pill-wrap relative overflow-visible')}
+        data-peeking={peeking || undefined}
+      >
+        {peek}
         <SmoothCorners
           ref={ref}
           as="button"
