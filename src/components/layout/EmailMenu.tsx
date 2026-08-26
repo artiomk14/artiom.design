@@ -62,6 +62,7 @@ function openComposer(href: string) {
  * Copy E-mail, then Open with → Gmail / Outlook / Notion Mail / Superhuman.
  */
 export function EmailMenu() {
+  const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const copiedTimer = useRef<number | null>(null);
 
@@ -82,6 +83,7 @@ export function EmailMenu() {
   );
 
   const handleCopy = useCallback(async () => {
+    setOpen(false);
     const ok = await copyText(EMAIL_ADDRESS);
     if (ok) announceCopied();
   }, [announceCopied]);
@@ -89,6 +91,8 @@ export function EmailMenu() {
   return (
     <div className="relative inline-flex">
       <SelectionMenu
+        open={open}
+        onOpenChange={setOpen}
         origin="top-right"
         aria-label="E-mail"
         trigger={
@@ -100,11 +104,6 @@ export function EmailMenu() {
             label="E-mail"
           />
         }
-        onValueChange={(value) => {
-          if (value === COPY_VALUE) {
-            void handleCopy();
-          }
-        }}
       >
         <SelectionItem
           value={COPY_VALUE}
@@ -113,6 +112,9 @@ export function EmailMenu() {
           hasTrailingIcon={false}
           hasNested={false}
           leadingIcon={<Copy01Icon />}
+          onClick={() => {
+            void handleCopy();
+          }}
         />
         <SelectionItem
           value={OPEN_WITH_VALUE}
