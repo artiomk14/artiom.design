@@ -8,7 +8,7 @@ import {
   WhoMeIcon,
   YappingIcon,
 } from '@/components/icons';
-import { Pill } from '@/components/ui';
+import { Pill, WhoMePeek } from '@/components/ui';
 import { useSlidingTabPill } from '@/lib/hooks';
 import { cornersFor } from '@/styles/tokens';
 
@@ -49,7 +49,7 @@ export function PillIconPlayground() {
       </p>
       <div
         ref={tabListRef}
-        className="t-tabs flex flex-wrap items-center gap-3"
+        className="t-tabs flex flex-wrap items-center gap-3 pt-16"
       >
         <SmoothCorners
           ref={tabPillRef}
@@ -69,6 +69,7 @@ export function PillIconPlayground() {
             slidingFill
             label={tab.label}
             leadingIcon={tab.icon}
+            peek={tab.id === 'who-me' ? <WhoMePeek /> : undefined}
             drawKey={selected === tab.id ? drawKey : 0}
             onClick={() => {
               if (selected === tab.id) {

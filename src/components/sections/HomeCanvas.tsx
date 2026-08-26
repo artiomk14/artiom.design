@@ -12,7 +12,7 @@ import { SmoothCorners } from '@lisse/react';
 import { TabLeadingIcon } from '@/components/icons';
 import { ContentItem } from '@/components/sections/ContentItem';
 import { GemWalkthrough } from '@/components/sections/GemWalkthrough';
-import { OverflowFade, Pill } from '@/components/ui';
+import { OverflowFade, Pill, WhoMePeek } from '@/components/ui';
 import { gems } from '@/content/gems';
 import {
   DEFAULT_TAB_ID,
@@ -120,7 +120,7 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
           ref={tabListRef}
           role="tablist"
           aria-label="Site sections"
-          className="t-tabs flex w-full flex-wrap items-start gap-3 px-0.5"
+          className="t-tabs flex w-full flex-wrap items-start gap-3 overflow-visible px-0.5"
         >
           <SmoothCorners
             ref={tabPillRef}
@@ -149,6 +149,7 @@ export function HomeCanvas({ initialTab }: HomeCanvasProps) {
                 hasLeadingIcon
                 hasTrailingIcon={false}
                 leadingIcon={<TabLeadingIcon tabId={tab.id} />}
+                peek={tab.id === 'who-me' ? <WhoMePeek /> : undefined}
                 onClick={() => selectTab(tab.id, true)}
                 onKeyDown={(event) => onTabKeyDown(event, index)}
               />

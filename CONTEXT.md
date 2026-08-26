@@ -51,6 +51,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `pill` navigation (145:1021) — selected/unselected × enabled/hovered/focused/pressed; per-tab leading icons
 - [x] Sliding selected-pill fill (transitions.dev tabs-sliding)
 - [x] Pill outline icons (diamond / briefcase / pencil / user) with stroke-draw on tab switch
+- [x] Who Me? pill hover peek — Figma `artiom-vector` (160:2717) jumps from behind the pill
 - [x] Figma `content_container` (124:583) outlines — tab gap/padding + Gems `content-item` placeholders
 - [x] First Gems entry: Figma `wc26-walktrough` (156:1658) interactive 3-step card + complete state + Reset
 - [x] Person-first SEO (metadata, JSON-LD, sitemap, robots)
@@ -73,7 +74,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 
 ## Active Work
 
-*Figma `content-item` (124:655) holds each gem (20px sides, 128px top, 144px bottom; height follows the gem’s max). Gems rest at `scale(0.85)` and return to `1` on holder hover/focus (`t-gem-scale`). First gem is the WC26 walkthrough: complete step, then Reset (`class=neutral`) in the gray holder. Gems (and later tab panels) use `OverflowFade` — a background-tinted fold fade that hints there is more to scroll. Remaining slots stay empty. Next: more Gems.*
+*Figma `content-item` (124:655) holds each gem (20px sides, 128px top, 144px bottom; height follows the gem’s max). Gems rest at `scale(0.85)` and return to `1` on holder hover/focus (`t-gem-scale`). First gem is the WC26 walkthrough: complete step, then Reset (`class=neutral`) in the gray holder. Gems (and later tab panels) use `OverflowFade` — a background-tinted fold fade that hints there is more to scroll. Remaining slots stay empty. Who Me? pill peeks `artiom-vector` on hover. Next: more Gems.*
 
 ---
 
@@ -109,7 +110,9 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Figma checkbox atom | `Checkbox` maps Figma `checkbox` (177:322): sizes 20/16/14/12, radius md/sm, `tick-02` leaf, Lisse squircle + `shadow/2xs` | 2026-08-20 |
 | Figma selection item | `SelectionItem` maps Figma `selection-item` (177:1271): 12px pad, 16px radius, 20/14 gaps; checkbox lg; `touchpad-04` + `arrow-right-01-sharp`; `selected` shifts fill + label to primary | 2026-08-23 |
 | Figma nested selection list | Hovering a `has nested` item opens another `SelectionList` 8px above the item and overlapping it by 2px (Figma 246:449). Nested-open is an external store. Pointer grace is a cursor-following triangle (Amazon / Floating UI) plus ray intent; sibling rows refuse to steal hover while the pointer is heading at the flyout (Radix `isPointerMovingToSubmenu`). No hit-tested overlay — that flickered the cursor. ArrowRight / ArrowLeft / Escape walk the levels. When neither side of the trigger has room (header E-mail on a 390px viewport), the flyout stacks under the row instead of overlapping it. | 2026-08-24 |
+| Overflow fade at the fold | Tab content uses `OverflowFade`: a sticky bottom gradient in `--background` (not a dark scrim) that slightly hides content at the viewport fold and drops away once the panel bottom is on-screen. Reuse the same wrapper on later pills. | 2026-08-24 |
 | Header E-mail menu | `mailto:` skipped; `SelectionMenu` offers Copy E-mail plus nested Open with (Gmail, Outlook, Notion Mail, Superhuman) from Figma 246:449. | 2026-08-26 |
+| Who Me? peek | Hover/focus/press on the Who Me? pill jumps Figma `artiom-vector` (160:2717) from behind the pill: smaller + bottom-left → rest pose (18.17° tilt, neck clipped by the pill). Bounce in, fast out. Reduced motion snaps. | 2026-08-26 |
 
 ---
 
@@ -139,6 +142,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Homepage canvas | `/src/components/sections/HomeCanvas.tsx` |
 | Content item (placeholder) | `/src/components/sections/ContentItem.tsx` |
 | Navigation pill | `/src/components/ui/Pill.tsx` |
+| Who Me? hover peek | `/src/components/ui/WhoMePeek.tsx` |
 | Sliding pill fill | `/src/lib/hooks/useSlidingTabPill.ts` |
 | Gem walkthrough | `/src/components/sections/GemWalkthrough.tsx` |
 | Gems content | `/src/content/gems.ts` |
@@ -155,6 +159,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Refresh (Gems Reset) | `/src/components/icons/RefreshIcon.tsx` |
 | Gems placeholders | `/src/content/gems.ts` |
 | Brand portrait (OG source) | `/public/brand/portrait.png` |
+| Who Me? cartoon (pill peek) | `/public/brand/artiom-vector.svg` |
 | Favicon source (Figma `new-favicon` 179:1837) | `/public/brand/favicon.png` |
 | Favicon / Apple icon | `/src/app/icon.png`, `apple-icon.png`, `favicon.ico` |
 | Legacy Sanity (to remove) | `/sanity/`, `/src/lib/sanity/`, `sanity.config.ts`, `sanity.cli.ts` |
@@ -224,4 +229,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-26 (Header E-mail selection menu; Vercel Web Analytics on main)*
+*Last updated: 2026-08-26 (Who Me? pill hover peek; Header E-mail menu; Web Analytics)*

@@ -17,6 +17,7 @@ export type {
 } from './SelectionList';
 export { Pill } from './Pill';
 export type { PillProps, PillState } from './Pill';
+export { WhoMePeek } from './WhoMePeek';
 export { Heading, Text } from './Typography';
 export { Card, CardContent } from './Card';
 export { SmoothSurface } from './SmoothSurface';
