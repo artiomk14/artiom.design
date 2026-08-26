@@ -58,6 +58,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `selection-item` (177:1271) — state × selected × checkbox/leading/trailing/nested booleans
 - [x] Figma `selection-list` (177:1401) — menu / single / multiple / combobox; dropdown motion
 - [x] Figma nested `selection-list` (246:449) — hover flyout, 8px / −2px offsets, safe triangle
+- [x] Vercel Web Analytics (`Analytics` from `@vercel/analytics/next` in the root layout)
 
 ---
 
@@ -66,7 +67,6 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [ ] **Remove Sanity** from the codebase (deps, `/sanity`, `/src/lib/sanity`, related types) and use in-repo content instead
 - [ ] Real tab content (remaining Gems, Heavy Ones, Yapping, Who Me?)
 - [ ] Per-item URLs only when a Heavy One or Yapping post needs to rank or be shared
-- [ ] Analytics (only if requested)
 
 ---
 
@@ -131,6 +131,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Custom hooks | `/src/lib/hooks/` |
 | Type definitions | `/src/types/` |
 | Site identity / tabs / SEO copy | `/src/content/site.ts` |
+| Web Analytics | `/src/app/layout.tsx` (`<Analytics />`) |
 | Metadata + JSON-LD helpers | `/src/lib/seo.ts` |
 | Homepage hero | `/src/components/sections/HeroSection.tsx` |
 | Site logo (squircle portrait) | `/src/components/sections/SiteLogo.tsx` |
@@ -186,6 +187,7 @@ Local secrets belong only in `.env.local` (gitignored). Prefer configuring env v
 - framer-motion
 - @lisse/react
 - border-beam
+- @vercel/analytics
 - clsx, tailwind-merge
 - typescript, tailwindcss, eslint (dev)
 
@@ -218,4 +220,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-26 (sliding pill fill; Gems rest at 0.85 on hover; overflow fade at the fold)*
+*Last updated: 2026-08-26 (Vercel Web Analytics in the root layout)*
