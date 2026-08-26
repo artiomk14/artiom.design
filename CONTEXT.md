@@ -57,6 +57,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 - [x] Figma `selection-item` (177:1271) — state × selected × checkbox/leading/trailing/nested booleans
 - [x] Figma `selection-list` (177:1401) — menu / single / multiple / combobox; dropdown motion
 - [x] Figma nested `selection-list` (246:449) — hover flyout, 8px / −2px offsets, safe triangle
+- [x] Header E-mail uses `SelectionMenu` (copy address + Open with nested composers)
 
 ---
 
@@ -106,7 +107,7 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Figma checkbox atom | `Checkbox` maps Figma `checkbox` (177:322): sizes 20/16/14/12, radius md/sm, `tick-02` leaf, Lisse squircle + `shadow/2xs` | 2026-08-20 |
 | Figma selection item | `SelectionItem` maps Figma `selection-item` (177:1271): 12px pad, 16px radius, 20/14 gaps; checkbox lg; `touchpad-04` + `arrow-right-01-sharp`; `selected` shifts fill + label to primary | 2026-08-23 |
 | Figma nested selection list | Hovering a `has nested` item opens another `SelectionList` 8px above the item and overlapping it by 2px (Figma 246:449). Nested-open is an external store. Pointer grace is a cursor-following triangle (Amazon / Floating UI) plus ray intent; sibling rows refuse to steal hover while the pointer is heading at the flyout (Radix `isPointerMovingToSubmenu`). No hit-tested overlay — that flickered the cursor. ArrowRight / ArrowLeft / Escape walk the levels. | 2026-08-24 |
-| Overflow fade at the fold | Tab content uses `OverflowFade`: a sticky bottom gradient in `--background` (not a dark scrim) that slightly hides content at the viewport fold and drops away once the panel bottom is on-screen. Reuse the same wrapper on later pills. | 2026-08-24 |
+| Header E-mail menu | `mailto:` skipped; `SelectionMenu` offers Copy E-mail plus nested Open with (Gmail, Outlook, Notion Mail, Superhuman) from Figma 246:449. | 2026-08-26 |
 
 ---
 
@@ -137,6 +138,9 @@ This file tracks the current state of the portfolio project. **Update this file 
 | Navigation pill | `/src/components/ui/Pill.tsx` |
 | Gem walkthrough | `/src/components/sections/GemWalkthrough.tsx` |
 | Gems content | `/src/content/gems.ts` |
+| Header | `/src/components/layout/Header.tsx` |
+| Email menu | `/src/components/layout/EmailMenu.tsx` |
+| Mail composers | `/src/content/mail.ts` |
 | Button (primary / transparent / neutral) | `/src/components/ui/Button.tsx` |
 | Checkbox | `/src/components/ui/Checkbox.tsx` |
 | Checkbox tick-02 | `/src/components/icons/CheckboxTickIcon.tsx` |
@@ -215,4 +219,4 @@ Check `package.json` for exact versions (Next may be 15.x or 16.x depending on l
 
 ---
 
-*Last updated: 2026-08-26 (Gems rest at 0.85 on hover; overflow fade at the fold)*
+*Last updated: 2026-08-26 (Header E-mail selection menu)*
