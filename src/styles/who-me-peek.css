@@ -1,0 +1,83 @@
+/* Figma `artiom-vector` (160:2717) — Who Me? pill hover peek.
+   Jumps from behind the pill (smaller, bottom-left) to the rest pose. */
+
+:root {
+  /* Rotated frame from Figma segmented-tabs (124:622). */
+  --who-me-peek-frame-width: 5.90375rem;
+  --who-me-peek-frame-height: 6.458rem;
+  --who-me-peek-top: -4.98rem;
+  --who-me-peek-figure-width: 4.46375rem;
+  --who-me-peek-figure-height: 5.332rem;
+  --who-me-peek-rotate: 18.17deg;
+
+  /* Hidden: tucked behind the pill, scaled down, offset bottom-left. */
+  --who-me-from-x: -0.75rem;
+  --who-me-from-y: 2.25rem;
+  --who-me-from-scale: 0.42;
+
+  /* Jump in (emphasis) is slower and bouncy; tuck-away is quicker. */
+  --who-me-in-dur: var(--duration-slow);
+  --who-me-out-dur: var(--duration-fast);
+  --who-me-opacity-in-dur: var(--duration-fast);
+  --who-me-opacity-out-dur: 0.08s;
+  --who-me-in-ease: var(--ease-bounce);
+  --who-me-out-ease: var(--ease-out);
+}
+
+.ui-pill-wrap {
+  isolation: isolate;
+}
+
+.t-who-me-peek {
+  position: absolute;
+  left: 50%;
+  top: var(--who-me-peek-top);
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--who-me-peek-frame-width);
+  height: var(--who-me-peek-frame-height);
+  translate: -50% 0;
+  pointer-events: none;
+}
+
+.t-who-me-peek-figure {
+  display: block;
+  width: var(--who-me-peek-figure-width);
+  height: var(--who-me-peek-figure-height);
+  transform-origin: 20% 100%;
+  transform: translate(var(--who-me-from-x), var(--who-me-from-y))
+    scale(var(--who-me-from-scale)) rotate(var(--who-me-peek-rotate));
+  opacity: 0;
+  transition:
+    transform var(--who-me-out-dur) var(--who-me-out-ease),
+    opacity var(--who-me-opacity-out-dur) var(--ease-out);
+}
+
+.t-who-me-peek-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ui-pill-wrap[data-peeking] .t-who-me-peek-figure {
+  transform: translate(0, 0) scale(1) rotate(var(--who-me-peek-rotate));
+  opacity: 1;
+  transition:
+    transform var(--who-me-in-dur) var(--who-me-in-ease),
+    opacity var(--who-me-opacity-in-dur) var(--ease-out);
+}
+
+/* Selected fill is a sibling `.t-tabs-pill`; the control is otherwise
+   transparent. Restore the surface while peeking so the cartoon stays
+   behind the pill instead of showing through the label. */
+.t-tabs.is-ready .ui-pill-wrap[data-peeking] .ui-pill[data-selected='true'] {
+  background-color: var(--background-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-who-me-peek-figure {
+    transition: none !important;
+  }
+}

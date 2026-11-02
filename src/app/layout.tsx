@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono, Grand_Hotel } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import { Header } from '@/components/layout';
 import { jsonLd, siteMetadata } from '@/lib/seo';
 import './globals.css';
@@ -53,6 +54,7 @@ export default function RootLayout({
         </a>
         <Header />
         <main id="main-content">{children}</main>
+        <Analytics />
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../styles/gem-walkthrough.css";
+@import "../styles/who-me-peek.css";
 
 /* ==========================================================================
    Design System Tokens
@@ -122,6 +123,8 @@
   /* Easing */
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  /* transitions.dev bounce — Who Me? peek jump-in */
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
   
   /* Container — Figma `container/*` (default max = container/3xl) */
   --container-0: 0px;

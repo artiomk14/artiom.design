@@ -54,6 +54,11 @@ export interface PillProps
    */
   drawKey?: number;
   /**
+   * Decorative figure that sits behind the pill and jumps in on hover,
+   * keyboard focus, or press. Who Me? uses Figma `artiom-vector` (160:2717).
+   */
+  peek?: ReactNode;
+  /**
    * Selected fill comes from a sliding `.t-tabs-pill` behind this control.
    * Layout (icon slot + gap) snaps so the fill can measure the target box.
    */
@@ -147,6 +152,7 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
       selected = false,
       state,
       drawKey = 0,
+      peek,
       slidingFill = false,
       onFocus,
       onBlur,
@@ -234,6 +240,12 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
       </>
     );
 
+    const peeking =
+      Boolean(peek) &&
+      (visualState === 'hovered' ||
+        visualState === 'focused' ||
+        visualState === 'pressed');
+
     const surfaceClassName = cn(
       'ui-pill',
       slidingFill && 't-tab',
@@ -243,13 +255,18 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
         ? 'transition-[background-color,color] duration-[var(--tabs-dur)] ease-[var(--tabs-ease)]'
         : 'transition-[background-color,color,gap] duration-[var(--duration-fast)] ease-[var(--ease-out)]',
       selected ? 'gap-2.5' : 'gap-0',
+      peek && 'relative z-10',
       surfaceTone(selected, visualState),
       disabled && 'pointer-events-none cursor-not-allowed opacity-50',
       className
     );
 
     return (
-      <span className="inline-flex">
+      <span
+        className={cn('inline-flex', peek && 'ui-pill-wrap relative overflow-visible')}
+        data-peeking={peeking || undefined}
+      >
+        {peek}
         <SmoothCorners
           ref={ref}
           as="button"
